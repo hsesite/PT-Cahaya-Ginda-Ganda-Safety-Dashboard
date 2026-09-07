@@ -4,6 +4,9 @@
    Executive Command Center UI v2.0
 ===================================================== */
 
+body{
+    background:red !important;
+}
 :root{
 --bg:#0D1117;
 --surface:#161B22;
