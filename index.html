@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>PT CAHAYA GINDA GANDA SAFETY DASHBOARD</title>
+<title>CGG Safety Hub</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
@@ -23,14 +23,19 @@
 --yellow:#FACC15;
 --red:#EF4444;
 --blue:#3B82F6;
+--radius:18px;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
 body{
 background:#0D1117;
 color:var(--text);
-font-family:Segoe UI,sans-serif;
+font-family:"Segoe UI",sans-serif;
 overflow-x:hidden;
 }
 
@@ -51,22 +56,37 @@ left:0;
 top:0;
 width:250px;
 height:100%;
-background:#161B22;
-border-right:1px solid #30363D;
-padding:25px;
+background:rgba(22,27,34,.95);
+backdrop-filter:blur(10px);
+border-right:1px solid var(--border);
+padding:22px;
 }
 
-.sidebar h3{
-margin-bottom:25px;
+.brand{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:30px;
+}
+
+.brand i{
+font-size:32px;
+color:var(--green);
+}
+
+.brand small{
+color:var(--muted);
 }
 
 .sidebar a{
-display:block;
-padding:12px;
+display:flex;
+align-items:center;
+gap:12px;
+padding:13px;
 margin-bottom:8px;
-color:white;
+border-radius:12px;
 text-decoration:none;
-border-radius:10px;
+color:white;
 transition:.25s;
 }
 
@@ -79,93 +99,20 @@ margin-left:250px;
 padding:25px;
 }
 
-.ticker{
-background:#111827;
-border:1px solid #30363D;
-border-radius:12px;
-overflow:hidden;
+.mobile-header{
+display:none;
+justify-content:space-between;
+align-items:center;
 margin-bottom:20px;
 }
 
-.ticker span{
-display:block;
-padding:10px;
-white-space:nowrap;
-animation:ticker 18s linear infinite;
-color:#22C55E;
-}
-
-@keyframes ticker{
-from{transform:translateX(100%);}
-to{transform:translateX(-100%);}
-}
-
-.header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:25px;
-flex-wrap:wrap;
-}
-
-.pulse{
-background:linear-gradient(135deg,#111827,#1F2937);
-border:1px solid #30363D;
-border-radius:20px;
-padding:20px;
-margin-bottom:25px;
-}
-
-.kpi{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:15px;
-margin-bottom:25px;
-}
-
-.kpi-card{
-background:#161B22;
-border:1px solid #30363D;
-border-radius:18px;
-padding:18px;
-transition:.3s;
-}
-
-.kpi-card:hover{
-transform:translateY(-5px);
-border-color:#22C55E;
-}
-
-.kpi-card h2{
-font-size:34px;
-margin:8px 0;
-}
-
-.quick{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:15px;
-margin-bottom:25px;
-}
-
-.quick div{
-background:#161B22;
-border:1px solid #30363D;
-padding:20px;
-text-align:center;
-border-radius:18px;
-cursor:pointer;
-transition:.3s;
-}
-
-.quick div:hover{
-transform:translateY(-5px);
-}
-
-.quick i{
-font-size:28px;
-margin-bottom:10px;
-color:#22C55E;
+#menuBtn{
+width:42px;
+height:42px;
+border:none;
+border-radius:10px;
+background:#1F2937;
+color:white;
 }
 
 @media(max-width:992px){
@@ -180,13 +127,11 @@ padding:18px;
 padding-bottom:80px;
 }
 
-.kpi,
-.quick{
-grid-template-columns:repeat(2,1fr);
+.mobile-header{
+display:flex;
 }
 
 }
-
 </style>
 </head>
 
@@ -194,741 +139,1137 @@ grid-template-columns:repeat(2,1fr);
 
 <aside class="sidebar">
 
-<h3><i class="fa-solid fa-helmet-safety text-success"></i> PT CAHAYA GINDA GANDA SAFETY DASHBOARD</h3>
+<div class="brand">
 
-<a href="#"><i class="fa-solid fa-house"></i> Dashboard</a>
-<a href="#"><i class="fa-solid fa-triangle-exclamation"></i> Hazard</a>
-<a href="#"><i class="fa-solid fa-shield-halved"></i> PTW</a>
-<a href="#"><i class="fa-solid fa-clipboard-check"></i> Inspeksi</a>
-<a href="#"><i class="fa-solid fa-book"></i> SOP</a>
-<a href="#"><i class="fa-solid fa-scale-balanced"></i> Kebijakan</a>
-<a href="#"><i class="fa-solid fa-phone"></i> Emergency</a>
+<i class="fa-solid fa-helmet-safety"></i>
+
+<div>
+
+<h4>CGG Safety Hub</h4>
+
+<small>Portal HSE Internal</small>
+
+</div>
+
+</div>
+
+<a href="#"><i class="fa-solid fa-house"></i>Dashboard</a>
+<a href="#"><i class="fa-solid fa-triangle-exclamation"></i>Hazard Report</a>
+<a href="#"><i class="fa-solid fa-shield-halved"></i>Permit To Work</a>
+<a href="#"><i class="fa-solid fa-clipboard-check"></i>Inspeksi</a>
+<a href="#"><i class="fa-solid fa-leaf"></i>Environment</a>
+<a href="#"><i class="fa-solid fa-heart-pulse"></i>Paramedis</a>
+<a href="#"><i class="fa-solid fa-book"></i>SOP Digital</a>
+<a href="#"><i class="fa-solid fa-scale-balanced"></i>Kebijakan</a>
+<a href="#"><i class="fa-solid fa-phone"></i>Emergency</a>
 
 </aside>
 
 <main class="content">
 
+<div class="mobile-header">
+
+<div class="brand">
+
+<i class="fa-solid fa-helmet-safety"></i>
+
+<div>
+
+<strong>CGG Safety Hub</strong>
+
+</div>
+
+</div>
+
+<button id="menuBtn">
+
+<i class="fa-solid fa-bars"></i>
+
+</button>
+
+</div>
+
+  <!-- ==========================
+     HEADER DASHBOARD
+========================== -->
+
+<style>
+.ticker{
+background:#111827;
+border:1px solid #30363D;
+border-radius:12px;
+overflow:hidden;
+margin-bottom:20px;
+}
+
+.ticker span{
+display:block;
+padding:10px;
+white-space:nowrap;
+color:#22C55E;
+font-weight:600;
+animation:ticker 18s linear infinite;
+}
+
+@keyframes ticker{
+from{transform:translateX(100%);}
+to{transform:translateX(-100%);}
+}
+
+.page-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+margin-bottom:25px;
+}
+
+.page-header p{
+color:#9CA3AF;
+margin-top:4px;
+}
+
+#tanggal,#jam{
+text-align:right;
+color:#9CA3AF;
+}
+
+.pulse-card{
+background:linear-gradient(135deg,#111827,#1F2937);
+border:1px solid #30363D;
+border-radius:20px;
+padding:22px;
+margin-bottom:25px;
+}
+
+.kpi-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:18px;
+margin-bottom:30px;
+}
+
+.kpi-card{
+background:#161B22;
+border:1px solid #30363D;
+border-radius:18px;
+padding:20px;
+transition:.3s;
+position:relative;
+overflow:hidden;
+}
+
+.kpi-card:hover{
+transform:translateY(-5px);
+border-color:#22C55E;
+}
+
+.kpi-card::before{
+content:"";
+position:absolute;
+right:-35px;
+top:-35px;
+width:100px;
+height:100px;
+border-radius:50%;
+background:rgba(255,255,255,.04);
+}
+
+.kpi-card i{
+font-size:24px;
+margin-bottom:10px;
+}
+
+.kpi-card h2{
+font-size:34px;
+margin:6px 0;
+}
+
+.kpi-card p{
+margin:0;
+color:#9CA3AF;
+}
+
+@media(max-width:992px){
+.kpi-grid{
+grid-template-columns:repeat(2,1fr);
+}
+}
+</style>
+
 <div class="ticker">
-<span>Gunakan APD • Laporkan Hazard • Hot Work wajib PTW • Keselamatan adalah Prioritas Utama</span>
+<span>
+CGG Safety Hub • Sistem siap menerima laporan • Semua data akan diperbarui otomatis setelah ada input • Portal HSE Internal
+</span>
 </div>
 
-<div class="header">
+<section class="page-header">
 
 <div>
+
 <h1>Command Center HSE</h1>
-<p>Portal Digital Manajemen Keselamatan</p>
+
+<p>Portal Digital Keselamatan, Lingkungan dan Kesehatan Kerja</p>
+
 </div>
 
 <div>
-<div id="tanggal"></div>
-<div id="jam"></div>
-</div>
+
+<div id="tanggal">--</div>
+
+<div id="jam">--:--:--</div>
 
 </div>
 
-<div class="pulse">
+</section>
 
-<div class="d-flex justify-content-between align-items-center flex-wrap">
+<!-- ==========================
+     SAFETY PULSE
+========================== -->
+
+<section class="pulse-card">
+
+<div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
 
 <div>
+
 <h3>Safety Pulse</h3>
-<p>Ringkasan operasional hari ini</p>
+
+<p class="text-secondary mb-0">Status operasional hari ini</p>
+
 </div>
 
-<span class="badge bg-success">STATUS AMAN</span>
+<span class="badge bg-success">SISTEM SIAP</span>
 
 </div>
 
 <hr>
 
-<p>Fokus hari ini adalah penyelesaian hazard terbuka dan inspeksi rutin.</p>
+<p class="mb-0">
 
-</div>
+Belum ada data operasional hari ini. Dashboard akan otomatis diperbarui setelah laporan pertama masuk.
 
-<div class="kpi">
+</p>
+
+</section>
+
+<!-- ==========================
+     KPI DASHBOARD
+========================== -->
+
+<section class="kpi-grid">
 
 <div class="kpi-card">
+
 <i class="fa-solid fa-triangle-exclamation text-warning"></i>
-<h2 id="hazard">12</h2>
-Hazard
+
+<h2 id="hazard">0</h2>
+
+<p>Hazard Hari Ini</p>
+
 </div>
 
 <div class="kpi-card">
+
 <i class="fa-solid fa-circle-check text-success"></i>
-<h2 id="nearmiss">7</h2>
-Near Miss
+
+<h2 id="nearmiss">0</h2>
+
+<p>Near Miss</p>
+
 </div>
 
 <div class="kpi-card">
+
 <i class="fa-solid fa-shield-halved text-info"></i>
-<h2 id="ptw">8</h2>
-PTW
+
+<h2 id="ptw">0</h2>
+
+<p>PTW Aktif</p>
+
 </div>
 
 <div class="kpi-card">
+
 <i class="fa-solid fa-heart-crack text-danger"></i>
+
 <h2 id="lti">0</h2>
-LTI
-</div>
+
+<p>Lost Time Injury</p>
 
 </div>
 
-<div class="quick">
-
-<div><i class="fa-solid fa-triangle-exclamation"></i><br>Hazard</div>
-
-<div><i class="fa-solid fa-shield-halved"></i><br>PTW</div>
-
-<div><i class="fa-solid fa-clipboard-check"></i><br>Inspeksi</div>
-
-<div><i class="fa-solid fa-phone"></i><br>Emergency</div>
-
-</div>
-
-  <!-- ==========================
-     COMMAND CENTER ANALYTICS
-========================== -->
-
-<div class="row g-4 mb-4">
-
-  <div class="col-lg-8">
-
-    <div style="background:#161B22;border:1px solid #30363D;border-radius:20px;padding:20px;">
-
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4>Trend Hazard Mingguan</h4>
-        <span class="badge bg-success">Live</span>
-      </div>
-
-      <canvas id="hazardChart" height="110"></canvas>
-
-    </div>
-
-  </div>
-
-  <div class="col-lg-4">
-
-    <div style="background:#161B22;border:1px solid #30363D;border-radius:20px;padding:20px;height:100%;">
-
-      <h4 class="mb-3">Aktivitas Terbaru</h4>
-
-      <div class="d-flex justify-content-between py-3 border-bottom border-secondary">
-        <div>
-          <i class="fa-solid fa-triangle-exclamation text-warning me-2"></i>
-          Hazard baru - Workshop
-        </div>
-        <small>10:15</small>
-      </div>
-
-      <div class="d-flex justify-content-between py-3 border-bottom border-secondary">
-        <div>
-          <i class="fa-solid fa-shield-halved text-info me-2"></i>
-          PTW Hot Work dibuat
-        </div>
-        <small>09:40</small>
-      </div>
-
-      <div class="d-flex justify-content-between py-3 border-bottom border-secondary">
-        <div>
-          <i class="fa-solid fa-clipboard-check text-success me-2"></i>
-          Inspeksi LV selesai
-        </div>
-        <small>08:55</small>
-      </div>
-
-      <div class="d-flex justify-content-between py-3">
-        <div>
-          <i class="fa-solid fa-leaf text-success me-2"></i>
-          Pemeriksaan lingkungan
-        </div>
-        <small>07:20</small>
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
+</section>
 
 <!-- ==========================
-     INCIDENT ANALYTICS
+     QUICK MENU
 ========================== -->
 
-<h3 class="mb-3">Analitik Insiden</h3>
+<style>
+.quick-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:16px;
+margin-bottom:30px;
+}
 
-<div class="row g-4 mb-4">
+.quick-card{
+background:#161B22;
+border:1px solid #30363D;
+border-radius:18px;
+padding:22px;
+text-align:center;
+cursor:pointer;
+transition:.25s;
+}
 
-  <div class="col-lg-8">
+.quick-card:hover{
+transform:translateY(-5px);
+border-color:#22C55E;
+}
 
-    <div style="background:#161B22;border:1px solid #30363D;border-radius:20px;padding:20px;">
+.quick-card i{
+font-size:30px;
+color:#22C55E;
+margin-bottom:10px;
+}
 
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4>Trend Insiden Bulanan</h4>
-        <span class="badge bg-info">Near Miss • FAC • MTC • LTI</span>
-      </div>
+@media(max-width:992px){
+.quick-grid{
+grid-template-columns:repeat(2,1fr);
+}
+}
+</style>
 
-      <canvas id="incidentTrend" height="110"></canvas>
+<section class="quick-grid">
 
-    </div>
+<div class="quick-card">
 
-  </div>
+<i class="fa-solid fa-triangle-exclamation"></i>
 
-  <div class="col-lg-4">
-
-    <div style="background:#161B22;border:1px solid #30363D;border-radius:20px;padding:20px;height:100%;">
-
-      <h4 class="mb-3">Komposisi Insiden</h4>
-
-      <canvas id="incidentType"></canvas>
-
-    </div>
-
-  </div>
+<div>Hazard</div>
 
 </div>
 
-  <!-- ==========================
+<div class="quick-card">
+
+<i class="fa-solid fa-shield-halved"></i>
+
+<div>PTW</div>
+
+</div>
+
+<div class="quick-card">
+
+<i class="fa-solid fa-clipboard-check"></i>
+
+<div>Inspeksi</div>
+
+</div>
+
+<div class="quick-card">
+
+<i class="fa-solid fa-phone"></i>
+
+<div>Emergency</div>
+
+</div>
+
+</section>
+
+  <!-- ===========================================
+     GRAFIK HAZARD & AKTIVITAS
+=========================================== -->
+
+<style>
+
+.chart-grid{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:20px;
+margin-bottom:30px;
+}
+
+.chart-card{
+background:#161B22;
+border:1px solid #30363D;
+border-radius:20px;
+padding:20px;
+position:relative;
+min-height:330px;
+}
+
+.empty-state{
+position:absolute;
+inset:0;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+color:#6B7280;
+pointer-events:none;
+}
+
+.empty-state i{
+font-size:48px;
+margin-bottom:15px;
+color:#22C55E;
+opacity:.6;
+}
+
+.activity-empty{
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+height:240px;
+text-align:center;
+color:#9CA3AF;
+}
+
+.activity-empty i{
+font-size:42px;
+color:#22C55E;
+margin-bottom:15px;
+}
+
+@media(max-width:992px){
+.chart-grid{
+grid-template-columns:1fr;
+}
+}
+
+</style>
+
+<div class="chart-grid">
+
+<div class="chart-card">
+
+<h4 class="mb-3">Trend Hazard Mingguan</h4>
+
+<canvas id="hazardChart"></canvas>
+
+<div class="empty-state" id="hazardEmpty">
+
+<i class="fa-solid fa-chart-line"></i>
+
+<h5>Belum ada data</h5>
+
+<small>Grafik akan muncul setelah ada laporan.</small>
+
+</div>
+
+</div>
+
+<div class="chart-card">
+
+<h4 class="mb-3">Aktivitas Terbaru</h4>
+
+<div class="activity-empty">
+
+<i class="fa-solid fa-clock"></i>
+
+<h5>Belum ada aktivitas</h5>
+
+<p>Aktivitas akan muncul otomatis setelah ada laporan masuk.</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ===========================================
+     ANALITIK INSIDEN
+=========================================== -->
+
+<div class="chart-grid">
+
+<div class="chart-card">
+
+<h4 class="mb-3">Trend Insiden Bulanan</h4>
+
+<canvas id="incidentTrend"></canvas>
+
+<div class="empty-state" id="incidentEmpty">
+
+<i class="fa-solid fa-chart-area"></i>
+
+<h5>Belum ada data</h5>
+
+<small>Near Miss, FAC, MTC dan LTI akan muncul otomatis.</small>
+
+</div>
+
+</div>
+
+<div class="chart-card">
+
+<h4 class="mb-3">Komposisi Insiden</h4>
+
+<canvas id="incidentType"></canvas>
+
+<div class="empty-state" id="donutEmpty">
+
+<i class="fa-solid fa-chart-pie"></i>
+
+<h5>Belum ada data</h5>
+
+<small>Diagram akan muncul setelah ada insiden.</small>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ===========================================
      BIRD'S TRIANGLE
-========================== -->
+=========================================== -->
 
-<div style="background:#161B22;border:1px solid #30363D;border-radius:20px;padding:22px;margin-bottom:25px;">
+<style>
 
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3>Bird's Triangle</h3>
-    <span class="badge bg-secondary">Piramida Keselamatan</span>
-  </div>
+.pyramid{
+background:#161B22;
+border:1px solid #30363D;
+border-radius:20px;
+padding:25px;
+margin-bottom:30px;
+}
 
-  <p class="text-secondary mb-4">
-    Visualisasi hubungan antara Near Miss hingga Fatality sebagai indikator budaya keselamatan.
-  </p>
+.level{
+margin:8px auto;
+padding:12px;
+border-radius:8px;
+text-align:center;
+font-weight:bold;
+transition:.3s;
+}
 
-  <div style="max-width:500px;margin:auto;">
+.level:hover{
+transform:scale(1.02);
+}
 
-    <div style="background:#22C55E;padding:12px;border-radius:8px;text-align:center;font-weight:bold;margin-bottom:8px;width:100%;">
-      600 Near Miss
-    </div>
+.lv1{width:100%;background:#22C55E;}
+.lv2{width:82%;background:#3B82F6;}
+.lv3{width:62%;background:#FACC15;color:black;}
+.lv4{width:42%;background:#FB923C;}
+.lv5{width:22%;background:#EF4444;}
 
-    <div style="background:#3B82F6;padding:12px;border-radius:8px;text-align:center;font-weight:bold;margin-bottom:8px;width:82%;margin-left:auto;margin-right:auto;">
-      30 Minor Injury
-    </div>
+</style>
 
-    <div style="background:#FACC15;color:black;padding:12px;border-radius:8px;text-align:center;font-weight:bold;margin-bottom:8px;width:62%;margin-left:auto;margin-right:auto;">
-      10 Recordable Injury
-    </div>
+<div class="pyramid">
 
-    <div style="background:#FB923C;padding:12px;border-radius:8px;text-align:center;font-weight:bold;margin-bottom:8px;width:42%;margin-left:auto;margin-right:auto;">
-      1 Serious Injury
-    </div>
+<div class="d-flex justify-content-between align-items-center mb-3">
 
-    <div style="background:#EF4444;padding:12px;border-radius:8px;text-align:center;font-weight:bold;width:22%;margin-left:auto;margin-right:auto;">
-      0 Fatality
-    </div>
+<h3>Bird's Triangle</h3>
 
-  </div>
+<span class="badge bg-secondary">Semua data dimulai dari 0</span>
 
 </div>
 
-<!-- ==========================
+<div class="level lv1">0 Near Miss</div>
+
+<div class="level lv2">0 Minor Injury</div>
+
+<div class="level lv3">0 Recordable Injury</div>
+
+<div class="level lv4">0 Serious Injury</div>
+
+<div class="level lv5">0 Fatality</div>
+
+</div>
+
+<!-- ===========================================
      ENTERPRISE METRICS
-========================== -->
+=========================================== -->
+
+<style>
+
+.metric-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:18px;
+margin-bottom:30px;
+}
+
+.metric-card{
+background:linear-gradient(135deg,#111827,#1F2937);
+border:1px solid #30363D;
+border-radius:18px;
+padding:20px;
+transition:.3s;
+}
+
+.metric-card:hover{
+transform:translateY(-5px);
+border-color:#22C55E;
+}
+
+.metric-card h3{
+font-size:30px;
+margin:10px 0;
+}
+
+.metric-card small{
+color:#9CA3AF;
+}
+
+@media(max-width:992px){
+.metric-grid{
+grid-template-columns:repeat(2,1fr);
+}
+}
+
+</style>
 
 <h3 class="mb-3">Indikator Keselamatan</h3>
 
-<div class="row g-3 mb-4">
+<div class="metric-grid">
 
-  <div class="col-6 col-lg-3">
+<div class="metric-card">
 
-    <div style="background:linear-gradient(135deg,#111827,#1F2937);border:1px solid #30363D;border-radius:18px;padding:20px;height:100%;">
+<i class="fa-solid fa-chart-line text-success"></i>
 
-      <i class="fa-solid fa-chart-line text-success fs-4"></i>
+<h3 id="trifr">0.00</h3>
 
-      <h2 id="trifr" class="mt-2 mb-1">0.82</h2>
-
-      <small class="text-secondary">TRIFR</small>
-
-    </div>
-
-  </div>
-
-  <div class="col-6 col-lg-3">
-
-    <div style="background:linear-gradient(135deg,#111827,#1F2937);border:1px solid #30363D;border-radius:18px;padding:20px;height:100%;">
-
-      <i class="fa-solid fa-user-shield text-info fs-4"></i>
-
-      <h2 id="ltifr" class="mt-2 mb-1">0.00</h2>
-
-      <small class="text-secondary">LTIFR</small>
-
-    </div>
-
-  </div>
-
-  <div class="col-6 col-lg-3">
-
-    <div style="background:linear-gradient(135deg,#111827,#1F2937);border:1px solid #30363D;border-radius:18px;padding:20px;height:100%;">
-
-      <i class="fa-solid fa-business-time text-warning fs-4"></i>
-
-      <h2 id="manhours" class="mt-2 mb-1">1.25M</h2>
-
-      <small class="text-secondary">Jam Kerja</small>
-
-    </div>
-
-  </div>
-
-  <div class="col-6 col-lg-3">
-
-    <div style="background:linear-gradient(135deg,#111827,#1F2937);border:1px solid #30363D;border-radius:18px;padding:20px;height:100%;">
-
-      <i class="fa-solid fa-check-double text-success fs-4"></i>
-
-      <h2 id="closure" class="mt-2 mb-1">96%</h2>
-
-      <small class="text-secondary">Hazard Closure</small>
-
-    </div>
-
-  </div>
+<small>TRIFR</small>
 
 </div>
 
-<!-- ==========================
+<div class="metric-card">
+
+<i class="fa-solid fa-user-shield text-info"></i>
+
+<h3 id="ltifr">0.00</h3>
+
+<small>LTIFR</small>
+
+</div>
+
+<div class="metric-card">
+
+<i class="fa-solid fa-business-time text-warning"></i>
+
+<h3 id="manhours">0</h3>
+
+<small>Jam Kerja</small>
+
+</div>
+
+<div class="metric-card">
+
+<i class="fa-solid fa-check-double text-success"></i>
+
+<h3 id="closure">0%</h3>
+
+<small>Hazard Closure</small>
+
+</div>
+
+</div>
+
+<!-- ===========================================
      LAYANAN HSE
-========================== -->
+=========================================== -->
+
+<style>
+
+.service-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:18px;
+margin-bottom:40px;
+}
+
+.service-card{
+background:#161B22;
+border:1px solid #30363D;
+border-radius:18px;
+padding:26px;
+text-align:center;
+transition:.3s;
+cursor:pointer;
+}
+
+.service-card:hover{
+transform:translateY(-5px);
+border-color:#22C55E;
+}
+
+.service-card i{
+font-size:34px;
+margin-bottom:15px;
+color:#22C55E;
+}
+
+.service-card p{
+margin:0;
+color:#9CA3AF;
+}
+
+.emergency-card i{
+color:#EF4444;
+}
+
+@media(max-width:992px){
+.service-grid{
+grid-template-columns:repeat(2,1fr);
+}
+}
+
+</style>
 
 <h3 class="mb-3">Layanan HSE</h3>
 
-<div class="row g-3 mb-5">
+<div class="service-grid">
 
-  <div class="col-6 col-lg-4">
-    <div class="service-card">
-      <i class="fa-solid fa-triangle-exclamation text-warning fs-2 mb-3"></i>
-      <h5>Hazard Report</h5>
-      <small class="text-secondary">Pelaporan bahaya</small>
-    </div>
-  </div>
+<div class="service-card">
 
-  <div class="col-6 col-lg-4">
-    <div class="service-card">
-      <i class="fa-solid fa-shield-halved text-info fs-2 mb-3"></i>
-      <h5>Permit To Work</h5>
-      <small class="text-secondary">Izin kerja</small>
-    </div>
-  </div>
+<i class="fa-solid fa-triangle-exclamation"></i>
 
-  <div class="col-6 col-lg-4">
-    <div class="service-card">
-      <i class="fa-solid fa-clipboard-check text-success fs-2 mb-3"></i>
-      <h5>Inspeksi</h5>
-      <small class="text-secondary">Checklist digital</small>
-    </div>
-  </div>
+<h5>Hazard Report</h5>
 
-  <div class="col-6 col-lg-4">
-    <div class="service-card">
-      <i class="fa-solid fa-leaf text-success fs-2 mb-3"></i>
-      <h5>Environment</h5>
-      <small class="text-secondary">Pengawasan lingkungan</small>
-    </div>
-  </div>
-
-  <div class="col-6 col-lg-4">
-    <div class="service-card">
-      <i class="fa-solid fa-heart-pulse text-danger fs-2 mb-3"></i>
-      <h5>Paramedis</h5>
-      <small class="text-secondary">Layanan medis</small>
-    </div>
-  </div>
-
-  <div class="col-6 col-lg-4">
-    <div class="service-card">
-      <i class="fa-solid fa-book text-light fs-2 mb-3"></i>
-      <h5>SOP Digital</h5>
-      <small class="text-secondary">Dokumen digital</small>
-    </div>
-  </div>
-
-  <div class="col-6 col-lg-4">
-    <div class="service-card">
-      <i class="fa-solid fa-scale-balanced text-light fs-2 mb-3"></i>
-      <h5>Kebijakan</h5>
-      <small class="text-secondary">Peraturan perusahaan</small>
-    </div>
-  </div>
-
-  <div class="col-6 col-lg-4">
-    <div class="service-card">
-      <i class="fa-solid fa-chart-line text-success fs-2 mb-3"></i>
-      <h5>Dashboard</h5>
-      <small class="text-secondary">Analitik HSE</small>
-    </div>
-  </div>
-
-  <div class="col-12 col-lg-4">
-    <div class="service-card" style="border-color:#EF4444;">
-      <i class="fa-solid fa-phone text-danger fs-2 mb-3"></i>
-      <h5>Emergency</h5>
-      <small class="text-secondary">Kontak darurat</small>
-    </div>
-  </div>
+<p>Pelaporan Bahaya</p>
 
 </div>
 
-<!-- FOOTER -->
+<div class="service-card">
 
-<footer style="text-align:center;color:#9CA3AF;padding:30px 0;border-top:1px solid #30363D;">
+<i class="fa-solid fa-shield-halved"></i>
 
-  <strong>CGG Safety Hub v1.0</strong><br>
+<h5>Permit To Work</h5>
 
-  One Portal • One Standard
+<p>Izin Kerja</p>
+
+</div>
+
+<div class="service-card">
+
+<i class="fa-solid fa-clipboard-check"></i>
+
+<h5>Inspeksi</h5>
+
+<p>Checklist Digital</p>
+
+</div>
+
+<div class="service-card">
+
+<i class="fa-solid fa-leaf"></i>
+
+<h5>Environment</h5>
+
+<p>Lingkungan</p>
+
+</div>
+
+<div class="service-card">
+
+<i class="fa-solid fa-heart-pulse"></i>
+
+<h5>Paramedis</h5>
+
+<p>Kesehatan</p>
+
+</div>
+
+<div class="service-card">
+
+<i class="fa-solid fa-book"></i>
+
+<h5>SOP Digital</h5>
+
+<p>Dokumen</p>
+
+</div>
+
+<div class="service-card">
+
+<i class="fa-solid fa-scale-balanced"></i>
+
+<h5>Kebijakan</h5>
+
+<p>Peraturan</p>
+
+</div>
+
+<div class="service-card">
+
+<i class="fa-solid fa-chart-line"></i>
+
+<h5>Dashboard</h5>
+
+<p>Analitik</p>
+
+</div>
+
+<div class="service-card emergency-card">
+
+<i class="fa-solid fa-phone"></i>
+
+<h5>Emergency</h5>
+
+<p>Kontak Darurat</p>
+
+</div>
+
+</div>
+
+<footer style="text-align:center;padding:25px;color:#9CA3AF;border-top:1px solid #30363D;">
+
+CGG Safety Hub v1.0 • Internal Portal
 
 </footer>
 
-</main>
+  
+<!-- ===========================================
+     FLOATING EMERGENCY BUTTON
+=========================================== -->
 
-<!-- FLOATING EMERGENCY -->
+<div id="fabEmergency">
 
-<div style="position:fixed;right:24px;bottom:24px;width:66px;height:66px;border-radius:50%;background:#EF4444;display:flex;justify-content:center;align-items:center;color:white;font-size:26px;box-shadow:0 14px 30px rgba(239,68,68,.35);cursor:pointer;z-index:999;">
-  <i class="fa-solid fa-triangle-exclamation"></i>
+<i class="fa-solid fa-phone"></i>
+
 </div>
 
-  
-<!-- ==========================
-     BOTTOM NAV (MOBILE)
-========================== -->
+<!-- ===========================================
+     BOTTOM NAV MOBILE
+=========================================== -->
 
-<nav style="position:fixed;left:50%;transform:translateX(-50%);bottom:10px;background:#161B22;border:1px solid #30363D;border-radius:40px;padding:12px 18px;display:flex;gap:22px;z-index:998;" class="d-lg-none">
+<nav id="bottomNav">
 
-  <i class="fa-solid fa-house text-success"></i>
-  <i class="fa-solid fa-triangle-exclamation"></i>
-  <i class="fa-solid fa-chart-line"></i>
-  <i class="fa-solid fa-phone"></i>
+<button><i class="fa-solid fa-house text-success"></i></button>
+
+<button><i class="fa-solid fa-triangle-exclamation"></i></button>
+
+<button><i class="fa-solid fa-chart-line"></i></button>
+
+<button><i class="fa-solid fa-phone"></i></button>
 
 </nav>
 
-<!-- ==========================
+<style>
+
+#fabEmergency{
+position:fixed;
+right:24px;
+bottom:24px;
+width:64px;
+height:64px;
+background:#EF4444;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:24px;
+color:white;
+box-shadow:0 10px 30px rgba(239,68,68,.4);
+cursor:pointer;
+transition:.3s;
+z-index:999;
+}
+
+#fabEmergency:hover{
+transform:scale(1.08);
+}
+
+#bottomNav{
+display:none;
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:rgba(22,27,34,.96);
+backdrop-filter:blur(10px);
+border-top:1px solid #30363D;
+padding:10px 0;
+justify-content:space-around;
+z-index:998;
+}
+
+#bottomNav button{
+background:none;
+border:none;
+color:white;
+font-size:22px;
+}
+
+@media(max-width:992px){
+
+#bottomNav{
+display:flex;
+}
+
+#fabEmergency{
+bottom:75px;
+}
+
+}
+
+</style>
+
+<!-- ===========================================
      JAVASCRIPT
-========================== -->
+=========================================== -->
 
 <script>
 
-// ==========================
-// JAM & TANGGAL
-// ==========================
+/*
+===========================================
+CGG SAFETY HUB
+Dashboard Engine v1.0
+===========================================
+Semua data berasal dari objek dashboardData.
+Nanti Sprint 2 hanya mengganti loadDashboardData().
+===========================================
+*/
+
+let dashboardData={
+hazard:0,
+nearMiss:0,
+ptw:0,
+lti:0,
+trifr:0,
+ltifr:0,
+manhours:0,
+closure:0,
+hazardTrend:[0,0,0,0,0,0,0],
+incidentTrend:{
+nearMiss:[0,0,0,0,0,0],
+fac:[0,0,0,0,0,0],
+mtc:[0,0,0,0,0,0],
+lti:[0,0,0,0,0,0]
+},
+incidentType:[0,0,0,0,0]
+};
+
+/*
+===========================================
+JAM REAL TIME
+===========================================
+*/
 
 function updateClock(){
 
 const now=new Date();
 
-const tanggal=document.getElementById("tanggal");
-const jam=document.getElementById("jam");
-
-if(tanggal){
-
-tanggal.innerHTML=now.toLocaleDateString("id-ID",{
+document.getElementById("tanggal").innerHTML=
+now.toLocaleDateString("id-ID",{
 weekday:"long",
 day:"numeric",
 month:"long",
 year:"numeric"
 });
 
-}
-
-if(jam){
-
-jam.innerHTML=now.toLocaleTimeString("id-ID",{
-hour:"2-digit",
-minute:"2-digit",
-second:"2-digit"
-});
-
-}
+document.getElementById("jam").innerHTML=
+now.toLocaleTimeString("id-ID");
 
 }
 
 setInterval(updateClock,1000);
 updateClock();
 
-// ==========================
-// ANIMASI COUNTER KPI
-// ==========================
+/*
+===========================================
+RENDER KPI
+===========================================
+*/
 
-function animateCounter(id,target,suffix=""){
+function renderDashboard(){
 
-const el=document.getElementById(id);
+document.getElementById("hazard").innerHTML=dashboardData.hazard;
+document.getElementById("nearmiss").innerHTML=dashboardData.nearMiss;
+document.getElementById("ptw").innerHTML=dashboardData.ptw;
+document.getElementById("lti").innerHTML=dashboardData.lti;
 
-if(!el)return;
+document.getElementById("trifr").innerHTML=
+dashboardData.trifr.toFixed(2);
 
-let current=0;
+document.getElementById("ltifr").innerHTML=
+dashboardData.ltifr.toFixed(2);
 
-const step=Math.max(1,target/40);
+document.getElementById("manhours").innerHTML=
+dashboardData.manhours.toLocaleString("id-ID");
 
-const timer=setInterval(()=>{
-
-current+=step;
-
-if(current>=target){
-
-current=target;
-
-clearInterval(timer);
-
-}
-
-el.innerHTML=Math.floor(current)+suffix;
-
-},25);
+document.getElementById("closure").innerHTML=
+dashboardData.closure+"%";
 
 }
 
-setTimeout(()=>{
-
-animateCounter("hazard",12);
-animateCounter("nearmiss",7);
-animateCounter("ptw",8);
-animateCounter("lti",0);
-
-},500);
-
-// ==========================
-// ANIMASI DESIMAL
-// ==========================
-
-function animateDecimal(id,target){
-
-const el=document.getElementById(id);
-
-if(!el)return;
-
-let value=0;
-
-const timer=setInterval(()=>{
-
-value+=target/40;
-
-if(value>=target){
-
-value=target;
-
-clearInterval(timer);
-
-}
-
-el.innerHTML=value.toFixed(2);
-
-},25);
-
-}
-
-setTimeout(()=>{
-
-animateDecimal("trifr",0.82);
-animateDecimal("ltifr",0.00);
-
-},700);
-
-// ==========================
-// CHART DEFAULT
-// ==========================
+/*
+===========================================
+CHART DEFAULT
+===========================================
+*/
 
 Chart.defaults.color="#D1D5DB";
 Chart.defaults.borderColor="rgba(255,255,255,.08)";
 
-// ==========================
-// HAZARD CHART
-// ==========================
+/*
+===========================================
+HAZARD CHART
+===========================================
+*/
 
-new Chart(document.getElementById("hazardChart"),{
+const hazardChart=new Chart(
+document.getElementById("hazardChart"),{
 
 type:"line",
 
 data:{
-
 labels:["Sen","Sel","Rab","Kam","Jum","Sab","Min"],
-
 datasets:[{
-
-label:"Hazard",
-
-data:[3,5,4,8,6,7,4],
-
+data:dashboardData.hazardTrend,
 borderColor:"#22C55E",
-
-backgroundColor:"rgba(34,197,94,.15)",
-
+backgroundColor:"rgba(34,197,94,.12)",
 fill:true,
-
-tension:.4,
-
-pointRadius:5,
-
-pointBackgroundColor:"#22C55E"
-
+tension:.4
 }]
-
 },
 
 options:{
-
 plugins:{legend:{display:false}},
-
-responsive:true
-
+scales:{
+y:{beginAtZero:true}
+}
 }
 
 });
 
-// ==========================
-// INCIDENT TREND
-// ==========================
+/*
+===========================================
+INCIDENT TREND
+===========================================
+*/
 
-new Chart(document.getElementById("incidentTrend"),{
+const incidentChart=new Chart(
+document.getElementById("incidentTrend"),{
 
 type:"line",
 
 data:{
-
 labels:["Jan","Feb","Mar","Apr","Mei","Jun"],
-
 datasets:[
-
 {
-
 label:"Near Miss",
-
-data:[5,4,7,6,5,3],
-
-borderColor:"#22C55E",
-
-backgroundColor:"rgba(34,197,94,.12)",
-
-fill:true,
-
-tension:.4
-
+data:dashboardData.incidentTrend.nearMiss,
+borderColor:"#22C55E"
 },
-
 {
-
 label:"FAC",
-
-data:[2,1,3,2,2,1],
-
-borderColor:"#3B82F6",
-
-tension:.4
-
+data:dashboardData.incidentTrend.fac,
+borderColor:"#3B82F6"
 },
-
 {
-
 label:"MTC",
-
-data:[1,0,1,0,1,0],
-
-borderColor:"#FACC15",
-
-tension:.4
-
+data:dashboardData.incidentTrend.mtc,
+borderColor:"#FACC15"
 },
-
 {
-
 label:"LTI",
-
-data:[0,0,0,1,0,0],
-
-borderColor:"#EF4444",
-
-tension:.4
-
+data:dashboardData.incidentTrend.lti,
+borderColor:"#EF4444"
 }
-
 ]
-
 },
 
 options:{
-
-responsive:true
-
+scales:{y:{beginAtZero:true}}
 }
 
 });
 
-// ==========================
-// INCIDENT DONUT
-// ==========================
+/*
+===========================================
+DONUT
+===========================================
+*/
 
-new Chart(document.getElementById("incidentType"),{
+const donutChart=new Chart(
+document.getElementById("incidentType"),{
 
 type:"doughnut",
 
 data:{
-
-labels:["Near Miss","FAC","MTC","LTI","Property Damage"],
-
-datasets:[{
-
-data:[60,20,10,5,5],
-
-backgroundColor:[
-
-"#22C55E",
-
-"#3B82F6",
-
-"#FACC15",
-
-"#EF4444",
-
-"#8B5CF6"
-
+labels:[
+"Near Miss",
+"FAC",
+"MTC",
+"LTI",
+"Property Damage"
 ],
-
-borderWidth:0
-
+datasets:[{
+data:[1,1,1,1,1],
+backgroundColor:[
+"#22C55E",
+"#3B82F6",
+"#FACC15",
+"#EF4444",
+"#8B5CF6"
+]
 }]
-
 },
 
 options:{
+plugins:{legend:{display:false}}
+}
 
-plugins:{
+});
 
-legend:{
+/*
+===========================================
+EMPTY STATE
+===========================================
+*/
 
-position:"bottom"
+function updateEmptyState(){
+
+const total=
+dashboardData.hazard+
+dashboardData.nearMiss+
+dashboardData.ptw+
+dashboardData.lti;
+
+const hazardEmpty=document.getElementById("hazardEmpty");
+const incidentEmpty=document.getElementById("incidentEmpty");
+const donutEmpty=document.getElementById("donutEmpty");
+
+if(total===0){
+
+hazardEmpty.style.display="flex";
+incidentEmpty.style.display="flex";
+donutEmpty.style.display="flex";
+
+}else{
+
+hazardEmpty.style.display="none";
+incidentEmpty.style.display="none";
+donutEmpty.style.display="none";
 
 }
 
 }
 
+/*
+===========================================
+LOAD DATA
+===========================================
+Nanti Sprint 2 fungsi ini akan
+mengambil data dari Google Apps Script.
+===========================================
+*/
+
+async function loadDashboardData(){
+
+// sementara memakai data kosong
+
+renderDashboard();
+updateEmptyState();
+
 }
 
-});
-
-// ==========================
-// KLIK CARD
-// ==========================
-
-document.querySelectorAll(".service-card,.quick div,.kpi-card").forEach(card=>{
-
-card.addEventListener("click",()=>{
-
-card.style.transform="scale(.97)";
-
-setTimeout(()=>{
-
-card.style.transform="";
-
-},120);
-
-});
-
-});
+loadDashboardData();
 
 </script>
 
