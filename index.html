@@ -4,495 +4,759 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>PT CAHAYA GINDA GANDA SAFETY DASHBOARD</title>
 
-<!-- Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Font Awesome -->
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-
 :root{
---bg:#0F1115;
---surface:#181C23;
---card:#232833;
---border:#313845;
---text:#F5F7FA;
---muted:#AAB2C0;
---green:#00C853;
---yellow:#FFC107;
---red:#F44336;
---blue:#2196F3;
+ --bg:#0D1117;
+ --surface:#161B22;
+ --card:#1F2937;
+ --border:#30363D;
+ --text:#F3F4F6;
+ --muted:#9CA3AF;
+ --green:#22C55E;
+ --yellow:#FACC15;
+ --red:#EF4444;
+ --blue:#3B82F6;
 }
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
+*{margin:0;padding:0;box-sizing:border-box;}
 body{
-
-background:var(--bg);
-color:var(--text);
-font-family:"Segoe UI",Arial,sans-serif;
-
+ background:var(--bg);
+ color:var(--text);
+ font-family:"Segoe UI",sans-serif;
+ overflow-x:hidden;
 }
 
-/* HEADER */
+/* Splash */
+
+#splash{
+ position:fixed;
+ inset:0;
+ background:#0D1117;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ z-index:9999;
+ transition:.8s;
+}
+#splash.hide{
+ opacity:0;
+ visibility:hidden;
+}
+.loader{
+ width:180px;
+ height:5px;
+ background:#222;
+ border-radius:20px;
+ overflow:hidden;
+ margin-top:25px;
+}
+.loader span{
+ display:block;
+ height:100%;
+ width:0;
+ background:var(--green);
+ animation:load 1.8s forwards;
+}
+@keyframes load{
+ to{width:100%;}
+}
+
+/* Sidebar */
+
+.sidebar{
+ position:fixed;
+ left:0;
+ top:0;
+ width:250px;
+ height:100%;
+ background:var(--surface);
+ border-right:1px solid var(--border);
+ padding:22px;
+ z-index:100;
+}
+.logo{
+ font-size:24px;
+ font-weight:bold;
+ margin-bottom:30px;
+}
+.logo i{color:var(--green);}
+.menu a{
+ display:flex;
+ align-items:center;
+ gap:12px;
+ padding:12px;
+ color:var(--text);
+ text-decoration:none;
+ border-radius:12px;
+ margin-bottom:8px;
+ transition:.25s;
+}
+.menu a:hover{
+ background:#263244;
+ transform:translateX(5px);
+}
+
+.content{
+ margin-left:250px;
+ padding:25px;
+ animation:fade .5s;
+}
+
+@keyframes fade{
+ from{opacity:0;transform:translateY(20px);}
+ to{opacity:1;transform:none;}
+}
+
+/* Ticker */
+
+.ticker{
+ background:#111827;
+ border:1px solid var(--border);
+ border-radius:14px;
+ overflow:hidden;
+ margin-bottom:18px;
+}
+.ticker div{
+ padding:10px;
+ white-space:nowrap;
+ animation:ticker 20s linear infinite;
+ color:var(--green);
+ font-weight:600;
+}
+@keyframes ticker{
+ from{transform:translateX(100%);}
+ to{transform:translateX(-100%);}
+}
+
+/* Header */
 
 .header{
-
-padding:30px;
-border-bottom:1px solid var(--border);
-
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ flex-wrap:wrap;
+ margin-bottom:25px;
+}
+.header-right{
+ text-align:right;
+ color:var(--muted);
 }
 
-.logo{
+/* Safety Pulse */
 
-font-size:34px;
-font-weight:700;
-
+.pulse{
+ background:linear-gradient(135deg,#111827,#1F2937);
+ border:1px solid var(--border);
+ border-radius:20px;
+ padding:22px;
+ margin-bottom:22px;
 }
 
-.subtitle{
+/* Quick */
 
-color:var(--muted);
-
+.quick{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:15px;
+ margin:20px 0;
 }
-
-.clock{
-
-font-size:15px;
-color:var(--muted);
-
+.quick .item{
+ background:var(--surface);
+ border:1px solid var(--border);
+ border-radius:18px;
+ padding:18px;
+ text-align:center;
+ cursor:pointer;
+ transition:.25s;
+}
+.quick .item:hover{
+ transform:translateY(-6px);
+ border-color:var(--green);
+ box-shadow:0 12px 28px rgba(34,197,94,.15);
+}
+.quick i{
+ font-size:26px;
+ color:var(--green);
+ margin-bottom:8px;
 }
 
 /* KPI */
 
 .kpi{
-
-background:var(--surface);
-border:1px solid var(--border);
-border-radius:18px;
-padding:20px;
-transition:.3s;
-
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:18px;
+ margin:25px 0;
+}
+.cardx{
+ background:var(--surface);
+ border:1px solid var(--border);
+ border-radius:20px;
+ padding:20px;
+ transition:.25s;
+}
+.cardx:hover{
+ border-color:var(--green);
+ transform:translateY(-5px);
+}
+.cardx h2{
+ margin:8px 0;
+ font-size:34px;
 }
 
-.kpi:hover{
+/* Charts */
 
-border-color:var(--green);
-
+.grid{
+ display:grid;
+ grid-template-columns:2fr 1fr;
+ gap:20px;
+}
+.chart-card,.activity{
+ background:var(--surface);
+ border:1px solid var(--border);
+ border-radius:20px;
+ padding:20px;
+}
+.activity-item{
+ display:flex;
+ gap:12px;
+ padding:12px 0;
+ border-bottom:1px solid #2b3645;
+}
+.activity-item:last-child{
+ border:none;
 }
 
-.kpi i{
+/* Menu */
 
-font-size:28px;
-margin-bottom:10px;
-
+.grid2{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:18px;
+ margin-top:25px;
+}
+.menu-card{
+ background:var(--surface);
+ border:1px solid var(--border);
+ border-radius:18px;
+ padding:28px;
+ text-align:center;
+ transition:.25s;
+ cursor:pointer;
+}
+.menu-card:hover{
+ transform:translateY(-7px);
+ border-color:var(--green);
+}
+.menu-card i{
+ font-size:34px;
+ margin-bottom:15px;
+ color:var(--green);
 }
 
-.kpi h5{
+/* FAB */
 
-font-size:30px;
-
+.fab{
+ position:fixed;
+ right:22px;
+ bottom:22px;
+ width:65px;
+ height:65px;
+ border-radius:50%;
+ background:var(--red);
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ color:white;
+ font-size:26px;
+ box-shadow:0 12px 30px rgba(239,68,68,.35);
+ cursor:pointer;
+ transition:.25s;
+}
+.fab:hover{
+ transform:scale(1.08);
 }
 
-/* MENU */
+/* Mobile */
 
-.card-menu{
+.mobile-top{
+ display:none;
+ justify-content:space-between;
+ align-items:center;
+ margin-bottom:20px;
+}
+.drawer{
+ position:fixed;
+ left:-260px;
+ top:0;
+ width:240px;
+ height:100%;
+ background:var(--surface);
+ padding:20px;
+ transition:.35s;
+ z-index:999;
+}
+.drawer.open{left:0;}
+.overlay{
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,.45);
+ backdrop-filter:blur(5px);
+ display:none;
+ z-index:900;
+}
+.overlay.show{display:block;}
 
-background:var(--surface);
-border:1px solid var(--border);
-border-radius:20px;
-padding:30px 20px;
-text-align:center;
-transition:.25s;
-cursor:pointer;
-height:170px;
-display:flex;
-flex-direction:column;
-justify-content:center;
-
+.bottom-nav{
+ display:none;
+ position:fixed;
+ left:50%;
+ transform:translateX(-50%);
+ bottom:10px;
+ background:#161B22;
+ border:1px solid var(--border);
+ border-radius:40px;
+ padding:12px 18px;
+}
+.bottom-nav i{
+ margin:0 18px;
+ font-size:20px;
+}
+.bottom-nav i:first-child{
+ color:var(--green);
 }
 
-.card-menu:hover{
+/* Responsive */
 
-transform:translateY(-8px);
-border-color:var(--green);
-box-shadow:0 12px 25px rgba(0,200,83,.18);
+@media(max-width:992px){
 
+.sidebar{display:none;}
+.content{
+ margin-left:0;
+ padding:20px;
+ padding-bottom:90px;
 }
-
-.card-menu i{
-
-font-size:42px;
-margin-bottom:18px;
-color:var(--green);
-
+.mobile-top{display:flex;}
+.quick{grid-template-columns:repeat(2,1fr);}
+.kpi{grid-template-columns:repeat(2,1fr);}
+.grid{grid-template-columns:1fr;}
+.grid2{grid-template-columns:repeat(2,1fr);}
+.bottom-nav{display:flex;}
 }
-
-.card-menu span{
-
-font-size:20px;
-font-weight:600;
-
-}
-
-/* FOOTER */
-
-.footer{
-
-margin-top:60px;
-padding:25px;
-border-top:1px solid var(--border);
-text-align:center;
-color:var(--muted);
-font-size:14px;
-
-}
-
 </style>
 
 </head>
 
 <body>
 
-<!-- HEADER -->
+<!-- Splash -->
+
+<div id="splash">
+<i class="fa-solid fa-helmet-safety fa-4x text-success"></i>
+<h2 class="mt-3">CGG Safety Hub</h2>
+<p class="text-secondary">One Portal • One Standard</p>
+<div class="loader"><span></span></div>
+</div>
+
+<!-- Drawer -->
+
+<div class="overlay" onclick="closeDrawer()"></div>
+
+<div class="drawer" id="drawer">
+
+<div class="logo">
+<i class="fa-solid fa-helmet-safety"></i> CGG
+</div>
+
+<div class="menu">
+<a href="#"><i class="fa-solid fa-house"></i> Dashboard</a>
+<a href="#"><i class="fa-solid fa-triangle-exclamation"></i> Hazard</a>
+<a href="#"><i class="fa-solid fa-shield-halved"></i> PTW</a>
+<a href="#"><i class="fa-solid fa-clipboard-check"></i> Inspeksi</a>
+<a href="#"><i class="fa-solid fa-leaf"></i> Environment</a>
+<a href="#"><i class="fa-solid fa-heart-pulse"></i> Paramedis</a>
+<a href="#"><i class="fa-solid fa-book"></i> SOP</a>
+<a href="#"><i class="fa-solid fa-scale-balanced"></i> Kebijakan</a>
+<a href="#"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+<a href="#"><i class="fa-solid fa-phone"></i> Emergency</a>
+</div>
+
+</div>
+
+<!-- Sidebar -->
+
+<aside class="sidebar">
+
+<div class="logo">
+<i class="fa-solid fa-helmet-safety"></i> CGG Safety Hub
+</div>
+
+<div class="menu">
+<a href="#"><i class="fa-solid fa-house"></i> Dashboard</a>
+<a href="#"><i class="fa-solid fa-triangle-exclamation"></i> Hazard Report</a>
+<a href="#"><i class="fa-solid fa-shield-halved"></i> Permit To Work</a>
+<a href="#"><i class="fa-solid fa-clipboard-check"></i> Inspeksi</a>
+<a href="#"><i class="fa-solid fa-leaf"></i> Environment</a>
+<a href="#"><i class="fa-solid fa-heart-pulse"></i> Paramedis</a>
+<a href="#"><i class="fa-solid fa-book"></i> SOP Digital</a>
+<a href="#"><i class="fa-solid fa-scale-balanced"></i> Kebijakan</a>
+<a href="#"><i class="fa-solid fa-chart-line"></i> Dashboard Analytics</a>
+<a href="#"><i class="fa-solid fa-phone"></i> Emergency</a>
+</div>
+
+</aside>
+
+<!-- Content -->
+
+<main class="content">
+
+<div class="mobile-top">
+<div class="logo">
+<i class="fa-solid fa-helmet-safety"></i> CGG
+</div>
+<i class="fa-solid fa-bars fa-xl" onclick="openDrawer()"></i>
+</div>
+
+<div class="ticker">
+<div>
+Gunakan APD sesuai area kerja • Hot Work wajib PTW aktif • Laporkan Hazard sebelum bekerja • Keselamatan adalah prioritas utama
+</div>
+</div>
 
 <div class="header">
 
-<div class="container">
+<div>
+<h2>Command Center HSE</h2>
+<p class="text-secondary">Portal Digital Manajemen Keselamatan</p>
+</div>
+
+<div class="header-right">
+<div id="tanggal"></div>
+<div id="jam"></div>
+<div class="text-success">● Online</div>
+</div>
+
+</div>
+
+<!-- Safety Pulse -->
+
+<div class="pulse">
 
 <div class="d-flex justify-content-between align-items-center flex-wrap">
 
 <div>
+<h4>Safety Pulse</h4>
+<p class="text-secondary mb-0">Ringkasan operasional hari ini</p>
+</div>
 
-<div class="logo">
-
-<i class="fa-solid fa-helmet-safety"></i>
-
-PT CAHAYA GINDA GANDA SAFETY DASHBOARD
+<span class="badge bg-success p-2">Status Aman</span>
 
 </div>
 
-<div class="subtitle">
+<hr>
 
-Portal Digital HSE
-
-</div>
-
-</div>
-
-<div class="clock" id="clock"></div>
+<p class="mb-0">
+Tidak ada insiden mayor yang tercatat. Fokus hari ini adalah penyelesaian hazard terbuka dan inspeksi rutin.
+</p>
 
 </div>
 
+<!-- Quick -->
+
+<div class="quick">
+
+<div class="item">
+<i class="fa-solid fa-triangle-exclamation"></i>
+<div>Hazard</div>
+</div>
+
+<div class="item">
+<i class="fa-solid fa-shield-halved"></i>
+<div>PTW</div>
+</div>
+
+<div class="item">
+<i class="fa-solid fa-clipboard-check"></i>
+<div>Inspeksi</div>
+</div>
+
+<div class="item">
+<i class="fa-solid fa-phone"></i>
+<div>Emergency</div>
 </div>
 
 </div>
-
-<!-- CONTENT -->
-
-<div class="container py-5">
 
 <!-- KPI -->
 
-<div class="row g-3 mb-5">
-
-<div class="col-6 col-lg-3">
-
 <div class="kpi">
 
+<div class="cardx">
 <i class="fa-solid fa-triangle-exclamation text-warning"></i>
-
-<p>Hazard Report</p>
-
-<h5>0</h5>
-
+<h2 id="k1">12</h2>
+<p>Hazard Hari Ini</p>
+<small class="text-warning">▲ +3 minggu ini</small>
 </div>
 
-</div>
-
-<div class="col-6 col-lg-3">
-
-<div class="kpi">
-
+<div class="cardx">
 <i class="fa-solid fa-shield-halved text-info"></i>
-
-<p>PTW AKTIF </p>
-
-<h5>0</h5>
-
+<h2 id="k2">8</h2>
+<p>PTW Aktif</p>
+<small class="text-info">Sedang berjalan</small>
 </div>
 
-</div>
-
-<div class="col-6 col-lg-3">
-
-<div class="kpi">
-
+<div class="cardx">
 <i class="fa-solid fa-clipboard-check text-success"></i>
-
-<p>Inspeksi</p>
-
-<h5>0</h5>
-
+<h2 id="k3">18</h2>
+<p>Inspeksi Hari Ini</p>
+<small class="text-success">Hari ini</small>
 </div>
 
-</div>
-
-<div class="col-6 col-lg-3">
-
-<div class="kpi">
-
+<div class="cardx">
 <i class="fa-solid fa-chart-line text-danger"></i>
-
+<h2 id="k4">97%</h2>
 <p>Compliance</p>
+<small class="text-danger">Target 100%</small>
+</div>
 
-<h5>100%</h5>
+</div>
 
+<!-- Charts -->
+
+<div class="grid">
+
+<div class="chart-card">
+<h5>Trend Hazard Mingguan</h5>
+<canvas id="hazardChart"></canvas>
+</div>
+
+<div class="activity">
+
+<h5>Aktivitas Terbaru</h5>
+
+<div class="activity-item">
+<i class="fa-solid fa-triangle-exclamation text-warning"></i>
+<div>Hazard baru - Workshop</div>
+</div>
+
+<div class="activity-item">
+<i class="fa-solid fa-shield-halved text-info"></i>
+<div>PTW Hot Work dibuat</div>
+</div>
+
+<div class="activity-item">
+<i class="fa-solid fa-clipboard-check text-success"></i>
+<div>Inspeksi LV selesai</div>
+</div>
+
+<div class="activity-item">
+<i class="fa-solid fa-leaf text-success"></i>
+<div>Pemeriksaan lingkungan selesai</div>
 </div>
 
 </div>
 
 </div>
 
-<!-- MENU -->
+<div class="grid mt-4">
 
-<div class="row g-4">
+<div class="chart-card">
+<h5>Closing Rate Bulanan</h5>
+<canvas id="closingChart"></canvas>
+</div>
 
-<div class="col-6 col-md-3">
+<div class="chart-card">
+<h5>Jenis Insiden</h5>
+<canvas id="incidentChart"></canvas>
+</div>
 
-<div class="card-menu" onclick="location.href='hazard/'">
+</div>
 
+<h4 class="mt-5 mb-3">Layanan HSE</h4>
+
+<div class="grid2">
+
+<div class="menu-card">
 <i class="fa-solid fa-triangle-exclamation"></i>
-
-<span>Hazard Report</span>
-
+<h6>Hazard Report</h6>
 </div>
 
-</div>
-
-<div class="col-6 col-md-3">
-
-<div class="card-menu">
-
+<div class="menu-card">
 <i class="fa-solid fa-shield-halved"></i>
-
-<span>PTW</span>
-
+<h6>Permit To Work</h6>
 </div>
 
-</div>
-
-<div class="col-6 col-md-3">
-
-<div class="card-menu">
-
+<div class="menu-card">
 <i class="fa-solid fa-clipboard-check"></i>
-
-<span>Inspeksi</span>
-
+<h6>Inspeksi</h6>
 </div>
 
-</div>
-
-<div class="col-6 col-md-3">
-
-<div class="card-menu">
-
-<i class="fa-solid fa-book"></i>
-
-<span>SOP</span>
-
-</div>
-
-</div>
-
-<div class="col-6 col-md-3">
-
-<div class="card-menu">
-
+<div class="menu-card">
 <i class="fa-solid fa-leaf"></i>
-
-<span>Environment</span>
-
+<h6>Environment</h6>
 </div>
 
-</div>
-
-<div class="col-6 col-md-3">
-
-<div class="card-menu">
-
+<div class="menu-card">
 <i class="fa-solid fa-heart-pulse"></i>
-
-<span>Paramedis</span>
-
+<h6>Paramedis</h6>
 </div>
 
-</div>
-
-<div class="col-6 col-md-3">
-
-<div class="card-menu">
-
-<i class="fa-solid fa-chart-column"></i>
-
-<span>Dashboard</span>
-
-</div>
-
-</div>
-
-<div class="col-6 col-md-3">
-
-<div class="card-menu">
-
-<i class="fa-solid fa-bell"></i>
-
-<span>Emergency</span>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-  
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pusat Kebijakan</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-<style>
-
-body{
-background:#0F1115;
-color:#F5F7FA;
-font-family:"Segoe UI",sans-serif;
-}
-
-.menu{
-background:#181C23;
-border:1px solid #323845;
-border-radius:18px;
-padding:20px;
-margin-bottom:15px;
-cursor:pointer;
-transition:.3s;
-}
-
-.menu:hover{
-border-color:#00C853;
-transform:translateY(-4px);
-}
-
-.menu i{
-color:#00C853;
-font-size:28px;
-margin-right:15px;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="container py-4">
-
-<h2><i class="fa-solid fa-scale-balanced"></i> Pusat Kebijakan & Kepatuhan</h2>
-
-<p>Portal kebijakan resmi PT Cahaya Ginda Ganda dan perusahaan kontraktor.</p>
-
-<div class="menu" onclick="location.href='peraturan.html'">
+<div class="menu-card">
 <i class="fa-solid fa-book"></i>
-Peraturan Perusahaan
+<h6>SOP Digital</h6>
 </div>
 
-<div class="menu" onclick="location.href='kode-etik.html'">
-<i class="fa-solid fa-user-shield"></i>
-Kode Etik
+<div class="menu-card">
+<i class="fa-solid fa-scale-balanced"></i>
+<h6>Kebijakan</h6>
 </div>
 
-<div class="menu" onclick="location.href='pelanggaran.html'">
+<div class="menu-card">
+<i class="fa-solid fa-chart-line"></i>
+<h6>Dashboard</h6>
+</div>
+
+<div class="menu-card">
+<i class="fa-solid fa-phone"></i>
+<h6>Emergency</h6>
+</div>
+
+</div>
+
+<div class="text-center text-secondary mt-5">
+CGG Safety Hub v1.0 • One Portal • One Standard
+</div>
+
+</main>
+
+<!-- Floating Emergency -->
+
+<div class="fab">
+<i class="fa-solid fa-siren"></i>
+</div>
+
+<!-- Bottom Nav -->
+
+<div class="bottom-nav">
+<i class="fa-solid fa-house"></i>
 <i class="fa-solid fa-triangle-exclamation"></i>
-Jenis Pelanggaran
-</div>
-
-<div class="menu" onclick="location.href='sanksi.html'">
-<i class="fa-solid fa-gavel"></i>
-Matriks Sanksi
-</div>
-
-<div class="menu" onclick="location.href='formulir.html'">
-<i class="fa-solid fa-file-signature"></i>
-Formulir Pelanggaran
-</div>
-
-<div class="menu" onclick="location.href='dokumen.html'">
-<i class="fa-solid fa-folder-open"></i>
-Dokumen Resmi
-</div>
-
-<a href="../index.html" class="btn btn-outline-light mt-3">
-← Kembali ke Dashboard
-</a>
-
-</div>
-
-</body>
-</html>
-  
-<!-- FOOTER -->
-
-<div class="footer">
-
-PT Cahaya Ginda Ganda
-
-<br>
-
-CGG Safety
-
+<i class="fa-solid fa-chart-line"></i>
+<i class="fa-solid fa-phone"></i>
 </div>
 
 <script>
 
-function updateClock(){
+setTimeout(()=>{
+document.getElementById("splash").classList.add("hide");
+},1800);
+
+function waktu(){
 
 const now=new Date();
 
-document.getElementById("clock").innerHTML=
+tanggal.innerHTML=now.toLocaleDateString("id-ID",{
+weekday:"long",
+day:"numeric",
+month:"long",
+year:"numeric"
+});
 
-now.toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"})+
-
-"<br>"+
-
-now.toLocaleTimeString("id-ID");
+jam.innerHTML=now.toLocaleTimeString("id-ID");
 
 }
 
-updateClock();
+setInterval(waktu,1000);
+waktu();
 
-setInterval(updateClock,1000);
+function openDrawer(){
+drawer.classList.add("open");
+document.querySelector(".overlay").classList.add("show");
+}
+
+function closeDrawer(){
+drawer.classList.remove("open");
+document.querySelector(".overlay").classList.remove("show");
+}
+
+Chart.defaults.color="#D1D5DB";
+
+new Chart(hazardChart,{
+type:"line",
+data:{
+labels:["Sen","Sel","Rab","Kam","Jum","Sab","Min"],
+datasets:[{
+label:"Hazard",
+data:[3,5,4,8,6,7,4],
+borderColor:"#22C55E",
+backgroundColor:"rgba(34,197,94,.15)",
+fill:true,
+tension:.4
+}]
+}
+});
+
+new Chart(incidentChart,{
+type:"doughnut",
+data:{
+labels:["Unsafe Act","Unsafe Condition","Near Miss","Property Damage"],
+datasets:[{
+data:[45,35,15,5],
+backgroundColor:["#22C55E","#FACC15","#3B82F6","#EF4444"]
+}]
+}
+});
+
+new Chart(closingChart,{
+type:"bar",
+data:{
+labels:["Jan","Feb","Mar","Apr"],
+datasets:[{
+label:"Closing",
+data:[82,90,95,97],
+backgroundColor:"#22C55E"
+}]
+},
+options:{
+scales:{
+y:{max:100}
+}
+}
+});
+
+function animateValue(id,start,end,duration){
+
+let obj=document.getElementById(id);
+let range=end-start;
+let step=Math.abs(Math.floor(duration/range));
+let current=start;
+
+let timer=setInterval(()=>{
+
+current++;
+
+obj.innerHTML=id==="k4"?current+"%":current;
+
+if(current>=end)
+clearInterval(timer);
+
+},step);
+
+}
+
+setTimeout(()=>{
+animateValue("k1",0,12,900);
+animateValue("k2",0,8,900);
+animateValue("k3",0,18,900);
+animateValue("k4",0,97,1200);
+},1900);
 
 </script>
 
 </body>
-
 </html>
