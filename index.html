@@ -1,24 +1,388 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>PT Cahaya Ginda Ganda - Safety Dashboard</title>
 
-<link rel="stylesheet" href="style.css">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<style>
+
+:root{
+--bg:#0D1117;
+--surface:#161B22;
+--line:#30363D;
+--text:#F3F4F6;
+--muted:#9CA3AF;
+--green:#22C55E;
+--blue:#3B82F6;
+--yellow:#FACC15;
+--red:#EF4444;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,sans-serif;
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+}
+
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background-image:
+linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),
+linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+background-size:40px 40px;
+z-index:-1;
+}
+
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+width:280px;
+height:100vh;
+background:rgba(22,27,34,.96);
+border-right:1px solid var(--line);
+padding:22px;
+overflow:auto;
+}
+
+.brand{
+display:flex;
+gap:14px;
+align-items:center;
+padding-bottom:18px;
+margin-bottom:22px;
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.logo{
+width:70px;
+height:70px;
+padding:8px;
+background:#1F2937;
+border-radius:18px;
+object-fit:contain;
+}
+
+.brand h1{
+font-size:18px;
+line-height:1.15;
+}
+
+.brand p{
+font-size:12px;
+margin:6px 0;
+letter-spacing:1px;
+font-weight:700;
+color:var(--green);
+}
+
+.status{
+display:inline-block;
+background:rgba(34,197,94,.15);
+padding:5px 10px;
+border-radius:20px;
+font-size:11px;
+font-weight:700;
+color:var(--green);
+}
+
+nav{
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+nav a{
+display:flex;
+align-items:center;
+gap:12px;
+padding:12px 14px;
+border-radius:12px;
+color:white;
+text-decoration:none;
+cursor:pointer;
+transition:.25s;
+}
+
+nav a:hover,
+nav a.active{
+background:#243142;
+}
+
+.content{
+margin-left:280px;
+padding:28px;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:12px;
+margin-bottom:25px;
+}
+
+header h2{
+font-size:34px;
+}
+
+header p{
+color:var(--muted);
+}
+
+.clock{
+text-align:right;
+color:var(--muted);
+}
+
+.pulse{
+background:linear-gradient(135deg,#111827,#1F2937);
+padding:22px;
+border-radius:20px;
+border:1px solid var(--line);
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:28px;
+flex-wrap:wrap;
+}
+
+.badge{
+background:rgba(34,197,94,.15);
+padding:8px 14px;
+border-radius:20px;
+font-weight:700;
+color:var(--green);
+}
+
+.kpi{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:16px;
+margin-bottom:28px;
+}
+
+.box{
+background:var(--surface);
+padding:20px;
+border-radius:18px;
+border:1px solid var(--line);
+transition:.25s;
+}
+
+.box:hover{
+transform:translateY(-4px);
+border-color:var(--green);
+}
+
+.box i{
+font-size:24px;
+margin-bottom:10px;
+}
+
+.box h3{
+font-size:36px;
+margin:8px 0;
+}
+
+.box p{
+color:var(--muted);
+}
+
+.grid{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:18px;
+margin-bottom:24px;
+}
+
+.panel{
+background:var(--surface);
+border:1px solid var(--line);
+border-radius:18px;
+padding:18px;
+height:340px;
+display:flex;
+flex-direction:column;
+position:relative;
+}
+
+.panel canvas{
+height:220px !important;
+}
+
+.empty{
+position:absolute;
+bottom:16px;
+left:50%;
+transform:translateX(-50%);
+color:var(--muted);
+font-size:13px;
+background:rgba(13,17,23,.9);
+padding:8px 14px;
+border-radius:8px;
+}
+
+.activity{
+flex:1;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+gap:12px;
+color:var(--muted);
+}
+
+.activity i{
+font-size:42px;
+color:var(--green);
+}
+
+.triangle{
+margin-top:12px;
+}
+
+.triangle div{
+margin:8px auto;
+padding:10px;
+border-radius:10px;
+text-align:center;
+font-weight:700;
+}
+
+.lv1{width:100%;background:#22C55E;}
+.lv2{width:82%;background:#3B82F6;}
+.lv3{width:62%;background:#FACC15;color:black;}
+.lv4{width:42%;background:#FB923C;}
+.lv5{width:22%;background:#EF4444;}
+
+.metrics{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:16px;
+margin:24px 0;
+}
+
+.metric{
+background:linear-gradient(135deg,#111827,#1F2937);
+padding:20px;
+border-radius:18px;
+border:1px solid var(--line);
+}
+
+.metric p{
+color:var(--muted);
+margin-bottom:8px;
+}
+
+.metric h3{
+font-size:28px;
+}
+
+.section-title{
+margin:24px 0 16px;
+}
+
+.services{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:16px;
+}
+
+.service{
+background:var(--surface);
+border:1px solid var(--line);
+border-radius:18px;
+padding:22px;
+text-align:center;
+transition:.25s;
+cursor:pointer;
+}
+
+.service:hover{
+transform:translateY(-4px);
+border-color:var(--green);
+}
+
+.service i{
+font-size:30px;
+margin-bottom:10px;
+color:var(--green);
+}
+
+.service.emergency i{
+color:var(--red);
+}
+
+footer{
+margin-top:35px;
+padding:20px;
+text-align:center;
+color:var(--muted);
+border-top:1px solid var(--line);
+}
+
+@media(max-width:1024px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.kpi,
+.metrics,
+.services{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+@media(max-width:768px){
+
+.sidebar{
+display:none;
+}
+
+.content{
+margin-left:0;
+padding:18px;
+}
+
+header{
+flex-direction:column;
+align-items:flex-start;
+}
+
+.clock{
+text-align:left;
+}
+
+.panel{
+height:300px;
+}
+
+.panel canvas{
+height:190px !important;
+}
+
+}
+
+</style>
 </head>
 
 <body>
@@ -27,7 +391,7 @@
 
 <div class="brand">
 
-<img src="assets/img/logo-cgg.png" class="logo-cgg">
+<img src="assets/img/logo-cgg.png" class="logo" alt="Logo CGG">
 
 <div>
 
@@ -35,7 +399,7 @@
 
 <p>SAFETY DASHBOARD</p>
 
-<span class="status-online">SYSTEM ONLINE</span>
+<span class="status">SYSTEM ONLINE</span>
 
 </div>
 
@@ -43,23 +407,23 @@
 
 <nav>
 
-<a class="active"><i class="fa-solid fa-house"></i> Dashboard</a>
+<a class="active"><i class="fa-solid fa-house"></i>Dashboard</a>
 
-<a><i class="fa-solid fa-triangle-exclamation"></i> Hazard Report</a>
+<a><i class="fa-solid fa-triangle-exclamation"></i>Hazard Report</a>
 
-<a><i class="fa-solid fa-shield-halved"></i> Permit To Work</a>
+<a><i class="fa-solid fa-shield-halved"></i>Permit To Work</a>
 
-<a><i class="fa-solid fa-clipboard-check"></i> Inspeksi</a>
+<a><i class="fa-solid fa-clipboard-check"></i>Inspeksi</a>
 
-<a><i class="fa-solid fa-leaf"></i> Environment</a>
+<a><i class="fa-solid fa-leaf"></i>Environment</a>
 
-<a><i class="fa-solid fa-heart-pulse"></i> Paramedis</a>
+<a><i class="fa-solid fa-heart-pulse"></i>Paramedis</a>
 
-<a><i class="fa-solid fa-book"></i> SOP Digital</a>
+<a><i class="fa-solid fa-book"></i>SOP Digital</a>
 
-<a><i class="fa-solid fa-scale-balanced"></i> Kebijakan</a>
+<a><i class="fa-solid fa-scale-balanced"></i>Kebijakan</a>
 
-<a><i class="fa-solid fa-phone"></i> Emergency</a>
+<a><i class="fa-solid fa-phone"></i>Emergency</a>
 
 </nav>
 
@@ -77,7 +441,7 @@
 
 </div>
 
-<div class="header-right">
+<div class="clock">
 
 <div id="tanggal"></div>
 
@@ -93,67 +457,47 @@
 
 <h3>Safety Pulse</h3>
 
-<p>Belum ada data operasional hari ini.</p>
+<p style="color:#9CA3AF;margin-top:5px;">Belum ada data operasional hari ini.</p>
 
 </div>
 
-<span>Sistem Siap</span>
+<div class="badge">SISTEM SIAP</div>
 
 </section>
 
-<section class="kpi-grid">
+<section class="kpi">
 
-<div class="kpi-card">
-
-<i class="fa-solid fa-triangle-exclamation warning"></i>
-
+<div class="box">
+<i class="fa-solid fa-triangle-exclamation" style="color:#FACC15;"></i>
 <h3 id="hazard">0</h3>
-
 <p>Hazard Hari Ini</p>
-
 </div>
 
-<div class="kpi-card">
-
-<i class="fa-solid fa-circle-check success"></i>
-
+<div class="box">
+<i class="fa-solid fa-circle-check" style="color:#22C55E;"></i>
 <h3 id="nearmiss">0</h3>
-
 <p>Near Miss</p>
-
 </div>
 
-<div class="kpi-card">
-
-<i class="fa-solid fa-shield-halved info"></i>
-
+<div class="box">
+<i class="fa-solid fa-shield-halved" style="color:#3B82F6;"></i>
 <h3 id="ptw">0</h3>
-
 <p>PTW Aktif</p>
-
 </div>
 
-<div class="kpi-card">
-
-<i class="fa-solid fa-heart-crack danger"></i>
-
+<div class="box">
+<i class="fa-solid fa-heart-crack" style="color:#EF4444;"></i>
 <h3 id="lti">0</h3>
-
 <p>Lost Time Injury</p>
-
 </div>
 
 </section>
 
-<section class="chart-grid">
+<section class="grid">
 
-<div class="card">
-
-<div class="card-title">
+<div class="panel">
 
 <h3>Trend Hazard Mingguan</h3>
-
-</div>
 
 <canvas id="hazardChart"></canvas>
 
@@ -161,13 +505,9 @@
 
 </div>
 
-<div class="card">
-
-<div class="card-title">
+<div class="panel">
 
 <h3>Aktivitas Terbaru</h3>
-
-</div>
 
 <div class="activity">
 
@@ -181,15 +521,11 @@
 
 </section>
 
-<section class="chart-grid">
+<section class="grid">
 
-<div class="card">
-
-<div class="card-title">
+<div class="panel">
 
 <h3>Trend Insiden Bulanan</h3>
-
-</div>
 
 <canvas id="incidentChart"></canvas>
 
@@ -197,13 +533,9 @@
 
 </div>
 
-<div class="card">
-
-<div class="card-title">
+<div class="panel">
 
 <h3>Komposisi Insiden</h3>
-
-</div>
 
 <canvas id="donutChart"></canvas>
 
@@ -213,13 +545,9 @@
 
 </section>
 
-<section class="card">
-
-<div class="card-title">
+<section class="panel" style="height:auto;">
 
 <h3>Bird's Triangle</h3>
-
-</div>
 
 <div class="triangle">
 
@@ -237,63 +565,51 @@
 
 </section>
 
-<section class="metric-grid">
+<section class="metrics">
 
 <div class="metric">
-
 <p>TRIFR</p>
-
 <h3 id="trifr">0.00</h3>
-
 </div>
 
 <div class="metric">
-
 <p>LTIFR</p>
-
 <h3 id="ltifr">0.00</h3>
-
 </div>
 
 <div class="metric">
-
 <p>Jam Kerja</p>
-
 <h3 id="manhours">0</h3>
-
 </div>
 
 <div class="metric">
-
 <p>Hazard Closure</p>
-
 <h3 id="closure">0%</h3>
-
 </div>
 
 </section>
 
 <h2 class="section-title">Layanan HSE</h2>
 
-<section class="service-grid">
+<section class="services">
 
-<div class="service"><i class="fa-solid fa-triangle-exclamation"></i><span>Hazard Report</span></div>
+<div class="service"><i class="fa-solid fa-triangle-exclamation"></i><div>Hazard Report</div></div>
 
-<div class="service"><i class="fa-solid fa-shield-halved"></i><span>PTW</span></div>
+<div class="service"><i class="fa-solid fa-shield-halved"></i><div>PTW</div></div>
 
-<div class="service"><i class="fa-solid fa-clipboard-check"></i><span>Inspeksi</span></div>
+<div class="service"><i class="fa-solid fa-clipboard-check"></i><div>Inspeksi</div></div>
 
-<div class="service"><i class="fa-solid fa-leaf"></i><span>Environment</span></div>
+<div class="service"><i class="fa-solid fa-leaf"></i><div>Environment</div></div>
 
-<div class="service"><i class="fa-solid fa-heart-pulse"></i><span>Paramedis</span></div>
+<div class="service"><i class="fa-solid fa-heart-pulse"></i><div>Paramedis</div></div>
 
-<div class="service"><i class="fa-solid fa-book"></i><span>SOP</span></div>
+<div class="service"><i class="fa-solid fa-book"></i><div>SOP Digital</div></div>
 
-<div class="service"><i class="fa-solid fa-scale-balanced"></i><span>Kebijakan</span></div>
+<div class="service"><i class="fa-solid fa-scale-balanced"></i><div>Kebijakan</div></div>
 
-<div class="service"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></div>
+<div class="service"><i class="fa-solid fa-chart-line"></i><div>Dashboard</div></div>
 
-<div class="service emergency"><i class="fa-solid fa-phone"></i><span>Emergency</span></div>
+<div class="service emergency"><i class="fa-solid fa-phone"></i><div>Emergency</div></div>
 
 </section>
 
@@ -305,7 +621,96 @@ PT Cahaya Ginda Ganda • Safety Dashboard v1.0
 
 </main>
 
-<script src="app.js"></script>
+<script>
+
+function updateClock(){
+
+const now=new Date();
+
+document.getElementById("tanggal").textContent=
+now.toLocaleDateString("id-ID",{
+weekday:"long",
+day:"numeric",
+month:"long",
+year:"numeric"
+});
+
+document.getElementById("jam").textContent=
+now.toLocaleTimeString("id-ID");
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+Chart.defaults.color="#D1D5DB";
+
+Chart.defaults.borderColor="rgba(255,255,255,.08)";
+
+new Chart(document.getElementById("hazardChart"),{
+type:"line",
+data:{
+labels:["Sen","Sel","Rab","Kam","Jum","Sab","Min"],
+datasets:[{
+data:[0,0,0,0,0,0,0],
+borderColor:"#22C55E",
+backgroundColor:"rgba(34,197,94,.15)",
+fill:true,
+tension:.35
+}]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false,
+plugins:{legend:{display:false}},
+scales:{y:{beginAtZero:true}}
+}
+});
+
+new Chart(document.getElementById("incidentChart"),{
+type:"line",
+data:{
+labels:["Jan","Feb","Mar","Apr","Mei","Jun"],
+datasets:[{
+data:[0,0,0,0,0,0],
+borderColor:"#3B82F6",
+tension:.35
+}]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false,
+plugins:{legend:{display:false}},
+scales:{y:{beginAtZero:true}}
+}
+});
+
+new Chart(document.getElementById("donutChart"),{
+type:"doughnut",
+data:{
+labels:["Near Miss","FAC","MTC","LTI","Property Damage"],
+datasets:[{
+data:[1,1,1,1,1],
+backgroundColor:[
+"#22C55E",
+"#3B82F6",
+"#FACC15",
+"#EF4444",
+"#8B5CF6"
+],
+borderWidth:0
+}]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false,
+plugins:{legend:{display:false}},
+cutout:"72%"
+}
+});
+
+</script>
 
 </body>
 </html>
