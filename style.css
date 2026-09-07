@@ -1,39 +1,28 @@
-/* =====================================================
-   PT CAHAYA GINDA GANDA
-   SAFETY DASHBOARD
-   Executive Command Center UI v2.0
-===================================================== */
 
-body{
-    background:red !important;
-}
 :root{
---bg:#0D1117;
---surface:#161B22;
---surface2:#1F2937;
---border:#30363D;
---text:#F3F4F6;
---muted:#9CA3AF;
---green:#22C55E;
---yellow:#FACC15;
---red:#EF4444;
---blue:#3B82F6;
---radius:20px;
---shadow:0 14px 35px rgba(0,0,0,.35);
+--bg:#0d1117;
+--surface:#161b22;
+--surface2:#1f2937;
+--border:#30363d;
+--text:#f3f4f6;
+--muted:#9ca3af;
+--green:#22c55e;
+--yellow:#facc15;
+--red:#ef4444;
+--blue:#3b82f6;
 }
 
-*{margin:0;padding:0;box-sizing:border-box;}
-
-html{scroll-behavior:smooth;}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,sans-serif;
+}
 
 body{
 background:var(--bg);
 color:var(--text);
-font-family:"Segoe UI",Arial,sans-serif;
-overflow-x:hidden;
 }
-
-/* Grid background */
 
 body::before{
 content:"";
@@ -43,21 +32,8 @@ background-image:
 linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),
 linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
 background-size:40px 40px;
-pointer-events:none;
 z-index:-1;
 }
-
-/* Scrollbar */
-
-::-webkit-scrollbar{width:10px;}
-::-webkit-scrollbar-thumb{
-background:#3a3f47;
-border-radius:20px;
-}
-
-/* =========================
-   SIDEBAR
-========================= */
 
 .sidebar{
 position:fixed;
@@ -65,175 +41,123 @@ left:0;
 top:0;
 width:280px;
 height:100vh;
-background:rgba(22,27,34,.96);
-backdrop-filter:blur(18px);
+background:rgba(22,27,34,.95);
 border-right:1px solid var(--border);
 padding:24px;
-overflow-y:auto;
+overflow:auto;
 }
 
 .brand{
 display:flex;
-align-items:center;
 gap:16px;
-padding-bottom:22px;
-margin-bottom:25px;
+align-items:center;
+margin-bottom:28px;
+padding-bottom:20px;
 border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .logo-cgg{
-width:70px;
-height:70px;
-object-fit:contain;
-background:#1B2532;
-padding:7px;
+width:72px;
+height:72px;
+background:#1f2937;
+padding:8px;
 border-radius:18px;
-border:1px solid rgba(34,197,94,.25);
-box-shadow:0 0 22px rgba(34,197,94,.15);
+object-fit:contain;
 }
 
 .brand h1{
 font-size:18px;
-line-height:1.15;
-font-weight:700;
-margin-bottom:6px;
+line-height:1.2;
 }
 
 .brand p{
 font-size:12px;
+color:var(--green);
+margin:6px 0;
 letter-spacing:1px;
 font-weight:700;
-color:var(--green);
-margin-bottom:6px;
 }
 
-.online{
+.status-online{
 display:inline-block;
-font-size:11px;
+background:rgba(34,197,94,.15);
+color:var(--green);
 padding:4px 10px;
 border-radius:20px;
-background:rgba(34,197,94,.12);
-color:var(--green);
+font-size:11px;
 font-weight:700;
 }
 
-.sidebar nav{
+nav{
 display:flex;
 flex-direction:column;
 gap:8px;
 }
 
-.sidebar nav a{
+nav a{
+padding:13px 14px;
+border-radius:12px;
 display:flex;
-align-items:center;
 gap:12px;
-padding:13px 15px;
-border-radius:14px;
+align-items:center;
+color:white;
 text-decoration:none;
-color:var(--text);
-transition:.25s;
-position:relative;
-}
-
-.sidebar nav a::before{
-content:"";
-position:absolute;
-left:0;
-top:15%;
-height:70%;
-width:4px;
-border-radius:10px;
-background:transparent;
+cursor:pointer;
 transition:.25s;
 }
 
-.sidebar nav a:hover,
-.sidebar nav a.active{
+nav a:hover,
+nav a.active{
 background:#243142;
 }
-
-.sidebar nav a:hover::before,
-.sidebar nav a.active::before{
-background:var(--green);
-}
-
-.sidebar nav i{
-width:20px;
-text-align:center;
-}
-
-/* =========================
-   CONTENT
-========================= */
 
 .content{
 margin-left:280px;
 padding:30px;
 }
 
-/* =========================
-   HEADER
-========================= */
-
 header{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:25px;
+margin-bottom:24px;
 flex-wrap:wrap;
 gap:15px;
 }
 
 header h2{
 font-size:34px;
-margin-bottom:5px;
 }
 
 header p{
 color:var(--muted);
 }
 
-.clock{
+.header-right{
 text-align:right;
-font-size:14px;
 color:var(--muted);
 }
 
-/* =========================
-   SAFETY PULSE
-========================= */
-
 .pulse{
-background:linear-gradient(135deg,#111827,#1F2937);
-border:1px solid var(--border);
-border-radius:22px;
+background:linear-gradient(135deg,#111827,#1f2937);
 padding:22px;
+border-radius:20px;
+border:1px solid var(--border);
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:30px;
-box-shadow:var(--shadow);
+margin-bottom:28px;
 flex-wrap:wrap;
-gap:10px;
-}
-
-.pulse p{
-margin-top:5px;
-color:var(--muted);
 }
 
 .pulse span{
-background:rgba(34,197,94,.12);
-padding:8px 15px;
+background:rgba(34,197,94,.15);
+color:var(--green);
+padding:8px 14px;
 border-radius:30px;
 font-size:13px;
 font-weight:700;
-color:var(--green);
 }
-
-/* =========================
-   KPI
-========================= */
 
 .kpi-grid{
 display:grid;
@@ -244,13 +168,12 @@ margin-bottom:30px;
 
 .kpi-card{
 background:var(--surface);
-border:1px solid var(--border);
-border-radius:20px;
 padding:22px;
+border-radius:20px;
+border:1px solid var(--border);
 position:relative;
 overflow:hidden;
 transition:.25s;
-box-shadow:var(--shadow);
 }
 
 .kpi-card:hover{
@@ -258,39 +181,20 @@ transform:translateY(-5px);
 border-color:var(--green);
 }
 
-.kpi-card::after{
-content:"";
-position:absolute;
-right:-40px;
-top:-40px;
-width:100px;
-height:100px;
-background:rgba(255,255,255,.04);
-border-radius:50%;
-}
-
 .kpi-card i{
-font-size:26px;
-margin-bottom:12px;
+font-size:24px;
+margin-bottom:10px;
 }
 
 .kpi-card h3{
-font-size:38px;
-margin-bottom:8px;
-}
-
-.kpi-card p{
-color:var(--muted);
+font-size:36px;
+margin-bottom:6px;
 }
 
 .warning{color:var(--yellow);}
 .success{color:var(--green);}
 .info{color:var(--blue);}
 .danger{color:var(--red);}
-
-/* =========================
-   CHARTS
-========================= */
 
 .chart-grid{
 display:grid;
@@ -301,72 +205,53 @@ margin-bottom:30px;
 
 .card{
 background:var(--surface);
-border:1px solid var(--border);
-border-radius:22px;
 padding:20px;
+border-radius:20px;
+border:1px solid var(--border);
 height:360px;
 position:relative;
 display:flex;
 flex-direction:column;
-overflow:hidden;
-box-shadow:var(--shadow);
 }
-
-.card-head{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:15px;
-}
-
-.card-head span{
-font-size:12px;
-color:var(--muted);
-}
-
-/* PERBAIKAN BUG CHART */
 
 .card canvas{
-width:100% !important;
 height:250px !important;
-flex:1;
+width:100% !important;
+}
+
+.card-title{
+margin-bottom:12px;
 }
 
 .empty{
 position:absolute;
-top:56%;
+top:55%;
 left:50%;
 transform:translate(-50%,-50%);
-background:rgba(13,17,23,.88);
-padding:10px 16px;
+background:rgba(13,17,23,.9);
+padding:10px 14px;
 border-radius:10px;
 font-size:13px;
 color:var(--muted);
-pointer-events:none;
 }
 
-.activity-empty{
+.activity{
+flex:1;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-flex:1;
 gap:12px;
 color:var(--muted);
-text-align:center;
 }
 
-.activity-empty i{
-font-size:44px;
+.activity i{
+font-size:42px;
 color:var(--green);
 }
 
-/* =========================
-   TRIANGLE
-========================= */
-
 .triangle{
-margin-top:10px;
+margin-top:14px;
 }
 
 .triangle div{
@@ -375,22 +260,13 @@ padding:12px;
 border-radius:10px;
 text-align:center;
 font-weight:700;
-transition:.25s;
 }
 
-.triangle div:hover{
-transform:scale(1.02);
-}
-
-.lv1{width:100%;background:#22C55E;}
-.lv2{width:82%;background:#3B82F6;}
-.lv3{width:62%;background:#FACC15;color:black;}
-.lv4{width:42%;background:#FB923C;}
-.lv5{width:22%;background:#EF4444;}
-
-/* =========================
-   METRICS
-========================= */
+.lv1{width:100%;background:#22c55e;}
+.lv2{width:82%;background:#3b82f6;}
+.lv3{width:62%;background:#facc15;color:black;}
+.lv4{width:42%;background:#fb923c;}
+.lv5{width:22%;background:#ef4444;}
 
 .metric-grid{
 display:grid;
@@ -400,34 +276,23 @@ margin:30px 0;
 }
 
 .metric{
-background:linear-gradient(135deg,#111827,#1F2937);
-border:1px solid var(--border);
-border-radius:20px;
+background:linear-gradient(135deg,#111827,#1f2937);
 padding:22px;
-transition:.25s;
-box-shadow:var(--shadow);
-}
-
-.metric:hover{
-transform:translateY(-5px);
-border-color:var(--green);
+border-radius:20px;
+border:1px solid var(--border);
 }
 
 .metric p{
 color:var(--muted);
-margin-bottom:10px;
+margin-bottom:8px;
 }
 
 .metric h3{
-font-size:30px;
+font-size:28px;
 }
 
-/* =========================
-   SERVICE
-========================= */
-
-.title{
-margin:25px 0 18px;
+.section-title{
+margin:28px 0 18px;
 }
 
 .service-grid{
@@ -439,12 +304,14 @@ gap:18px;
 .service{
 background:var(--surface);
 border:1px solid var(--border);
-border-radius:20px;
+border-radius:18px;
 padding:24px;
-text-align:center;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:12px;
 cursor:pointer;
 transition:.25s;
-box-shadow:var(--shadow);
 }
 
 .service:hover{
@@ -454,7 +321,6 @@ border-color:var(--green);
 
 .service i{
 font-size:34px;
-margin-bottom:14px;
 color:var(--green);
 }
 
@@ -462,41 +328,19 @@ color:var(--green);
 color:var(--red);
 }
 
-/* =========================
-   FOOTER
-========================= */
-
 footer{
 margin-top:40px;
 padding:22px;
-border-top:1px solid var(--border);
 text-align:center;
 color:var(--muted);
-font-size:13px;
+border-top:1px solid var(--border);
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media(max-width:1200px){
-
-.kpi-grid{
-grid-template-columns:repeat(2,1fr);
-}
-
-.metric-grid{
-grid-template-columns:repeat(2,1fr);
-}
-
-.service-grid{
-grid-template-columns:repeat(2,1fr);
-}
-
-.chart-grid{
-grid-template-columns:1fr;
-}
-
+@media(max-width:1100px){
+.chart-grid{grid-template-columns:1fr;}
+.kpi-grid{grid-template-columns:repeat(2,1fr);}
+.metric-grid{grid-template-columns:repeat(2,1fr);}
+.service-grid{grid-template-columns:repeat(2,1fr);}
 }
 
 @media(max-width:768px){
@@ -508,7 +352,6 @@ display:none;
 .content{
 margin-left:0;
 padding:18px;
-padding-bottom:90px;
 }
 
 header{
@@ -516,24 +359,8 @@ flex-direction:column;
 align-items:flex-start;
 }
 
-.clock{
+.header-right{
 text-align:left;
-}
-
-header h2{
-font-size:28px;
-}
-
-.kpi-grid{
-grid-template-columns:repeat(2,1fr);
-}
-
-.metric-grid{
-grid-template-columns:repeat(2,1fr);
-}
-
-.service-grid{
-grid-template-columns:repeat(2,1fr);
 }
 
 .card{
@@ -545,24 +372,8 @@ height:200px !important;
 }
 
 .logo-cgg{
-width:52px;
-height:52px;
-}
-
-}
-
-@media(max-width:480px){
-
-.kpi-card h3{
-font-size:32px;
-}
-
-.metric h3{
-font-size:24px;
-}
-
-.service{
-padding:18px;
+width:56px;
+height:56px;
 }
 
 }
