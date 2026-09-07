@@ -84,16 +84,16 @@ border-bottom:1px solid rgba(255,255,255,.06);
 /* Badge logo */
 
 .logo-cgg{
-width:32px;
-height:32px;
-max-width:32px;
+width:56px;
+height:56px;
+max-width:56px;
 object-fit:contain;
 display:block;
 flex-shrink:0;
 background:#1F2937;
-padding:4px;
-border-radius:8px;
-border:1px solid rgba(34,197,94,.25);
+padding:6px;
+border-radius:14px;
+border:1px solid rgba(34,197,94,.12);
 }
 
 .brand h4{
@@ -338,9 +338,9 @@ display:flex;
 }
 
 .logo-cgg{
-width:28px;
-height:28px;
-max-width:28px;
+width:46px;
+height:46px;
+max-width:46px;
 }
 
 .brand h4{
@@ -366,7 +366,39 @@ grid-template-columns:repeat(2,1fr);
 }
 
 }
+/* ===== FIX WARNA TEKS ===== */
 
+body,
+main,
+.sidebar,
+.content{
+  color:#F3F4F6;
+}
+
+h1,h2,h3,h4,h5,h6{
+  color:#F3F4F6 !important;
+}
+
+p,span,div,small,label,a{
+  color:inherit;
+}
+
+.text-secondary{
+  color:#9CA3AF !important;
+}
+
+.service-card h5,
+.metric-card h3,
+.kpi-card h2,
+.chart-card h4,
+.pulse-card h3{
+  color:#F3F4F6 !important;
+}
+
+#tanggal,
+#jam{
+  color:#9CA3AF !important;
+}
 </style>
 </head>
 
