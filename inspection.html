@@ -4,16 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>Checklist Inspeksi - CGG Command Center</title>
+<title>Inspection Smart Launcher v2</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 
 *{
-box-sizing:border-box;
 margin:0;
 padding:0;
+box-sizing:border-box;
 font-family:Inter,sans-serif;
 }
 
@@ -24,22 +24,22 @@ padding:24px;
 }
 
 .container{
-max-width:1000px;
+max-width:1200px;
 margin:auto;
 }
 
 .header{
-margin-bottom:24px;
+margin-bottom:28px;
 }
 
 .header h1{
-font-size:34px;
+font-size:40px;
 font-weight:800;
 }
 
 .header p{
-opacity:.7;
 margin-top:8px;
+opacity:.7;
 }
 
 .card{
@@ -50,119 +50,99 @@ padding:24px;
 margin-bottom:22px;
 }
 
-.badge{
-display:inline-block;
-background:#1E3A8A;
-padding:6px 12px;
-border-radius:999px;
-font-size:13px;
-margin-top:10px;
-}
-
-.launcher{
-display:flex;
-flex-direction:column;
-gap:18px;
-}
-
-.launch-card{
-background:#162233;
-border:1px solid rgba(255,255,255,.08);
-border-radius:20px;
-padding:22px;
-cursor:pointer;
-transition:.2s;
-}
-
-.launch-card:hover{
-border-color:#2dd4bf;
-transform:translateY(-2px);
-}
-
-.launch-title{
-font-size:22px;
-font-weight:700;
-}
-
-.launch-count{
-margin-top:8px;
-opacity:.7;
-}
-
-.variant-list{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-margin-top:14px;
-}
-
-.variant{
-background:#1F3B68;
-padding:7px 14px;
-border-radius:999px;
-font-size:13px;
-}
-
 .back{
-margin-bottom:18px;
 background:#1F3B68;
 border:none;
 color:white;
-padding:10px 18px;
+padding:12px 18px;
 border-radius:12px;
 cursor:pointer;
+margin-bottom:18px;
+font-weight:600;
 }
 
-.form-card{
-background:#111C2B;
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:18px;
+}
+
+.item{
+background:#162233;
 border:1px solid rgba(255,255,255,.08);
-border-radius:22px;
+border-radius:18px;
 padding:22px;
-margin-bottom:20px;
+cursor:pointer;
+transition:.25s;
 }
 
-.form-card h3{
+.item:hover{
+border-color:#22C55E;
+transform:translateY(-4px);
+}
+
+.item h3{
 font-size:22px;
 margin-bottom:8px;
 }
 
+.item p{
+opacity:.7;
+}
+
+.badges{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+margin-top:14px;
+}
+
+.badge{
+background:#1F3B68;
+padding:6px 12px;
+border-radius:999px;
+font-size:12px;
+}
+
+.form-card{
+background:#162233;
+border:1px solid rgba(255,255,255,.08);
+border-radius:18px;
+padding:24px;
+margin-bottom:20px;
+}
+
+.form-card h3{
+font-size:24px;
+margin-bottom:12px;
+}
+
 .meta{
-opacity:.75;
-margin-bottom:18px;
-line-height:1.6;
+line-height:1.8;
+opacity:.78;
+margin-bottom:20px;
 }
 
-.open{
+.btn{
 display:inline-block;
-margin-top:12px;
 background:#16A34A;
-color:white;
-text-decoration:none;
-padding:12px 22px;
+padding:13px 24px;
 border-radius:12px;
+text-decoration:none;
+color:white;
 font-weight:700;
-}
-
-.empty{
-opacity:.6;
-text-align:center;
-padding:30px;
 }
 
 .loading{
 text-align:center;
+padding:50px;
 opacity:.7;
-padding:30px;
 }
 
 @media(max-width:640px){
 
 .header h1{
-font-size:28px;
-}
-
-.launch-title{
-font-size:19px;
+font-size:32px;
 }
 
 }
@@ -182,25 +162,15 @@ font-size:19px;
 
 </div>
 
-<div class="card">
-
-<h2>Smart Launcher</h2>
-
-<p style="margin-top:8px;opacity:.75;">
-Pilih kategori inspeksi. Semua data diambil otomatis dari Publish Engine.
-</p>
-
-</div>
-
-<div id="launcher" class="launcher">
+<div id="app">
 
 <div class="loading">
-Memuat daftar inspeksi...
-</div>
+
+Memuat Smart Launcher...
 
 </div>
 
-<div id="inspectionApp" style="display:none;"></div>
+</div>
 
 </div>
 
@@ -210,56 +180,154 @@ const API="https://script.google.com/macros/s/AKfycbz0DS2wr6spCCt2q6qT4zPjUCahOO
 
 let registry={};
 
-async function loadLauncher(){
+let currentCategory=null;
+let currentSubCategory=null;
 
-const launcher=document.getElementById("launcher");
+const icons={
 
-launcher.innerHTML="<div class='loading'>Memuat...</div>";
+"Unit":"🚙",
 
-try{
+"Area Operasional":"⛏️",
+
+"Pit":"⛏️",
+
+"Workshop":"🔧",
+
+"Safety Device":"🦺",
+
+"Building & Office":"🏢",
+
+"Office":"🏢",
+
+"MHR":"🏭",
+
+"Camp & Facility":"🏭"
+
+};
+
+async function init(){
 
 const res=await fetch(API);
 
 registry=await res.json();
 
+renderCategories();
+
+}
+
+function renderCategories(){
+
+const app=document.getElementById("app");
+
 const groups={};
 
-registry.forms.forEach(form=>{
+registry.forms.forEach(f=>{
 
-if(!groups[form.category])
-groups[form.category]=[];
+const cat=f.category||"Lainnya";
 
-groups[form.category].push(form);
+(groups[cat]??=[]).push(f);
 
 });
 
-launcher.innerHTML="";
+app.innerHTML=`
 
-Object.keys(groups).sort().forEach(category=>{
+<div class="card">
 
-const forms=groups[category];
+<h2>Smart Launcher</h2>
+
+<p style="margin-top:10px;opacity:.75;">
+Pilih area inspeksi. Semua kategori dibuat otomatis dari Publish Engine.
+</p>
+
+</div>
+
+<div class="grid" id="catGrid"></div>
+
+`;
+
+const grid=document.getElementById("catGrid");
+
+Object.keys(groups).sort().forEach(cat=>{
+
+grid.innerHTML+=`
+
+<div class="item" onclick="renderSub('${cat}')">
+
+<h3>${icons[cat]||"📋"} ${cat}</h3>
+
+<p>${groups[cat].length} Form</p>
+
+</div>
+
+`;
+
+});
+
+}
+
+function renderSub(cat){
+
+currentCategory=cat;
+
+const forms=registry.forms.filter(f=>(f.category||"Lainnya")===cat);
+
+const subs={};
+
+forms.forEach(f=>{
+
+const sub=f.subCategory||"Umum";
+
+(subs[sub]??=[]).push(f);
+
+});
+
+const app=document.getElementById("app");
+
+app.innerHTML=`
+
+<button class="back" onclick="renderCategories()">
+← Kembali
+</button>
+
+<div class="card">
+
+<h2>${icons[cat]||"📋"} ${cat}</h2>
+
+<p style="margin-top:8px;opacity:.7;">
+Pilih jenis inspeksi.
+</p>
+
+</div>
+
+<div class="grid" id="subGrid"></div>
+
+`;
+
+const grid=document.getElementById("subGrid");
+
+Object.keys(subs).sort().forEach(sub=>{
 
 const variants=[
+
 ...new Set(
-forms.flatMap(f=>f.variants||[f.subCategory])
+
+subs[sub].flatMap(f=>f.variants||[])
+
 )
+
 ];
 
-launcher.innerHTML+=`
+grid.innerHTML+=`
 
-<div class="launch-card" onclick="openCategory('${category}')">
+<div class="item" onclick="renderForms('${sub}')">
 
-<div class="launch-title">
-${icon(category)} ${category}
-</div>
+<h3>${sub}</h3>
 
-<div class="launch-count">
-${forms.length} Form
-</div>
+<p>${subs[sub].length} Form</p>
 
-<div class="variant-list">
+<div class="badges">
 
-${variants.map(v=>`<span class="variant">${v}</span>`).join("")}
+${variants.map(v=>`<span class="badge">${v}</span>`).join("")}
 
 </div>
 
@@ -269,91 +337,65 @@ ${variants.map(v=>`<span class="variant">${v}</span>`).join("")}
 
 });
 
-}catch(err){
-
-console.error(err);
-
-launcher.innerHTML=`
-<div class="empty">
-Gagal mengambil data Publish Engine.
-</div>`;
-
 }
 
-}
+function renderForms(sub){
 
-function icon(cat){
+currentSubCategory=sub;
 
-switch(cat){
+const forms=registry.forms.filter(f=>
 
-case"Unit":return"🚙";
-case"Pit":return"⛏️";
-case"Workshop":return"🔧";
-case"APAR":return"🧯";
-case"Office":return"🏢";
-default:return"📋";
+(f.category||"Lainnya")===currentCategory &&
 
-}
+(f.subCategory||"Umum")===sub
 
-}
+);
 
-function openCategory(category){
-
-const app=document.getElementById("inspectionApp");
-
-const launcher=document.getElementById("launcher");
-
-launcher.style.display="none";
-
-app.style.display="block";
-
-const forms=registry.forms.filter(f=>f.category===category);
+const app=document.getElementById("app");
 
 app.innerHTML=`
 
-<button class="back" onclick="backLauncher()">
+<button class="back" onclick="renderSub('${currentCategory}')">
 ← Kembali
 </button>
 
 <div class="card">
 
-<h2>${icon(category)} ${category}</h2>
+<h2>${icons[currentCategory]||"📋"} ${currentCategory}</h2>
 
-<p style="margin-top:8px;opacity:.75;">
-${forms.length} Form tersedia
+<p style="margin-top:8px;opacity:.7;">
+${sub}
 </p>
 
 </div>
 
 `;
 
-forms.forEach(form=>{
-
-const variants=(form.variants||[form.subCategory]).join(", ");
+forms.forEach(f=>{
 
 app.innerHTML+=`
 
 <div class="form-card">
 
-<h3>${form.title}</h3>
+<h3>${f.title}</h3>
 
 <div class="meta">
 
-<b>Form :</b> ${form.formId}<br>
+<b>Form ID :</b> ${f.formId}<br>
 
-<b>Revisi :</b> ${form.revision}<br>
+<b>Revisi :</b> ${f.revision||"-"}<br>
 
-<b>Status :</b> ${form.status}<br>
+<b>Status :</b> ${f.status}<br>
 
-<b>Item :</b> ${form.totalItems}<br>
+<b>Total Item :</b> ${f.totalItems}<br>
 
-<b>Variant :</b> ${variants}
+<b>Variant :</b> ${(f.variants||[]).join(", ")||"-"}
 
 </div>
 
-<a href="${form.url}" target="_blank" class="open">
+<a class="btn" href="${f.url}" target="_blank">
 
-Buka Form
+Mulai Inspeksi
 
 </a>
 
@@ -363,27 +405,27 @@ Buka Form
 
 });
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
 }
 
-function backLauncher(){
+init().catch(err=>{
 
-document.getElementById("inspectionApp").style.display="none";
+document.getElementById("app").innerHTML=`
 
-document.getElementById("launcher").style.display="flex";
+<div class="card">
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
+<h2>Gagal memuat Smart Launcher</h2>
+
+<p style="margin-top:10px;opacity:.75;">
+${err.message}
+</p>
+
+</div>
+
+`;
+
+console.error(err);
+
 });
-
-}
-
-loadLauncher();
 
 </script>
 
