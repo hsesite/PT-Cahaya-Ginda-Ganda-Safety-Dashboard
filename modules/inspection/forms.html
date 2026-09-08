@@ -3,18 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>CGG Safety Hub - Form Inspection</title>
+<title>CGG Safety Hub</title>
 
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
 body{
+margin:0;
+font-family:Arial,sans-serif;
 background:#071633;
 color:white;
 }
@@ -28,60 +22,40 @@ font-weight:bold;
 }
 
 .container{
-max-width:430px;
+max-width:420px;
 margin:auto;
-padding:15px;
+padding:20px;
 }
 
 .card{
 background:#16284B;
 border-left:5px solid #2F80ED;
-border-radius:14px;
-padding:16px;
+border-radius:12px;
+padding:18px;
 margin-bottom:15px;
 cursor:pointer;
-transition:.2s;
 }
 
-.card:hover{
-transform:translateY(-3px);
-background:#1D3561;
-}
-
-.formid{
+.id{
 font-size:12px;
-color:#B8C7E0;
+color:#BFD3F2;
 }
 
 .nama{
-font-size:17px;
+font-size:18px;
 font-weight:bold;
-margin:8px 0;
+margin:10px 0;
 }
 
 .info{
 display:flex;
 justify-content:space-between;
 font-size:12px;
-color:#D7E3F5;
-margin-top:10px;
-}
-
-.footer{
-text-align:center;
-color:#9DB0D3;
-margin:25px 0;
-font-size:12px;
-}
-
-.loading{
-text-align:center;
-padding:40px;
-color:#9DB0D3;
+color:#DCE7F8;
 }
 </style>
-</head>
 
+</head>
 <body>
 
 <div class="header">
@@ -90,75 +64,20 @@ PILIH FORM INSPEKSI
 
 <div class="container">
 
-<div id="listForm" class="loading">
-Memuat daftar form...
-</div>
+<div class="card" onclick="window.location.href='checklist.html?form=017'">
 
-<div class="footer">
-CGG Safety Hub v1.0
-</div>
+<div class="id">017/Form-HSE-CGG/2025</div>
 
-</div>
-
-<script>
-
-/* ===========================================================
-   SEMENTARA PAKAI DATA LOKAL
-   Setelah API selesai tinggal ganti 1 bagian saja.
-=========================================================== */
-
-const daftarForm=[
-
-{
-formId:"017/Form-HSE-CGG/2025",
-namaForm:"0.1 Form Pemeriksaan Sarana",
-revisi:"Rev.1",
-status:"Aktif"
-}
-
-];
-
-const list=document.getElementById("listForm");
-
-function tampilkanForm(){
-
-list.innerHTML="";
-
-daftarForm.forEach(form=>{
-
-list.innerHTML+=`
-
-<div class="card" onclick="pilihForm('${form.formId}')">
-
-<div class="formid">${form.formId}</div>
-
-<div class="nama">${form.namaForm}</div>
+<div class="nama">0.1 Form Pemeriksaan Sarana</div>
 
 <div class="info">
-
-<span>📄 ${form.revisi}</span>
-
-<span>🟢 ${form.status}</span>
-
+<span>📄 Rev.1</span>
+<span>🟢 Aktif</span>
 </div>
 
 </div>
 
-`;
-
-});
-
-}
-
-function pilihForm(formId){
-
-window.location.href="checklist.html?form="+encodeURIComponent(formId);
-
-}
-
-tampilkanForm();
-
-</script>
+</div>
 
 </body>
 </html>
