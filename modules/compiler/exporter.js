@@ -1,46 +1,82 @@
 // exporter.js
-// CGG Safety Form Compiler v1.0
+// CGG Safety Hub v2.0
 
-const publishBtn = document.createElement("button");
-publishBtn.textContent = "PUBLIKASIKAN TEMPLATE";
-publishBtn.style.marginTop = "15px";
+const publishBtn=document.createElement("button");
+publishBtn.textContent="PUBLIKASIKAN FORM";
+publishBtn.style.marginTop="15px";
 
 document.querySelector(".box").appendChild(publishBtn);
 
-publishBtn.addEventListener("click", () => {
+publishBtn.onclick=function(){
 
-  if (!compiledTemplate || !compiledTemplate.items.length) {
-    alert("Compile form terlebih dahulu.");
-    return;
-  }
+if(!compiledTemplate){
 
-  // Nama file otomatis
-  const fileName = (compiledTemplate.formId || "template")
-    .replace(/[\\/:*?"<>| ]+/g, "_") + ".json";
+alert("Compile form terlebih dahulu.");
+return;
 
-  const output = {
-    version: 1,
-    generated: new Date().toISOString(),
-    formId: compiledTemplate.formId,
-    title: compiledTemplate.title,
-    revision: compiledTemplate.revision,
-    totalItems: compiledTemplate.items.length,
-    items: compiledTemplate.items
-  };
+}
 
-  const blob = new Blob(
-    [JSON.stringify(output, null, 2)],
-    { type: "application/json" }
-  );
+const formId=extractFormId(compiledTemplate);
 
-  const url = URL.createObjectURL(blob);
+const title=extractTitle(compiledTemplate);
 
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = fileName;
-  a.click();
+const output={
 
-  URL.revokeObjectURL(url);
+version:1,
+generated:new Date().toISOString(),
+formId:formId,
+title:title,
+revision:"Rev.1",
+status:"Aktif",
+totalItems:compiledTemplate.items.filter(i=>i.kode!="").length,
+items:compiledTemplate.items.filter(i=>i.kode!="")
 
-  alert("Template berhasil dibuat.");
-});
+};
+
+downloadJSON(output);
+
+};
+
+function extractFormId(data){
+
+const text=data.items.map(i=>i.text).join(" ");
+
+const match=text.match(/(\d+\/Form-HSE-CGG\/\d{4})/);
+
+return match?match[1]:"UNKNOWN";
+
+}
+
+function extractTitle(data){
+
+return data.title||"Form Tanpa Judul";
+
+}
+
+function downloadJSON(data){
+
+const name=(data.formId!="UNKNOWN"
+?data.formId.replace(/[\/]/g,"_")
+:"FORM_BARU")+".json";
+
+const blob=new Blob(
+
+[JSON.stringify(data,null,2)],
+
+{type:"application/json"}
+
+);
+
+const url=URL.createObjectURL(blob);
+
+const a=document.createElement("a");
+
+a.href=url;
+a.download=name;
+a.click();
+
+URL.revokeObjectURL(url);
+
+alert("Template berhasil dibuat.");
+
+}
