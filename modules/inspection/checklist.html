@@ -92,6 +92,12 @@ textarea{width:100%;margin-top:10px;padding:10px;border-radius:8px;border:none;d
 
 </div>
 
+<div class="container">
+  <button id="saveInspection" style="background:#E31E24;width:100%;padding:18px;border:none;border-radius:12px;color:white;font-size:18px;font-weight:bold;">
+    SIMPAN INSPEKSI
+  </button>
+</div>
+  
 <div class="footer">CGG Safety Hub v2.0</div>
 
 <script>
@@ -142,9 +148,9 @@ list.innerHTML+=`
 
 <div class="row">
 
-<button class="yes" onclick="jawabYa(this)">YA</button>
+<button class="yes" onclick="jawabYa(this,${item.no})">YA</button>
 
-<button class="no" onclick="jawabTidak('${id}',this)">TIDAK</button>
+<button class="no" onclick="jawabTidak('${id}',this,${item.no})">TIDAK</button>
 
 </div>
 
@@ -156,13 +162,19 @@ list.innerHTML+=`
 
 }
 
-function jawabYa(btn){
+const jawaban={};
+
+function jawabYa(btn,no){
+
+jawaban[no]="YA";
 
 btn.parentElement.parentElement.style.borderLeft="5px solid #1FAE4B";
 
 }
 
-function jawabTidak(id,btn){
+function jawabTidak(id,btn,no){
+
+jawaban[no]="TIDAK";
 
 btn.parentElement.parentElement.style.borderLeft="5px solid #D62D2D";
 
@@ -191,6 +203,53 @@ sekarang.toLocaleDateString("id-ID");
 
 document.getElementById("waktu").textContent=
 sekarang.toLocaleTimeString("id-ID");
+
+document.getElementById("saveInspection").onclick=function(){
+
+let temuan=0;
+
+const detail=[];
+
+compiledData.items.forEach(item=>{
+
+const hasil=jawaban[item.no]||"BELUM";
+
+if(hasil=="TIDAK")temuan++;
+
+detail.push({
+
+nomor:item.no,
+poin:item.text,
+jawaban:hasil,
+kode:item.kode
+
+});
+
+});
+
+const inspection={
+
+inspectionId,
+formId:compiledData.formId,
+namaForm:compiledData.title,
+revisi:compiledData.revision,
+tanggal:document.getElementById("tanggal").textContent,
+waktu:document.getElementById("waktu").textContent,
+shift:document.getElementById("shift").value,
+area:document.getElementById("area").value,
+inspector:document.getElementById("inspector").value,
+perusahaan:document.getElementById("perusahaan").value,
+totalItem:compiledData.totalItems,
+temuan,
+detail
+
+};
+
+console.log(inspection);
+
+alert("Data inspeksi berhasil dikumpulkan.");
+
+};
   
 </script>
 
