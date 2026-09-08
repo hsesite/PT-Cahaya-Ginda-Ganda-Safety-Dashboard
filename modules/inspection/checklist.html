@@ -2,133 +2,134 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Checklist Inspeksi</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>CGG Safety Checklist</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-
-body{
-font-family:Arial,sans-serif;
-background:#0f172a;
-color:white;
-}
-
-.header{
-background:#dc2626;
-padding:18px;
-text-align:center;
-font-weight:bold;
-font-size:20px;
-}
-
-.container{
-max-width:420px;
-margin:auto;
-padding:15px;
-}
-
-.card{
-background:#1e293b;
-border-radius:14px;
-padding:16px;
-margin-bottom:15px;
-}
-
-.item{
-margin-bottom:18px;
-padding-bottom:15px;
-border-bottom:1px solid #334155;
-}
-
-.item:last-child{
-border-bottom:none;
-margin-bottom:0;
-padding-bottom:0;
-}
-
-.nomor{
-font-size:13px;
-color:#94a3b8;
-margin-bottom:4px;
-}
-
-.judul{
-font-size:16px;
-font-weight:bold;
-margin-bottom:12px;
-}
-
-.opsi{
-display:flex;
-gap:10px;
-}
-
-button{
-flex:1;
-padding:12px;
-border:none;
-border-radius:10px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.yes{
-background:#16a34a;
-color:white;
-}
-
-.no{
-background:#dc2626;
-color:white;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#071633;color:white}
+.header{background:#E31E24;padding:18px;text-align:center;font-size:22px;font-weight:bold}
+.container{max-width:700px;margin:auto;padding:18px}
+.box{background:#16284B;border-radius:14px;padding:18px;margin-bottom:18px}
+input[type=file]{display:none}
+.upload{border:2px dashed #4A7BC8;border-radius:12px;padding:30px;text-align:center;cursor:pointer}
+.card{background:#0F2243;border-left:5px solid #2F80ED;border-radius:12px;padding:15px;margin-bottom:12px}
+.row{display:flex;gap:10px;margin-top:12px}
+button{flex:1;padding:12px;border:none;border-radius:8px;color:white;font-weight:bold;cursor:pointer}
+.yes{background:#1FAE4B}
+.no{background:#D62D2D}
+textarea{width:100%;margin-top:10px;padding:10px;border-radius:8px;border:none;display:none}
+.footer{text-align:center;color:#9DB4D8;padding:20px;font-size:12px}
 </style>
 
 </head>
 
 <body>
 
-<div class="header">
-INSPEKSI LV
-</div>
+<div class="header">CHECKLIST INSPEKSI</div>
 
 <div class="container">
 
+<div class="box">
+
+<label class="upload">
+
+<input type="file" id="templateFile" accept=".json">
+
+<h2>📄 Pilih Template Form</h2>
+
+<p id="filename">Belum ada template dipilih</p>
+
+</label>
+
+</div>
+
+<div id="infoForm"></div>
+
+<div id="listChecklist"></div>
+
+</div>
+
+<div class="footer">CGG Safety Hub v2.0</div>
+
+<script>
+
+const input=document.getElementById("templateFile");
+const fileName=document.getElementById("filename");
+const info=document.getElementById("infoForm");
+const list=document.getElementById("listChecklist");
+
+input.onchange=async()=>{
+
+const file=input.files[0];
+
+if(!file)return;
+
+fileName.textContent=file.name;
+
+const text=await file.text();
+
+const data=JSON.parse(text);
+
+tampilkanForm(data);
+
+};
+
+function tampilkanForm(data){
+
+info.innerHTML=`
+<div class="box">
+<h2>${data.title}</h2>
+<p>${data.formId}</p>
+<p>Revisi : ${data.revision}</p>
+<p>Total Poin : ${data.totalItems}</p>
+</div>`;
+
+list.innerHTML="";
+
+data.items.forEach(item=>{
+
+const id="ket"+item.no;
+
+list.innerHTML+=`
 <div class="card">
 
-<div class="item">
-<div class="nomor">Poin 1</div>
-<div class="judul">APAR tersedia</div>
+<b>${item.no}. ${item.text}</b>
 
-<div class="opsi">
-<button class="yes">YA</button>
-<button class="no">TIDAK</button>
-</div>
-</div>
+<div>Kode Bahaya : ${item.kode}</div>
 
-<div class="item">
-<div class="nomor">Poin 2</div>
-<div class="judul">Seatbelt berfungsi</div>
+<div class="row">
 
-<div class="opsi">
-<button class="yes">YA</button>
-<button class="no">TIDAK</button>
-</div>
-</div>
+<button class="yes" onclick="jawabYa(this)">YA</button>
 
-<div class="item">
-<div class="nomor">Poin 3</div>
-<div class="judul">Klakson berfungsi</div>
-
-<div class="opsi">
-<button class="yes">YA</button>
-<button class="no">TIDAK</button>
-</div>
-</div>
+<button class="no" onclick="jawabTidak('${id}',this)">TIDAK</button>
 
 </div>
 
-</div>
+<textarea id="${id}" placeholder="Jelaskan kondisi temuan..."></textarea>
+
+</div>`;
+
+});
+
+}
+
+function jawabYa(btn){
+
+btn.parentElement.parentElement.style.borderLeft="5px solid #1FAE4B";
+
+}
+
+function jawabTidak(id,btn){
+
+btn.parentElement.parentElement.style.borderLeft="5px solid #D62D2D";
+
+document.getElementById(id).style.display="block";
+
+}
+
+</script>
 
 </body>
 </html>
