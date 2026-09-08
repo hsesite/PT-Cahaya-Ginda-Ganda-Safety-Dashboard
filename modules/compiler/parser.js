@@ -37,6 +37,16 @@ const zip=await JSZip.loadAsync(buffer);
 
 const xml=await zip.file("word/document.xml").async("string");
 
+// Ambil seluruh teks dokumen
+const plainText = xml.replace(/<[^>]+>/g," ");
+
+// Cari nomor dokumen resmi
+const formIdMatch = plainText.match(/(\d+\/Form-HSE-CGG\/\d{4})/);
+
+const formId = formIdMatch ? formIdMatch[1] : "UNKNOWN";
+
+const doc=new DOMParser().parseFromString(xml,"text/xml");  
+
 const doc=new DOMParser().parseFromString(xml,"text/xml");
 
 const rows=doc.getElementsByTagName("w:tr");
@@ -84,12 +94,9 @@ kode
 }
 
 return{
-
-formId,
-title:title||formId,
-revision:"Rev.1",
-items
-
+  formId,
+  title:title||"Form Tanpa Judul",
+  revision:"Rev.1",
+  items
 };
-
 }
