@@ -247,10 +247,34 @@ detail
 
 };
 
-console.log(inspection);
+fetch("https://script.google.com/macros/s/AKfycbz0DS2wr6spCCt2q6qT4zPjUCahOOFSbnC9BiN0AlNWM3JdnYeVwDq6u2Rrfx9bUou2/exec",{
+  method:"POST",
+  headers:{
+    "Content-Type":"application/json"
+  },
+  body:JSON.stringify(inspection)
+})
+.then(r=>r.json())
+.then(res=>{
 
-alert("Data inspeksi berhasil dikumpulkan.");
+  if(res.success){
 
+    alert("✅ Inspeksi berhasil disimpan ke Spreadsheet.");
+
+  }else{
+
+    alert("Gagal menyimpan.");
+
+  }
+
+})
+.catch(err=>{
+
+  console.error(err);
+
+  alert("Koneksi ke Apps Script gagal.");
+
+});
 };
   
 </script>
