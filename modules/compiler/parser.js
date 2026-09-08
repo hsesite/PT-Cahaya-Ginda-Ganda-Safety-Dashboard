@@ -1,102 +1,95 @@
-// parser.js (versi table parser)
+const fileInput=document.getElementById("fileInput");
+const fileName=document.getElementById("filename");
+const compileBtn=document.getElementById("compileBtn");
 
-const fileInput = document.getElementById("fileInput");
-const fileName = document.getElementById("filename");
-const compileBtn = document.getElementById("compileBtn");
+let selectedFile=null;
+let compiledTemplate=null;
 
-let selectedFile = null;
-let compiledTemplate = null;
+fileInput.addEventListener("change",(e)=>{
 
-fileInput.addEventListener("change", (e) => {
-  selectedFile = e.target.files[0];
-  fileName.textContent = selectedFile ? selectedFile.name : "Belum ada file dipilih";
-});
-
-compileBtn.addEventListener("click", async () => {
-
-  if (!selectedFile) {
-    alert("Pilih file DOCX terlebih dahulu.");
-    return;
-  }
-
-  try {
-
-    renderPreview("Membaca tabel dokumen...");
-
-    const buffer = await selectedFile.arrayBuffer();
-
-    const result = await mammoth.convertToHtml({
-      arrayBuffer: buffer
-    });
-
-    compiledTemplate = parseCGGTable(result.value, selectedFile.name);
-
-    renderTemplate(compiledTemplate);
-
-  } catch (err) {
-
-    renderPreview("Gagal membaca dokumen.\n\n" + err.message);
-
-  }
+selectedFile=e.target.files[0];
+fileName.textContent=selectedFile?selectedFile.name:"Belum ada file";
 
 });
 
-function parseCGGTable(html, fileName){
+compileBtn.addEventListener("click",async()=>{
 
-  const doc = new DOMParser().parseFromString(html, "text/html");
+if(!selectedFile){
 
-  const rows = doc.querySelectorAll("tr");
+alert("Pilih DOCX.");
+return;
 
-  let formId = "";
-  let title = "";
-  const items = [];
+}
 
-  doc.body.textContent.split(/\n/).forEach(line => {
+renderPreview("Membaca struktur tabel...");
 
-    line = line.trim();
+const buffer=await selectedFile.arrayBuffer();
 
-    if(!formId && line.includes("Form-HSE-CGG"))
-      formId = line;
+compiledTemplate=await parseDOCX(buffer,selectedFile.name);
 
-    if(!title && /^0\./.test(line))
-      title = line;
+renderTemplate(compiledTemplate);
 
-  });
+});
 
-  rows.forEach(row => {
+async function parseDOCX(buffer,fileName){
 
-    const cells = [...row.querySelectorAll("td,th")]
-      .map(c => c.textContent.trim())
-      .filter(Boolean);
+const zip=await JSZip.loadAsync(buffer);
 
-    if(cells.length < 2) return;
+const xml=await zip.file("word/document.xml").async("string");
 
-    const no = parseInt(cells[0]);
+const doc=new DOMParser().parseFromString(xml,"text/xml");
 
-    if(Number.isNaN(no)) return;
+const rows=doc.getElementsByTagName("w:tr");
 
-    let kode = "";
+let items=[];
 
-    cells.forEach(c => {
+let formId=fileName.replace(".docx","");
+let title="";
 
-      if(["A","AA","B"].includes(c))
-        kode = c;
+for(let r of rows){
 
-    });
+const cells=[...r.getElementsByTagName("w:tc")].map(c=>{
 
-    items.push({
-      no,
-      text: cells[1],
-      kode
-    });
+return [...c.getElementsByTagName("w:t")]
+.map(t=>t.textContent)
+.join("")
+.trim();
 
-  });
+}).filter(Boolean);
 
-  return {
-    formId: formId || fileName,
-    title: title || fileName.replace(".docx",""),
-    revision: "Rev.1",
-    items
-  };
+if(cells.length===0)continue;
+
+if(!title && cells.join(" ").includes("FORM PEMERIKSAAN")){
+
+title=cells.join(" ");
+
+}
+
+const no=parseInt(cells[0]);
+
+if(Number.isNaN(no))continue;
+
+let text=cells[1]||"";
+
+let kode=cells.find(v=>["AA","A","B"].includes(v))||"";
+
+items.push({
+
+no,
+text,
+kode
+
+});
+
+}
+
+return{
+
+formId,
+title:title||formId,
+revision:"Rev.1",
+items
+
+};
 
 }
