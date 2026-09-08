@@ -171,6 +171,28 @@ document.getElementById(id).style.display="block";
 
 }
 
+// ===== HEADER INSPEKSI =====
+
+const sekarang=new Date();
+
+const inspectionId=
+"INS-"+
+sekarang.getFullYear()+
+String(sekarang.getMonth()+1).padStart(2,"0")+
+String(sekarang.getDate()).padStart(2,"0")+
+"-"+
+String(sekarang.getHours()).padStart(2,"0")+
+String(sekarang.getMinutes()).padStart(2,"0")+
+String(sekarang.getSeconds()).padStart(2,"0");
+
+document.getElementById("inspectionId").textContent=inspectionId;
+
+document.getElementById("tanggal").textContent=
+sekarang.toLocaleDateString("id-ID");
+
+document.getElementById("waktu").textContent=
+sekarang.toLocaleTimeString("id-ID");
+  
 </script>
 
 </body>
