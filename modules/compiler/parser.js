@@ -5,98 +5,97 @@ const compileBtn=document.getElementById("compileBtn");
 let selectedFile=null;
 let compiledTemplate=null;
 
+// Pilih file
 fileInput.addEventListener("change",(e)=>{
 
-selectedFile=e.target.files[0];
-fileName.textContent=selectedFile?selectedFile.name:"Belum ada file";
+  selectedFile=e.target.files[0];
+  fileName.textContent=selectedFile?selectedFile.name:"Belum ada file";
 
 });
 
+// Tombol Compile
 compileBtn.addEventListener("click",async()=>{
 
-if(!selectedFile){
+  if(!selectedFile){
+    alert("Pilih DOCX.");
+    return;
+  }
 
-alert("Pilih DOCX.");
-return;
+  renderPreview("Membaca struktur tabel...");
 
-}
+  const buffer=await selectedFile.arrayBuffer();
 
-renderPreview("Membaca struktur tabel...");
+  compiledTemplate=await parseDOCX(buffer,selectedFile.name);
 
-const buffer=await selectedFile.arrayBuffer();
-
-compiledTemplate=await parseDOCX(buffer,selectedFile.name);
-
-renderTemplate(compiledTemplate);
+  renderTemplate(compiledTemplate);
 
 });
+
+// ===============================
+// PARSER DOCX
+// ===============================
 
 async function parseDOCX(buffer,fileName){
 
-const zip=await JSZip.loadAsync(buffer);
+  const zip=await JSZip.loadAsync(buffer);
 
-const xml=await zip.file("word/document.xml").async("string");
+  const xml=await zip.file("word/document.xml").async("string");
 
-// Ambil seluruh teks dokumen
-const plainText = xml.replace(/<[^>]+>/g," ");
+  // Ambil seluruh teks dokumen
+  const plainText=xml.replace(/<[^>]+>/g," ");
 
-// Cari nomor dokumen resmi
-const formIdMatch = plainText.match(/(\d+\/Form-HSE-CGG\/\d{4})/);
+  // Cari nomor dokumen resmi
+  const formIdMatch=plainText.match(/No\.\s*(\d+\/Form-HSE-CGG\/\d{4})/i);
 
-const formId = formIdMatch ? formIdMatch[1] : "UNKNOWN";
+  const formId=formIdMatch?formIdMatch[1]:fileName.replace(".docx","");
 
-const doc=new DOMParser().parseFromString(xml,"text/xml");  
+  const doc=new DOMParser().parseFromString(xml,"text/xml");
 
-const doc=new DOMParser().parseFromString(xml,"text/xml");
+  const rows=[...doc.getElementsByTagName("w:tr")];
 
-const rows=doc.getElementsByTagName("w:tr");
+  let items=[];
+  let title="";
 
-let items=[];
+  for(const r of rows){
 
-let formId=fileName.replace(".docx","");
-let title="";
+    const cells=[...r.getElementsByTagName("w:tc")].map(c=>{
 
-for(let r of rows){
+      return [...c.getElementsByTagName("w:t")]
+        .map(t=>t.textContent)
+        .join("")
+        .trim();
 
-const cells=[...r.getElementsByTagName("w:tc")].map(c=>{
+    }).filter(Boolean);
 
-return [...c.getElementsByTagName("w:t")]
-.map(t=>t.textContent)
-.join("")
-.trim();
+    if(cells.length===0)continue;
 
-}).filter(Boolean);
+    // Ambil judul form
+    if(!title && cells.join(" ").includes("FORM PEMERIKSAAN")){
+      title=cells.join(" ");
+    }
 
-if(cells.length===0)continue;
+    const no=parseInt(cells[0]);
 
-if(!title && cells.join(" ").includes("FORM PEMERIKSAAN")){
+    if(Number.isNaN(no))continue;
 
-title=cells.join(" ");
+    const text=cells[1]||"";
 
-}
+    const kode=cells.find(v=>["AA","A","B"].includes(v))||"";
 
-const no=parseInt(cells[0]);
+    items.push({
+      no,
+      text,
+      kode
+    });
 
-if(Number.isNaN(no))continue;
+  }
 
-let text=cells[1]||"";
+  return{
+    formId,
+    title:title||fileName.replace(".docx",""),
+    revision:"Rev.1",
+    totalItems:items.length,
+    items
+  };
 
-let kode=cells.find(v=>["AA","A","B"].includes(v))||"";
-
-items.push({
-
-no,
-text,
-kode
-
-});
-
-}
-
-return{
-  formId,
-  title:title||"Form Tanpa Judul",
-  revision:"Rev.1",
-  items
-};
 }
