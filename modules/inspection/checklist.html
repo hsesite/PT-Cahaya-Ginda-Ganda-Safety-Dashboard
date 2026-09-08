@@ -102,6 +102,8 @@ textarea{width:100%;margin-top:10px;padding:10px;border-radius:8px;border:none;d
 
 <script>
 
+let compiledData = null;
+  
 const input=document.getElementById("templateFile");
 const fileName=document.getElementById("filename");
 const info=document.getElementById("infoForm");
@@ -117,9 +119,9 @@ fileName.textContent=file.name;
 
 const text=await file.text();
 
-const data=JSON.parse(text);
+compiledData = JSON.parse(text);
 
-tampilkanForm(data);
+tampilkanForm(compiledData);
 
 };
 
