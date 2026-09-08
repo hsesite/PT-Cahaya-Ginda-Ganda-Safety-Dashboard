@@ -210,14 +210,15 @@ loadForm();
 
 async function loadForm(){
 
-const res=await fetch(form.url);
+const downloadUrl=`https://drive.google.com/uc?export=download&id=${form.fileId}`;
+
+const res=await fetch(downloadUrl);
 
 const data=await res.json();
 
 render(data);
 
 }
-
 function render(data){
 
 const app=document.getElementById("app");
