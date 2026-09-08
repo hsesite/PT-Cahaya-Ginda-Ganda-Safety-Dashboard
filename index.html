@@ -224,7 +224,7 @@ position:relative;
 }
 
 .panel canvas{
-height:220px !important;
+height:220px!important;
 }
 
 .empty{
@@ -330,6 +330,65 @@ color:var(--green);
 color:var(--red);
 }
 
+/* ====== BARU: INSPEKSI MODAL ====== */
+
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.65);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:9999;
+}
+
+.hidden{
+display:none;
+}
+
+.modal-content{
+background:#161B22;
+width:min(700px,92%);
+max-height:80vh;
+overflow:auto;
+border-radius:20px;
+padding:24px;
+border:1px solid #30363D;
+}
+
+.modal-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+.modal-header button{
+background:none;
+border:none;
+color:white;
+font-size:28px;
+cursor:pointer;
+}
+
+.form-card{
+background:#1F2937;
+padding:18px;
+border-radius:14px;
+margin-bottom:12px;
+border:1px solid #30363D;
+}
+
+.form-card button{
+margin-top:12px;
+background:#22C55E;
+border:none;
+padding:10px 16px;
+border-radius:10px;
+color:white;
+cursor:pointer;
+}
+
 footer{
 margin-top:35px;
 padding:20px;
@@ -339,7 +398,6 @@ border-top:1px solid var(--line);
 }
 
 @media(max-width:1024px){
-
 .grid{
 grid-template-columns:1fr;
 }
@@ -349,11 +407,9 @@ grid-template-columns:1fr;
 .services{
 grid-template-columns:repeat(2,1fr);
 }
-
 }
 
 @media(max-width:768px){
-
 .sidebar{
 display:none;
 }
@@ -377,9 +433,8 @@ height:300px;
 }
 
 .panel canvas{
-height:190px !important;
+height:190px!important;
 }
-
 }
 
 </style>
@@ -413,7 +468,10 @@ height:190px !important;
 
 <a><i class="fa-solid fa-shield-halved"></i>Permit To Work</a>
 
-<a><i class="fa-solid fa-clipboard-check"></i>Inspeksi</a>
+<!-- DIUBAH -->
+<a id="menuInspeksi">
+<i class="fa-solid fa-clipboard-check"></i>Inspeksi
+</a>
 
 <a><i class="fa-solid fa-leaf"></i>Environment</a>
 
@@ -597,7 +655,11 @@ height:190px !important;
 
 <div class="service"><i class="fa-solid fa-shield-halved"></i><div>PTW</div></div>
 
-<div class="service"><i class="fa-solid fa-clipboard-check"></i><div>Inspeksi</div></div>
+<!-- Diubah supaya sama dengan sidebar -->
+<div class="service" id="serviceInspection">
+<i class="fa-solid fa-clipboard-check"></i>
+<div>Inspeksi</div>
+</div>
 
 <div class="service"><i class="fa-solid fa-leaf"></i><div>Environment</div></div>
 
@@ -615,13 +677,51 @@ height:190px !important;
 
 <footer>
 
-PT Cahaya Ginda Ganda • Safety Dashboard v1.0
+PT Cahaya Ginda Ganda • Safety Dashboard v2.0
 
 </footer>
 
+<!-- =========================
+     MODAL INSPEKSI (BARU)
+========================= -->
+
+<div id="inspectionModal" class="modal hidden">
+
+<div class="modal-content">
+
+<div class="modal-header">
+
+<h2>Checklist Inspeksi</h2>
+
+<button id="closeModal">&times;</button>
+
+</div>
+
+<div id="inspectionList">
+
+Memuat daftar form...
+
+</div>
+
+</div>
+
+</div>
+
 </main>
 
+<!-- =========================
+     SCRIPT API (BARU)
+========================= -->
+
+<script src="js/api.js"></script>
+
 <script>
+
+const API="https://script.google.com/macros/s/AKfycbz0DS2wr6spCCt2q6qT4zPjUCahOOFSbnC9BiN0AlNWM3JdnYeVwDq6u2Rrfx9bUou2/exec";
+
+/* =========================
+   CLOCK
+========================= */
 
 function updateClock(){
 
@@ -644,174 +744,281 @@ setInterval(updateClock,1000);
 
 updateClock();
 
-Chart.defaults.color="#D1D5DB";
-
-Chart.defaults.borderColor="rgba(255,255,255,.08)";
-
-new Chart(document.getElementById("hazardChart"),{
-type:"line",
-data:{
-labels:["Sen","Sel","Rab","Kam","Jum","Sab","Min"],
-datasets:[{
-data:[0,0,0,0,0,0,0],
-borderColor:"#22C55E",
-backgroundColor:"rgba(34,197,94,.15)",
-fill:true,
-tension:.35
-}]
-},
-options:{
-responsive:true,
-maintainAspectRatio:false,
-plugins:{legend:{display:false}},
-scales:{y:{beginAtZero:true}}
-}
-});
-
-new Chart(document.getElementById("incidentChart"),{
-type:"line",
-data:{
-labels:["Jan","Feb","Mar","Apr","Mei","Jun"],
-datasets:[{
-data:[0,0,0,0,0,0],
-borderColor:"#3B82F6",
-tension:.35
-}]
-},
-options:{
-responsive:true,
-maintainAspectRatio:false,
-plugins:{legend:{display:false}},
-scales:{y:{beginAtZero:true}}
-}
-});
-
-new Chart(document.getElementById("donutChart"),{
-type:"doughnut",
-data:{
-labels:["Near Miss","FAC","MTC","LTI","Property Damage"],
-datasets:[{
-data:[1,1,1,1,1],
-backgroundColor:[
-"#22C55E",
-"#3B82F6",
-"#FACC15",
-"#EF4444",
-"#8B5CF6"
-],
-borderWidth:0
-}]
-},
-options:{
-responsive:true,
-maintainAspectRatio:false,
-plugins:{legend:{display:false}},
-cutout:"72%"
-}
-});
-
-<script>
-const API="https://script.google.com/macros/s/AKfycbyeBg7RjgAQ3P12Cdzjf0mTIRaNdKrlaaRpdUJ_40hOyHWj7uPRaPXE2DIbYUb_FBKY/exec";
-
-function updateClock(){
-
-const now=new Date();
-
-document.getElementById("tanggal").textContent=
-now.toLocaleDateString("id-ID",{
-weekday:"long",
-day:"numeric",
-month:"long",
-year:"numeric"
-});
-
-document.getElementById("jam").textContent=
-now.toLocaleTimeString("id-ID");
-
-}
-
-setInterval(updateClock,1000);
-updateClock();
+/* =========================
+   CHART DEFAULT
+========================= */
 
 Chart.defaults.color="#D1D5DB";
+
 Chart.defaults.borderColor="rgba(255,255,255,.08)";
 
 let hazardChart;
+
 let incidentChart;
+
 let donutChart;
+
+/* =========================
+   DASHBOARD
+========================= */
 
 async function loadDashboard(){
 
 try{
 
 const res=await fetch(API);
+
 const data=await res.json();
 
-document.getElementById("hazard").textContent=data.hazard;
-document.getElementById("nearmiss").textContent=data.nearMiss;
-document.getElementById("ptw").textContent=data.ptw;
-document.getElementById("lti").textContent=data.lti;
-document.getElementById("trifr").textContent=Number(data.trifr).toFixed(2);
-document.getElementById("ltifr").textContent=Number(data.ltifr).toFixed(2);
-document.getElementById("manhours").textContent=Number(data.manhours).toLocaleString("id-ID");
-document.getElementById("closure").textContent=data.closure+"%";
+document.getElementById("hazard").textContent=data.hazard||0;
+
+document.getElementById("nearmiss").textContent=data.nearMiss||0;
+
+document.getElementById("ptw").textContent=data.ptw||0;
+
+document.getElementById("lti").textContent=data.lti||0;
+
+document.getElementById("trifr").textContent=Number(data.trifr||0).toFixed(2);
+
+document.getElementById("ltifr").textContent=Number(data.ltifr||0).toFixed(2);
+
+document.getElementById("manhours").textContent=Number(data.manhours||0).toLocaleString("id-ID");
+
+document.getElementById("closure").textContent=(data.closure||0)+"%";
 
 if(hazardChart)hazardChart.destroy();
+
 if(incidentChart)incidentChart.destroy();
+
 if(donutChart)donutChart.destroy();
 
 hazardChart=new Chart(document.getElementById("hazardChart"),{
+
 type:"line",
+
 data:{
+
 labels:["Sen","Sel","Rab","Kam","Jum","Sab","Min"],
+
 datasets:[{
-data:data.hazardTrend,
+
+data:data.hazardTrend||[0,0,0,0,0,0,0],
+
 borderColor:"#22C55E",
+
 backgroundColor:"rgba(34,197,94,.15)",
+
 fill:true,
+
 tension:.35
+
 }]
+
 },
-options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}
+
+options:{
+
+responsive:true,
+
+maintainAspectRatio:false,
+
+plugins:{legend:{display:false}},
+
+scales:{y:{beginAtZero:true}}
+
+}
+
 });
 
 incidentChart=new Chart(document.getElementById("incidentChart"),{
+
 type:"line",
+
 data:{
+
 labels:["Jan","Feb","Mar","Apr","Mei","Jun"],
+
 datasets:[{
+
 label:"Insiden",
-data:data.incidentTrend,
+
+data:data.incidentTrend||[0,0,0,0,0,0],
+
 borderColor:"#3B82F6",
+
 tension:.35
+
 }]
+
 },
-options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}
+
+options:{
+
+responsive:true,
+
+maintainAspectRatio:false,
+
+plugins:{legend:{display:false}},
+
+scales:{y:{beginAtZero:true}}
+
+}
+
 });
 
 donutChart=new Chart(document.getElementById("donutChart"),{
+
 type:"doughnut",
+
 data:{
+
 labels:["Near Miss","FAC","MTC","LTI","Property Damage"],
+
 datasets:[{
-data:data.donut,
-backgroundColor:["#22C55E","#3B82F6","#FACC15","#EF4444","#8B5CF6"],
+
+data:data.donut||[1,1,1,1,1],
+
+backgroundColor:[
+
+"#22C55E",
+
+"#3B82F6",
+
+"#FACC15",
+
+"#EF4444",
+
+"#8B5CF6"
+
+],
+
 borderWidth:0
+
 }]
+
 },
-options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:"72%"}
+
+options:{
+
+responsive:true,
+
+maintainAspectRatio:false,
+
+plugins:{legend:{display:false}},
+
+cutout:"72%"
+
+}
+
 });
 
 }catch(e){
 
-console.error(e);
+console.error("Dashboard Error:",e);
 
 }
 
 }
+
+/* =========================
+   MODAL INSPEKSI
+========================= */
+
+const modal=document.getElementById("inspectionModal");
+
+const list=document.getElementById("inspectionList");
+
+async function openInspectionMenu(){
+
+modal.classList.remove("hidden");
+
+list.innerHTML="<p>Memuat daftar form...</p>";
+
+try{
+
+const data=await getForms();
+
+let html="";
+
+if(data.forms.length===0){
+
+html="<p>Belum ada form.</p>";
+
+}else{
+
+data.forms.forEach(f=>{
+
+html+=`
+
+<div class="form-card">
+
+<h3>${f.title}</h3>
+
+<p>${f.formId}</p>
+
+<p>Revisi: ${f.revision||"-"}</p>
+
+<button onclick="openInspection('${encodeURIComponent(f.formId)}')">
+
+Buka Form
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+list.innerHTML=html;
+
+}catch(err){
+
+list.innerHTML="<p>Gagal mengambil daftar form.</p>";
+
+console.error(err);
+
+}
+
+}
+
+document.getElementById("menuInspeksi").onclick=openInspectionMenu;
+
+document.getElementById("serviceInspection").onclick=openInspectionMenu;
+
+document.getElementById("closeModal").onclick=()=>{
+
+modal.classList.add("hidden");
+
+};
+
+window.onclick=(e)=>{
+
+if(e.target===modal){
+
+modal.classList.add("hidden");
+
+}
+
+};
+
+function openInspection(id){
+
+window.location.href=`inspection.html?id=${id}`;
+
+}
+
+/* =========================
+   START
+========================= */
 
 loadDashboard();
 
 setInterval(loadDashboard,30000);
 
 </script>
+
+</body>
+</html>
