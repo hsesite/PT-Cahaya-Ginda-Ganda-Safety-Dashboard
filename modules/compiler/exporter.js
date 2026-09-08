@@ -39,14 +39,19 @@ downloadJSON(output);
 
 function extractFormId(data){
 
-const text=data.items.map(i=>i.text).join(" ");
+  // Pakai hasil parser dulu
+  if(data.formId && data.formId !== "UNKNOWN"){
+    return data.formId;
+  }
 
-const match=text.match(/(\d+\/Form-HSE-CGG\/\d{4})/);
+  // Cadangan kalau suatu saat parser gagal
+  const text = (data.title || "") + " " + data.items.map(i=>i.text).join(" ");
 
-return match?match[1]:"UNKNOWN";
+  const match = text.match(/(\d+\/Form-HSE-CGG\/\d{4})/);
+
+  return match ? match[1] : "UNKNOWN";
 
 }
-
 function extractTitle(data){
 
 return data.title||"Form Tanpa Judul";
