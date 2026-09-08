@@ -1,113 +1,102 @@
-// parser.js
+// parser.js (versi table parser)
 
-const fileInput=document.getElementById("fileInput");
-const fileName=document.getElementById("filename");
-const compileBtn=document.getElementById("compileBtn");
+const fileInput = document.getElementById("fileInput");
+const fileName = document.getElementById("filename");
+const compileBtn = document.getElementById("compileBtn");
 
-let selectedFile=null;
-let compiledTemplate=null;
+let selectedFile = null;
+let compiledTemplate = null;
 
-fileInput.addEventListener("change",(e)=>{
+fileInput.addEventListener("change", (e) => {
+  selectedFile = e.target.files[0];
+  fileName.textContent = selectedFile ? selectedFile.name : "Belum ada file dipilih";
+});
 
-selectedFile=e.target.files[0];
+compileBtn.addEventListener("click", async () => {
 
-if(selectedFile){
+  if (!selectedFile) {
+    alert("Pilih file DOCX terlebih dahulu.");
+    return;
+  }
 
-fileName.textContent=selectedFile.name;
+  try {
 
-}
+    renderPreview("Membaca tabel dokumen...");
+
+    const buffer = await selectedFile.arrayBuffer();
+
+    const result = await mammoth.convertToHtml({
+      arrayBuffer: buffer
+    });
+
+    compiledTemplate = parseCGGTable(result.value, selectedFile.name);
+
+    renderTemplate(compiledTemplate);
+
+  } catch (err) {
+
+    renderPreview("Gagal membaca dokumen.\n\n" + err.message);
+
+  }
 
 });
 
-compileBtn.addEventListener("click",async()=>{
+function parseCGGTable(html, fileName){
 
-if(!selectedFile){
+  const doc = new DOMParser().parseFromString(html, "text/html");
 
-alert("Pilih file DOCX.");
-return;
+  const rows = doc.querySelectorAll("tr");
 
-}
+  let formId = "";
+  let title = "";
+  const items = [];
 
-renderPreview("Membaca dokumen...");
+  doc.body.textContent.split(/\n/).forEach(line => {
 
-const buffer=await selectedFile.arrayBuffer();
+    line = line.trim();
 
-const result=await mammoth.extractRawText({arrayBuffer:buffer});
+    if(!formId && line.includes("Form-HSE-CGG"))
+      formId = line;
 
-compiledTemplate=parseCGGForm(result.value,selectedFile.name);
+    if(!title && /^0\./.test(line))
+      title = line;
 
-renderTemplate(compiledTemplate);
+  });
 
-});
+  rows.forEach(row => {
 
+    const cells = [...row.querySelectorAll("td,th")]
+      .map(c => c.textContent.trim())
+      .filter(Boolean);
 
-function parseCGGForm(text,fileName){
+    if(cells.length < 2) return;
 
-const lines=text
-.split(/\r?\n/)
-.map(v=>v.trim())
-.filter(v=>v!="");
+    const no = parseInt(cells[0]);
 
-const items=[];
+    if(Number.isNaN(no)) return;
 
-let formId="";
-let title="";
+    let kode = "";
 
-for(const line of lines){
+    cells.forEach(c => {
 
-if(!formId && line.includes("Form-HSE-CGG")){
+      if(["A","AA","B"].includes(c))
+        kode = c;
 
-formId=line;
+    });
 
-}
+    items.push({
+      no,
+      text: cells[1],
+      kode
+    });
 
-if(!title && /^0\./.test(line)){
+  });
 
-title=line;
-
-}
-
-}
-
-// cari pola nomor + teks
-
-for(let i=0;i<lines.length;i++){
-
-const match=lines[i].match(/^(\d+)\s+(.+)/);
-
-if(match){
-
-const no=parseInt(match[1]);
-
-const textPoin=match[2];
-
-let kode="";
-
-if(lines[i+1] && /^(AA|A|B)$/.test(lines[i+1])){
-
-kode=lines[i+1];
-
-}
-
-items.push({
-
-no:no,
-text:textPoin,
-kode:kode
-
-});
-
-}
-
-}
-
-return{
-
-formId:formId||fileName,
-title:title||fileName.replace(".docx",""),
-revision:"Rev.1",
-items:items
-
-};
+  return {
+    formId: formId || fileName,
+    title: title || fileName.replace(".docx",""),
+    revision: "Rev.1",
+    items
+  };
 
 }
