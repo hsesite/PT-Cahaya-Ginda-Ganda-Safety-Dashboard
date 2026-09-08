@@ -1,70 +1,168 @@
-const params=new URLSearchParams(location.search);
-const formId=params.get("id");
+/**
+ * =====================================================
+ * CGG Inspection Viewer v2
+ * Universal untuk semua Form CGG
+ * =====================================================
+ */
 
-if(!formId){
+const params = new URLSearchParams(window.location.search);
+const formId = params.get("id");
 
-document.body.innerHTML="<h2>Form tidak ditemukan.</h2>";
+if (!formId) {
+  document.body.innerHTML = "<h2>Form tidak ditemukan.</h2>";
+} else {
+  loadForm(decodeURIComponent(formId));
+}
 
-}else{
+async function loadForm(id) {
 
-loadForm(decodeURIComponent(formId));
+  try {
+
+    const data = await getForm(id);
+
+    // ===========================
+    // Header
+    // ===========================
+
+    document.getElementById("judul").textContent = data.title;
+    document.getElementById("formid").textContent = data.formId;
+    document.getElementById("revisi").textContent = "Revisi : " + (data.revision || "-");
+    document.getElementById("total").textContent = "Total Item : " + data.totalItems;
+
+    // ===========================
+    // Informasi Unit
+    // ===========================
+
+    renderIdentity(data.identity || {});
+
+    // ===========================
+    // Checklist
+    // ===========================
+
+    renderChecklist(data.items || []);
+
+  } catch (err) {
+
+    console.error(err);
+
+    document.body.innerHTML = `
+      <div style="padding:30px;font-family:Arial;color:white;background:#0D1117;height:100vh;">
+        <h2>Gagal membuka form</h2>
+        <p>${err.message}</p>
+      </div>
+    `;
+
+  }
 
 }
 
-async function loadForm(id){
+/* =====================================
+   INFORMASI UNIT
+===================================== */
 
-const data=await getForm(id);
+function renderIdentity(identity){
 
-document.getElementById("judul").textContent=data.title;
-document.getElementById("formid").textContent=data.formId;
-document.getElementById("revisi").textContent="Revisi : "+data.revision;
-document.getElementById("total").textContent="Total Item : "+data.totalItems;
+  const container = document.getElementById("identity");
 
-const container=document.getElementById("items");
+  if(!container) return;
 
-container.innerHTML="";
+  let html = "";
 
-data.items.forEach(item=>{
+  Object.entries(identity).forEach(([key,value])=>{
 
-const card=document.createElement("div");
+    if(Array.isArray(value)){
 
-card.className="item";
+      html += `
+      <div class="info-block">
 
-card.innerHTML=`
+        <div class="info-title">${key}</div>
 
-<h3>${item.nomor}. ${item.poin}</h3>
+        <div class="chip-wrap">
 
-<div class="kode">${item.kode||"-"}</div>
+          ${value.map(v=>`<span class="chip">${v}</span>`).join("")}
 
-<div class="actions">
+        </div>
 
-<button class="btn-ya">YA</button>
+      </div>
+      `;
 
-<button class="btn-tidak">TIDAK</button>
+    }else{
 
-</div>
+      html += `
+      <div class="info-row">
 
-`;
+        <span>${key}</span>
 
-const yes=card.querySelector(".btn-ya");
-const no=card.querySelector(".btn-tidak");
+        <strong>${value || "-"}</strong>
 
-yes.onclick=()=>{
+      </div>
+      `;
 
-yes.classList.add("btn-selected");
-no.classList.remove("btn-selected");
+    }
 
-};
+  });
 
-no.onclick=()=>{
+  container.innerHTML = html;
 
-no.classList.add("btn-selected");
-yes.classList.remove("btn-selected");
+}
 
-};
+/* =====================================
+   CHECKLIST
+===================================== */
 
-container.appendChild(card);
+function renderChecklist(items){
 
-});
+  const container = document.getElementById("items");
+
+  container.innerHTML = "";
+
+  items.forEach(item=>{
+
+    const card = document.createElement("div");
+
+    card.className = "item";
+
+    card.innerHTML = `
+
+      <div class="item-header">
+
+        <div class="nomor">${item.nomor}</div>
+
+        <div class="kode">${item.kode || "-"}</div>
+
+      </div>
+
+      <h3>${item.poin}</h3>
+
+      <div class="actions">
+
+        <button class="btn-ya">YA</button>
+
+        <button class="btn-tidak">TIDAK</button>
+
+      </div>
+
+    `;
+
+    const yes = card.querySelector(".btn-ya");
+    const no = card.querySelector(".btn-tidak");
+
+    yes.addEventListener("click",()=>{
+
+      yes.classList.add("btn-selected");
+      no.classList.remove("btn-selected");
+
+    });
+
+    no.addEventListener("click",()=>{
+
+      no.classList.add("btn-selected");
+      yes.classList.remove("btn-selected");
+
+    });
+
+    container.appendChild(card);
+
+  });
 
 }
