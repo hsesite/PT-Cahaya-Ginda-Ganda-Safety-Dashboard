@@ -115,7 +115,7 @@ const container=document.getElementById("formList");
 
 try{
 
-const response=await fetch(API);
+const response = await fetch(API + "?action=forms");
 const data=await response.json();
 
 container.innerHTML="";
