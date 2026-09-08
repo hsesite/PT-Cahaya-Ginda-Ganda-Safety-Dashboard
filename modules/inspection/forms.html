@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>CGG Safety Hub</title>
+<title>CGG Safety Hub - Pilih Form</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -21,10 +21,12 @@ padding:18px;
 text-align:center;
 font-size:20px;
 font-weight:bold;
+position:sticky;
+top:0;
 }
 
 .container{
-max-width:420px;
+max-width:430px;
 margin:auto;
 padding:15px;
 }
@@ -36,6 +38,7 @@ padding:16px;
 margin-bottom:15px;
 cursor:pointer;
 transition:.2s;
+border-left:5px solid #2563eb;
 }
 
 .card:hover{
@@ -51,17 +54,33 @@ color:#94a3b8;
 .nama{
 font-size:17px;
 font-weight:bold;
-margin:6px 0;
+margin:8px 0;
 }
 
-.rev{
-font-size:13px;
+.info{
+display:flex;
+justify-content:space-between;
+font-size:12px;
 color:#cbd5e1;
+margin-top:8px;
+}
+
+.loading{
+text-align:center;
+padding:30px;
+color:#94a3b8;
+}
+
+.error{
+background:#7f1d1d;
+padding:15px;
+border-radius:10px;
+text-align:center;
 }
 
 .footer{
 text-align:center;
-margin-top:20px;
+margin:20px 0;
 font-size:12px;
 color:#94a3b8;
 }
@@ -76,7 +95,9 @@ PILIH FORM INSPEKSI
 
 <div class="container">
 
-<div id="formList"></div>
+<div id="formList" class="loading">
+Memuat daftar form...
+</div>
 
 <div class="footer">
 CGG Safety Hub v1.0
@@ -85,27 +106,68 @@ CGG Safety Hub v1.0
 </div>
 
 <script>
-const forms=[
-{
-formId:"017/Form-HSE-CGG/2025",
-namaForm:"0.1 Form Pemeriksaan Sarana",
-revisi:"Rev.1"
-}
-];
+
+const API="https://script.google.com/macros/s/AKfycbz0DS2wr6spCCt2q6qT4zPjUCahOOFSbnC9BiN0AlNWM3JdnYeVwDq6u2Rrfx9bUou2/exec";
+
+async function loadForms(){
 
 const container=document.getElementById("formList");
 
-forms.forEach(form=>{
+try{
+
+const response=await fetch(API);
+const data=await response.json();
+
+container.innerHTML="";
+
+if(data.length===0){
+
+container.innerHTML="<div class='loading'>Belum ada form aktif.</div>";
+return;
+
+}
+
+data.forEach(form=>{
 
 container.innerHTML+=`
-<div class="card">
+<div class="card" onclick="openForm('${form.formId}')">
+
 <div class="id">${form.formId}</div>
+
 <div class="nama">${form.namaForm}</div>
-<div class="rev">${form.revisi}</div>
+
+<div class="info">
+<span>📄 ${form.revisi}</span>
+<span>🟢 ${form.status}</span>
+</div>
+
 </div>
 `;
 
 });
+
+}catch(err){
+
+container.innerHTML=`
+<div class="error">
+Gagal mengambil daftar form.
+</div>
+`;
+
+}
+
+}
+
+function openForm(formId){
+
+alert("Form dipilih: "+formId);
+
+/* Langkah berikutnya kita buka checklist otomatis */
+
+}
+
+loadForms();
+
 </script>
 
 </body>
