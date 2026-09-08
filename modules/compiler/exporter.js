@@ -1,36 +1,46 @@
 // exporter.js
+// CGG Safety Form Compiler v1.0
 
-const saveButton=document.createElement("button");
+const publishBtn = document.createElement("button");
+publishBtn.textContent = "PUBLIKASIKAN TEMPLATE";
+publishBtn.style.marginTop = "15px";
 
-saveButton.textContent="SIMPAN TEMPLATE";
+document.querySelector(".box").appendChild(publishBtn);
 
-document.querySelector(".container").appendChild(saveButton);
+publishBtn.addEventListener("click", () => {
 
-saveButton.onclick=function(){
+  if (!compiledTemplate || !compiledTemplate.items.length) {
+    alert("Compile form terlebih dahulu.");
+    return;
+  }
 
-if(!compiledTemplate){
+  // Nama file otomatis
+  const fileName = (compiledTemplate.formId || "template")
+    .replace(/[\\/:*?"<>| ]+/g, "_") + ".json";
 
-alert("Compile form terlebih dahulu.");
+  const output = {
+    version: 1,
+    generated: new Date().toISOString(),
+    formId: compiledTemplate.formId,
+    title: compiledTemplate.title,
+    revision: compiledTemplate.revision,
+    totalItems: compiledTemplate.items.length,
+    items: compiledTemplate.items
+  };
 
-return;
+  const blob = new Blob(
+    [JSON.stringify(output, null, 2)],
+    { type: "application/json" }
+  );
 
-}
+  const url = URL.createObjectURL(blob);
 
-const blob=new Blob(
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = fileName;
+  a.click();
 
-[JSON.stringify(compiledTemplate,null,2)],
+  URL.revokeObjectURL(url);
 
-{type:"application/json"}
-
-);
-
-const a=document.createElement("a");
-
-a.href=URL.createObjectURL(blob);
-
-a.download=compiledTemplate.formId
-.replace(/[\/]/g,"_")+".json";
-
-a.click();
-
-};
+  alert("Template berhasil dibuat.");
+});
