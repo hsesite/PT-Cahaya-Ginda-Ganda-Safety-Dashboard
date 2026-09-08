@@ -3,336 +3,185 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Form Inspeksi CGG</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Form Inspeksi</title>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Inter,sans-serif;
-}
-
+*{margin:0;padding:0;box-sizing:border-box}
 body{
-background:#09111D;
-color:white;
-padding:24px;
+  background:#020d1f;
+  color:#fff;
+  font-family:Inter,Arial,sans-serif;
+  padding:24px;
 }
-
-.container{
-max-width:1000px;
-margin:auto;
-}
-
 .card{
-background:#111C2B;
-border:1px solid rgba(255,255,255,.08);
-border-radius:22px;
-padding:24px;
-margin-bottom:20px;
+  background:#0b1830;
+  border-radius:22px;
+  padding:22px;
+  margin-bottom:22px;
+  border:1px solid rgba(255,255,255,.08);
 }
-
-.title{
-font-size:34px;
-font-weight:800;
-margin-bottom:8px;
-}
-
-.subtitle{
-opacity:.7;
-margin-bottom:20px;
-}
-
-.back{
-display:inline-block;
-margin-bottom:20px;
-background:#1F3B68;
-padding:10px 18px;
-border-radius:10px;
-color:white;
-text-decoration:none;
-}
-
-.info-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:14px;
-margin-top:20px;
-}
-
-.info-item{
-background:#162233;
-padding:16px;
-border-radius:14px;
-}
-
-.info-item b{
-display:block;
-margin-bottom:6px;
-font-size:14px;
-opacity:.7;
-}
-
 .section{
-font-size:22px;
-font-weight:700;
-margin:30px 0 15px;
+  margin-top:30px;
 }
-
+.section h2{
+  margin-bottom:16px;
+}
 .item{
-background:#162233;
-border:1px solid rgba(255,255,255,.08);
-border-radius:18px;
-padding:20px;
-margin-bottom:18px;
+  background:#13233f;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:18px;
 }
-
-.top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:16px;
+.badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:44px;
+  height:44px;
+  border-radius:999px;
+  background:#2453d4;
+  font-weight:700;
+  margin-bottom:14px;
 }
-
-.no{
-width:44px;
-height:44px;
-background:#2563EB;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:700;
+.code{
+  float:right;
+  background:#31435f;
+  padding:6px 10px;
+  border-radius:999px;
 }
-
-.kode{
-background:#26364F;
-padding:6px 12px;
-border-radius:999px;
-font-size:12px;
+.title{
+  font-size:22px;
+  font-weight:700;
+  margin-bottom:16px;
 }
-
-.question{
-font-size:22px;
-font-weight:700;
-margin-bottom:20px;
-}
-
 .actions{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:14px;
+  display:flex;
+  gap:14px;
 }
-
 button{
-border:none;
-padding:14px;
-border-radius:12px;
-font-weight:700;
-font-size:17px;
-cursor:pointer;
+  flex:1;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
 }
-
-.yes{
-background:#16A34A;
-color:white;
+.yes{background:#16a34a}
+.no{background:#dc2626}
+.context{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:16px;
 }
-
-.noBtn{
-background:#DC2626;
-color:white;
+.field{
+  background:#13233f;
+  padding:16px;
+  border-radius:16px;
 }
-
-.selected{
-outline:3px solid white;
+.field label{
+  display:block;
+  color:#b7c3d6;
+  margin-bottom:6px;
 }
-
-.loading{
-text-align:center;
-padding:60px;
-opacity:.7;
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="container">
-
-<a class="back" href="inspection.html">← Kembali</a>
-
-<div id="app">
-
-<div class="loading">
-
-Memuat form inspeksi...
-
-</div>
-
-</div>
-
-</div>
+<div id="app"></div>
 
 <script>
-
 const API="https://script.google.com/macros/s/AKfycbz0DS2wr6spCCt2q6qT4zPjUCahOOFSbnC9BiN0AlNWM3JdnYeVwDq6u2Rrfx9bUou2/exec?action=forms";
 
-const formId=new URLSearchParams(location.search).get("id");
+async function loadForm(){
 
-let registry={};
+  try{
 
-let form={};
+    const params=new URLSearchParams(location.search);
+    const formId=params.get("id");
 
-async function init(){
+    if(!formId) throw new Error("Form ID tidak ditemukan.");
 
-const res=await fetch(API);
+    const api=API.replace("action=forms","action=form");
 
-registry=await res.json();
+    const res=await fetch(`${api}&id=${encodeURIComponent(formId)}`);
 
-form=registry.forms.find(f=>f.formId===formId);
+    if(!res.ok) throw new Error("API gagal diakses.");
 
-if(!form){
+    const data=await res.json();
 
-document.getElementById("app").innerHTML="<div class='card'><h2>Form tidak ditemukan</h2></div>";
+    if(data.success===false) throw new Error(data.message);
 
-return;
+    render(data);
+
+  }catch(err){
+
+    console.error(err);
+
+    document.getElementById("app").innerHTML=`
+      <div class="card">
+        <h2>❌ Gagal memuat form</h2>
+        <p>${err.message}</p>
+      </div>
+    `;
+
+  }
+
+}
+
+function render(data){
+
+  const app=document.getElementById("app");
+
+  app.innerHTML=`
+    <div class="card">
+      <h1>${data.title}</h1>
+      <div>Form ID : ${data.formId}</div>
+      <div>Revisi : ${data.revision}</div>
+      <div>Status : ${data.status}</div>
+    </div>
+
+    <div class="card">
+      <h2>Informasi Pemeriksaan</h2>
+      <div class="context">
+        ${data.context.map(c=>`
+          <div class="field">
+            <label>${c.label}</label>
+            <div>${c.value||"-"}</div>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+
+    ${data.sections.map(sec=>`
+      <div class="section">
+        <h2>${sec.title}</h2>
+
+        ${sec.items.map(i=>`
+          <div class="item">
+
+            <div class="badge">${i.no}</div>
+
+            <span class="code">${i.code}</span>
+
+            <div class="title">${i.title}</div>
+
+            <div class="actions">
+              <button class="yes">YA</button>
+              <button class="no">TIDAK</button>
+            </div>
+
+          </div>
+        `).join("")}
+
+      </div>
+    `).join("")}
+  `;
 
 }
 
 loadForm();
-
-}
-
-async function loadForm(){
-
-const downloadUrl=`https://drive.google.com/uc?export=download&id=${form.fileId}`;
-
-const res=await fetch(downloadUrl);
-
-const data=await res.json();
-
-render(data);
-
-}
-function render(data){
-
-const app=document.getElementById("app");
-
-app.innerHTML=`
-
-<div class="card">
-
-<div class="title">${data.title}</div>
-
-<div class="subtitle">
-
-${data.formId} · Revisi ${data.revision}
-
-</div>
-
-<div class="info-grid">
-
-${data.context.map(c=>`
-
-<div class="info-item">
-
-<b>${c.label}</b>
-
-${c.value||"-"}
-
-</div>
-
-`).join("")}
-
-</div>
-
-</div>
-
-<h2 class="section">Checklist Pemeriksaan</h2>
-
-`;
-
-data.items.forEach((item,i)=>{
-
-app.innerHTML+=`
-
-<div class="item">
-
-<div class="top">
-
-<div class="no">${item.nomor}</div>
-
-<div class="kode">${item.kode||"-"}</div>
-
-</div>
-
-<div class="question">
-
-${item.poin}
-
-</div>
-
-<div class="actions">
-
-<button class="yes"
-
-onclick="choose(${i},'YA',this)">
-
-YA
-
-</button>
-
-<button class="noBtn"
-
-onclick="choose(${i},'TIDAK',this)">
-
-TIDAK
-
-</button>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-}
-
-function choose(index,value,btn){
-
-const box=btn.closest(".actions");
-
-box.querySelectorAll("button").forEach(b=>b.classList.remove("selected"));
-
-btn.classList.add("selected");
-
-}
-
-init().catch(err=>{
-
-document.getElementById("app").innerHTML=`
-
-<div class="card">
-
-<h2>Gagal memuat</h2>
-
-<p>${err.message}</p>
-
-</div>
-
-`;
-
-console.error(err);
-
-});
-
 </script>
 
 </body>
