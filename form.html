@@ -7,335 +7,75 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-
-body{
-background:#020d1f;
-color:white;
-overflow-x:hidden;
-}
-
-/* ================= SIDEBAR ================= */
-
-.sidebar{
-position:fixed;
-left:0;
-top:0;
-width:250px;
-height:100%;
-background:#081529;
-border-right:1px solid rgba(255,255,255,.08);
-padding:20px;
-z-index:1000;
-transition:.3s;
-}
-
-.logo{
-font-size:22px;
-font-weight:700;
-margin-bottom:30px;
-line-height:1.3;
-}
-
-.logo small{
-display:block;
-font-size:13px;
-color:#8ea7c9;
-margin-top:6px;
-}
-
-.nav-item{
-display:flex;
-align-items:center;
-gap:14px;
-padding:14px;
-margin-bottom:8px;
-border-radius:12px;
-cursor:pointer;
-transition:.2s;
-}
-
-.nav-item:hover{
-background:#13233f;
-}
-
-.nav-item.active{
-background:#2453d4;
-}
-
-/* ================= CONTENT ================= */
-
-.main{
-margin-left:250px;
-padding:24px;
-transition:.3s;
-}
-
-.header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:24px;
-}
-
-.header h1{
-font-size:30px;
-}
-
-.menu-btn{
-display:none;
-background:#2453d4;
-border:none;
-color:white;
-padding:10px 14px;
-border-radius:10px;
-cursor:pointer;
-}
-
-.back{
-display:inline-flex;
-align-items:center;
-gap:8px;
-color:#7dd3fc;
-text-decoration:none;
-margin-bottom:20px;
-font-weight:600;
-}
-
-.card{
-background:#0b1830;
-border:1px solid rgba(255,255,255,.08);
-border-radius:22px;
-padding:22px;
-margin-bottom:22px;
-}
-
-.meta-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:12px;
-margin-top:16px;
-}
-
-.meta-item{
-background:#13233f;
-padding:14px;
-border-radius:14px;
-}
-
-.meta-item label{
-display:block;
-font-size:13px;
-color:#b7c3d6;
-margin-bottom:6px;
-}
-
-.variant-wrap{
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-margin-top:18px;
-}
-
-.variant{
-background:#2453d4;
-padding:8px 16px;
-border-radius:999px;
-}
-
-.section{
-margin-top:30px;
-}
-
-.section h2{
-font-size:26px;
-margin-bottom:18px;
-}
-
-.item{
-background:#13233f;
-border:1px solid rgba(255,255,255,.05);
-border-radius:18px;
-padding:18px;
-margin-bottom:18px;
-}
-
-.item-head{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:16px;
-}
-
-.badge{
-width:44px;
-height:44px;
-border-radius:50%;
-background:#2453d4;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:700;
-}
-
-.code{
-background:#31435f;
-padding:6px 12px;
-border-radius:999px;
-font-size:13px;
-}
-
-.item-title{
-font-size:20px;
-font-weight:700;
-line-height:1.5;
-margin-bottom:18px;
-}
-
-.actions{
-display:flex;
-gap:12px;
-}
-
-button{
-flex:1;
-padding:14px;
-border:none;
-border-radius:12px;
-font-weight:700;
-cursor:pointer;
-color:white;
-}
-
-.yes{background:#16a34a;}
-.no{background:#dc2626;}
-
-.note{
-display:none;
-margin-top:12px;
-width:100%;
-padding:12px;
-border-radius:10px;
-border:none;
-background:#24324f;
-color:white;
-resize:vertical;
-}
-
-.item.active-yes{
-border-left:6px solid #16a34a;
-}
-
-.item.active-no{
-border-left:6px solid #dc2626;
-}
-
-/* ================= MOBILE ================= */
-
+body{background:#020d1f;color:#fff;overflow-x:hidden}
+.sidebar{position:fixed;left:0;top:0;width:250px;height:100%;background:#081529;border-right:1px solid rgba(255,255,255,.08);padding:20px;z-index:1000;transition:.3s}
+.logo{font-size:22px;font-weight:700;margin-bottom:30px}
+.logo small{display:block;font-size:13px;color:#8ea7c9;margin-top:6px}
+.nav-item{display:flex;align-items:center;gap:14px;padding:14px;border-radius:12px;margin-bottom:8px;cursor:pointer}
+.nav-item:hover{background:#13233f}
+.nav-item.active{background:#2453d4}
+.main{margin-left:250px;padding:24px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.menu-btn{display:none;background:#2453d4;border:none;color:white;padding:10px 14px;border-radius:10px}
+.back{display:inline-flex;gap:8px;color:#7dd3fc;text-decoration:none;font-weight:600;margin-bottom:20px}
+.card{background:#0b1830;border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:22px;margin-bottom:22px}
+.meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
+.meta-item{background:#13233f;padding:14px;border-radius:14px}
+.meta-item label{display:block;font-size:13px;color:#b7c3d6;margin-bottom:6px}
+.variant-wrap{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.variant{background:#2453d4;padding:8px 16px;border-radius:999px}
+.section{margin-top:30px}
+.section h2{font-size:26px;margin-bottom:18px}
+.item{background:#13233f;border:1px solid rgba(255,255,255,.05);border-radius:18px;padding:18px;margin-bottom:18px}
+.item-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.badge{width:44px;height:44px;border-radius:50%;background:#2453d4;display:flex;align-items:center;justify-content:center;font-weight:700}
+.code{background:#31435f;padding:6px 12px;border-radius:999px;font-size:13px}
+.item-title{font-size:19px;font-weight:700;line-height:1.5;margin-bottom:18px}
+.actions{display:flex;gap:12px}
+button{flex:1;padding:14px;border:none;border-radius:12px;font-weight:700;cursor:pointer;color:white}
+.yes{background:#16a34a}
+.no{background:#dc2626}
+.note{display:none;margin-top:12px;width:100%;padding:12px;border:none;border-radius:10px;background:#24324f;color:white}
+.item.active-yes{border-left:6px solid #16a34a}
+.item.active-no{border-left:6px solid #dc2626}
+.overlay{display:none}
 @media(max-width:768px){
-
-.sidebar{
-transform:translateX(-100%);
-}
-
-.sidebar.open{
-transform:translateX(0);
-}
-
-.main{
-margin-left:0;
-padding:18px;
-}
-
-.menu-btn{
-display:block;
-}
-
-.header h1{
-font-size:24px;
-}
-
-.section h2{
-font-size:22px;
-}
-
-.item-title{
-font-size:17px;
-}
-
-.actions{
-flex-direction:column;
-}
-
-.overlay{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.5);
-display:none;
-z-index:900;
-}
-
-.overlay.show{
-display:block;
-}
-
+.sidebar{transform:translateX(-100%)}
+.sidebar.open{transform:translateX(0)}
+.main{margin-left:0;padding:18px}
+.menu-btn{display:block}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;z-index:900}
+.overlay.show{display:block}
+.actions{flex-direction:column}
 }
 </style>
 </head>
-
 <body>
 
 <div class="overlay" id="overlay" onclick="toggleMenu(false)"></div>
 
 <aside class="sidebar" id="sidebar">
+  <div class="logo">
+    CGG SAFETY HUB
+    <small>PT Cahaya Ginda Ganda</small>
+  </div>
 
-<div class="logo">
-CGG SAFETY HUB
-<small>PT Cahaya Ginda Ganda</small>
-</div>
-
-<div class="nav-item" onclick="location.href='index.html'">
-<span>🏠</span>
-<span>Dashboard</span>
-</div>
-
-<div class="nav-item active" onclick="location.href='inspection.html'">
-<span>📋</span>
-<span>Inspeksi</span>
-</div>
-
-<div class="nav-item">
-<span>⚠️</span>
-<span>Hazard Report</span>
-</div>
-
-<div class="nav-item">
-<span>🚨</span>
-<span>Incident</span>
-</div>
-
-<div class="nav-item">
-<span>📊</span>
-<span>Analytics</span>
-</div>
-
-<div class="nav-item">
-<span>📁</span>
-<span>Dokumen</span>
-</div>
-
+  <div class="nav-item" onclick="location.href='index.html'">🏠 Dashboard</div>
+  <div class="nav-item active" onclick="location.href='inspection.html'">📋 Inspeksi</div>
+  <div class="nav-item">⚠️ Hazard Report</div>
+  <div class="nav-item">🚨 Incident</div>
+  <div class="nav-item">📊 Analytics</div>
+  <div class="nav-item">📁 Dokumen</div>
 </aside>
 
 <main class="main">
 
 <div class="header">
-
-<div>
-<h1>Form Inspeksi</h1>
-<p>CGG Command Center HSE</p>
-</div>
-
-<button class="menu-btn" onclick="toggleMenu(true)">☰</button>
-
+  <div>
+    <h1>Form Inspeksi</h1>
+    <p>CGG Command Center HSE</p>
+  </div>
+  <button class="menu-btn" onclick="toggleMenu(true)">☰</button>
 </div>
 
 <a class="back" href="inspection.html">← Kembali ke Smart Launcher</a>
@@ -350,166 +90,177 @@ const API="https://script.google.com/macros/s/AKfycbz0DS2wr6spCCt2q6qT4zPjUCahOO
 
 async function loadForm(){
 
-try{
+  try{
 
-const params=new URLSearchParams(location.search);
+    const params=new URLSearchParams(location.search);
+    const formId=params.get("id");
 
-const formId=params.get("id");
+    if(!formId) throw new Error("Form ID tidak ditemukan.");
 
-if(!formId) throw new Error("Form ID tidak ditemukan.");
+    const res=await fetch(`${API}?action=form&id=${encodeURIComponent(formId)}`);
 
-const res=await fetch(`${API}?action=form&id=${encodeURIComponent(formId)}`);
+    if(!res.ok) throw new Error("API tidak dapat diakses.");
 
-if(!res.ok) throw new Error("API tidak dapat diakses.");
+    const data=await res.json();
 
-const data=await res.json();
+    if(data.success===false) throw new Error(data.message);
 
-if(data.success===false) throw new Error(data.message);
+    render(data);
 
-render(data);
+  }catch(err){
 
-}catch(err){
+    document.getElementById("app").innerHTML=`
+      <div class="card">
+        <h2>❌ Gagal memuat form</h2>
+        <p>${err.message}</p>
+      </div>`;
 
-document.getElementById("app").innerHTML=`
-<div class="card">
-<h2>❌ Gagal memuat form</h2>
-<p>${err.message}</p>
-</div>`;
-
-}
+  }
 
 }
 
 function render(data){
 
-const app=document.getElementById("app");
+  const app=document.getElementById("app");
 
-app.innerHTML=`
+  app.innerHTML=`
 
-<div class="card">
+    <div class="card">
 
-<h2>${data.title}</h2>
+      <h2>${data.title}</h2>
 
-<div class="meta-grid">
+      <div class="meta-grid">
 
-<div class="meta-item">
-<label>Form ID</label>
-${data.formId}
-</div>
+        <div class="meta-item">
+          <label>Form ID</label>
+          ${data.formId}
+        </div>
 
-<div class="meta-item">
-<label>Revisi</label>
-${data.revision}
-</div>
+        <div class="meta-item">
+          <label>Revisi</label>
+          ${data.revision}
+        </div>
 
-<div class="meta-item">
-<label>Status</label>
-${data.status}
-</div>
+        <div class="meta-item">
+          <label>Status</label>
+          ${data.status}
+        </div>
 
-<div class="meta-item">
-<label>Total Item</label>
-${data.totalItems}
-</div>
+        <div class="meta-item">
+          <label>Total Item</label>
+          ${data.totalItems}
+        </div>
 
-</div>
+      </div>
 
-<div class="variant-wrap">
+      <div class="variant-wrap">
+        ${(data.variants||[]).map(v=>`
+          <span class="variant">${v}</span>
+        `).join("")}
+      </div>
 
-${(data.variants||[]).map(v=>`
-<span class="variant">${v}</span>
-`).join("")}
+    </div>
 
-</div>
+    <div class="card">
 
-</div>
+      <h2>Informasi Pemeriksaan</h2>
 
-<div class="card">
+      <div class="meta-grid">
+        ${(data.context||[]).map(c=>`
+          <div class="meta-item">
+            <label>${c.label}</label>
+            ${c.value||"-"}
+          </div>
+        `).join("")}
+      </div>
 
-<h2>Informasi Pemeriksaan</h2>
+    </div>
 
-<div class="meta-grid">
+    ${(data.sections||[]).map(sec=>`
 
-${(data.context||[]).map(c=>`
-<div class="meta-item">
-<label>${c.label}</label>
-${c.value||"-"}
-</div>
-`).join("")}
+      <div class="section">
 
-</div>
+        <h2>${sec.title}</h2>
 
-</div>
+        ${(sec.items||[]).map(i=>`
 
-${(data.sections||[]).map(sec=>`
+          <div class="item" id="item-${i.nomor ?? i.no}">
 
-<div class="section">
+            <div class="item-head">
 
-<h2>${sec.title}</h2>
+              <div class="badge">${i.nomor ?? i.no ?? "-"}</div>
 
-${sec.items.map(i=>`
+              <div class="code">${i.kode ?? i.hazardCode ?? "-"}</div>
 
-<div class="item">
+            </div>
 
-  <div class="item-top">
+            <div class="item-title">${i.poin ?? i.text ?? i.title ?? "-"}</div>
 
-    <div class="badge">${i.nomor ?? i.no ?? "-"}</div>
+            <div class="actions">
 
-    <div class="code">${i.kode ?? i.hazardCode ?? "-"}</div>
+              <button class="yes" onclick="answer(${i.nomor ?? i.no},true)">
+                YA
+              </button>
 
-  </div>
+              <button class="no" onclick="answer(${i.nomor ?? i.no},false)">
+                TIDAK
+              </button>
 
-  <div class="title">${i.poin ?? i.text ?? i.title ?? "-"}</div>
+            </div>
 
-  <div class="actions">
+            <textarea class="note" id="note-${i.nomor ?? i.no}" placeholder="Jelaskan kondisi temuan..."></textarea>
 
-    <button class="yes">YA</button>
+          </div>
 
-    <button class="no">TIDAK</button>
+        `).join("")}
 
-  </div>
+      </div>
 
-</div>
+    `).join("")}
 
-`).join("")}
+  `;
+
+}
 
 function answer(no,yes){
 
-const card=document.getElementById(`item-${no}`);
-const note=document.getElementById(`note-${no}`);
+  const card=document.getElementById(`item-${no}`);
+  const note=document.getElementById(`note-${no}`);
 
-card.classList.remove("active-yes","active-no");
+  if(!card||!note) return;
 
-if(yes){
+  card.classList.remove("active-yes","active-no");
 
-card.classList.add("active-yes");
-note.style.display="none";
+  if(yes){
 
-}else{
+    card.classList.add("active-yes");
+    note.style.display="none";
 
-card.classList.add("active-no");
-note.style.display="block";
+  }else{
 
-}
+    card.classList.add("active-no");
+    note.style.display="block";
+
+  }
 
 }
 
 function toggleMenu(open){
 
-const sidebar=document.getElementById("sidebar");
-const overlay=document.getElementById("overlay");
+  const sidebar=document.getElementById("sidebar");
+  const overlay=document.getElementById("overlay");
 
-if(open){
+  if(open){
 
-sidebar.classList.add("open");
-overlay.classList.add("show");
+    sidebar.classList.add("open");
+    overlay.classList.add("show");
 
-}else{
+  }else{
 
-sidebar.classList.remove("open");
-overlay.classList.remove("show");
+    sidebar.classList.remove("open");
+    overlay.classList.remove("show");
 
-}
+  }
 
 }
 
