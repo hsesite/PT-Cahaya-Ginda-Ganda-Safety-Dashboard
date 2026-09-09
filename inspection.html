@@ -21,39 +21,40 @@ body{
 }
 
 h1{
-  font-size:48px;
+  font-size:44px;
   margin-bottom:8px;
 }
 
 .sub{
   color:#b8c3d8;
-  margin-bottom:30px;
+  margin-bottom:28px;
 }
 
 .card{
   background:#0b1830;
   border:1px solid rgba(255,255,255,.08);
   border-radius:24px;
-  padding:28px;
-  margin-bottom:24px;
+  padding:24px;
+  margin-bottom:22px;
 }
 
 .group-title{
-  font-size:34px;
+  font-size:30px;
   font-weight:700;
   margin-bottom:8px;
 }
 
 .form-card{
   background:#13233f;
-  border-radius:22px;
+  border-radius:20px;
   padding:22px;
   margin-top:18px;
+  border:1px solid rgba(255,255,255,.05);
 }
 
 .form-card h3{
-  font-size:24px;
-  margin-bottom:16px;
+  font-size:22px;
+  margin-bottom:14px;
 }
 
 .meta{
@@ -72,6 +73,7 @@ h1{
   background:#2453d4;
   padding:8px 16px;
   border-radius:999px;
+  font-size:14px;
 }
 
 .btn{
@@ -87,6 +89,10 @@ h1{
   font-weight:700;
 }
 
+.btn:hover{
+  background:#16a34a;
+}
+
 @media(max-width:768px){
 
   body{
@@ -94,15 +100,15 @@ h1{
   }
 
   h1{
-    font-size:36px;
+    font-size:32px;
   }
 
   .group-title{
-    font-size:28px;
+    font-size:24px;
   }
 
   .form-card h3{
-    font-size:20px;
+    font-size:18px;
   }
 
 }
@@ -217,10 +223,9 @@ function renderLauncher(forms){
 
           <div class="chips">
 
-            ${(f.variants && f.variants.length
-              ? f.variants
-              : [f.subCategory || "General"])
-              .map(v=>`<span class="chip">${v}</span>`).join("")}
+            ${getLauncherChips(f).map(v=>`
+              <span class="chip">${v}</span>
+            `).join("")}
 
           </div>
 
@@ -236,6 +241,32 @@ function renderLauncher(forms){
     </div>
 
   `).join("");
+
+}
+
+function getLauncherChips(form){
+
+  switch(form.category){
+
+    case "Unit":
+      return ["LV","Pickup","Manhaul"];
+
+    case "Safety Device":
+      return ["APAR","Wheel Chock"];
+
+    case "Pit":
+      return ["Area Tambang"];
+
+    case "Workshop":
+      return ["Workshop"];
+
+    case "Environment":
+      return ["Environment"];
+
+    default:
+      return [form.subCategory || "General"];
+
+  }
 
 }
 
