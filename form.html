@@ -3,15 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>CGG Safety Form</title>
+<title>CGG Safety Hub - Form Inspeksi</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,Arial,sans-serif;
+}
 
 body{
 background:#020d1f;
-color:#fff;
-font-family:Inter,Arial,sans-serif;
+color:white;
 }
 
 .container{
@@ -21,38 +26,59 @@ padding:20px;
 }
 
 .back{
-display:inline-block;
-margin-bottom:18px;
+display:inline-flex;
+align-items:center;
+gap:8px;
 color:#7dd3fc;
 text-decoration:none;
+margin-bottom:18px;
 font-weight:600;
 }
 
 .card{
 background:#0b1830;
-border-radius:22px;
-padding:24px;
-margin-bottom:22px;
 border:1px solid rgba(255,255,255,.08);
+border-radius:22px;
+padding:22px;
+margin-bottom:22px;
 }
 
-.context{
+.header-title{
+font-size:34px;
+margin-bottom:10px;
+}
+
+.meta{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:16px;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:12px;
+margin-top:16px;
+}
+
+.meta-item{
+background:#13233f;
+padding:14px;
+border-radius:14px;
+}
+
+.meta-item label{
+display:block;
+font-size:13px;
+color:#b7c3d6;
+margin-bottom:6px;
+}
+
+.variant-wrap{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
 margin-top:18px;
 }
 
-.field{
-background:#13233f;
-padding:16px;
-border-radius:16px;
-}
-
-.field label{
-display:block;
-color:#b7c3d6;
-margin-bottom:8px;
+.variant{
+background:#2453d4;
+padding:8px 16px;
+border-radius:999px;
 font-size:14px;
 }
 
@@ -61,29 +87,29 @@ margin-top:30px;
 }
 
 .section h2{
+font-size:28px;
 margin-bottom:18px;
-font-size:32px;
 }
 
 .item{
 background:#13233f;
+border:1px solid rgba(255,255,255,.05);
 border-radius:18px;
 padding:18px;
 margin-bottom:18px;
-border:1px solid rgba(255,255,255,.06);
 }
 
-.item-top{
+.item-head{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:14px;
+margin-bottom:16px;
 }
 
 .badge{
-width:46px;
-height:46px;
-border-radius:999px;
+width:44px;
+height:44px;
+border-radius:50%;
 background:#2453d4;
 display:flex;
 align-items:center;
@@ -98,20 +124,21 @@ border-radius:999px;
 font-size:13px;
 }
 
-.title{
+.item-title{
 font-size:20px;
 font-weight:700;
 margin-bottom:18px;
+line-height:1.5;
 }
 
 .actions{
 display:flex;
-gap:14px;
+gap:12px;
 }
 
 button{
 flex:1;
-padding:15px;
+padding:14px;
 border:none;
 border-radius:12px;
 font-weight:700;
@@ -119,20 +146,32 @@ cursor:pointer;
 color:white;
 }
 
-.yes{background:#16a34a}
-.no{background:#dc2626}
-
-.chips{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-top:18px;
+.yes{
+background:#16a34a;
 }
 
-.chip{
-background:#2453d4;
-padding:10px 16px;
-border-radius:999px;
+.no{
+background:#dc2626;
+}
+
+.note{
+display:none;
+margin-top:12px;
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+background:#24324f;
+color:white;
+resize:vertical;
+}
+
+.item.active-yes{
+border-left:6px solid #16a34a;
+}
+
+.item.active-no{
+border-left:6px solid #dc2626;
 }
 
 @media(max-width:768px){
@@ -141,8 +180,16 @@ border-radius:999px;
 padding:14px;
 }
 
-.title{
-font-size:18px;
+.header-title{
+font-size:24px;
+}
+
+.section h2{
+font-size:22px;
+}
+
+.item-title{
+font-size:17px;
 }
 
 .actions{
@@ -150,14 +197,15 @@ flex-direction:column;
 }
 
 }
-</style>
 
+</style>
 </head>
+
 <body>
 
 <div class="container">
 
-<a class="back" href="inspection.html">← Kembali ke Dashboard</a>
+<a class="back" href="inspection.html">← Kembali ke Smart Launcher</a>
 
 <div id="app"></div>
 
@@ -173,28 +221,36 @@ try{
 
 const params=new URLSearchParams(location.search);
 
-const id=params.get("id");
+const formId=params.get("id");
 
-if(!id) throw new Error("Form ID tidak ditemukan.");
+if(!formId)
+throw new Error("Form ID tidak ditemukan.");
 
-const res=await fetch(`${API}?action=form&id=${encodeURIComponent(id)}`);
+const res=await fetch(
+`${API}?action=form&id=${encodeURIComponent(formId)}`
+);
 
-if(!res.ok) throw new Error("API gagal.");
+if(!res.ok)
+throw new Error("API tidak dapat diakses.");
 
 const data=await res.json();
 
-if(data.success===false) throw new Error(data.message);
+if(data.success===false)
+throw new Error(data.message);
 
 render(data);
 
 }catch(err){
 
 document.getElementById("app").innerHTML=`
+
 <div class="card">
+
 <h2>❌ Gagal memuat form</h2>
+
 <p>${err.message}</p>
-</div>
-`;
+
+</div>`;
 
 }
 
@@ -208,19 +264,36 @@ app.innerHTML=`
 
 <div class="card">
 
-<h1>${data.title}</h1>
+<div class="header-title">${data.title}</div>
 
-<br>
+<div class="meta">
 
-<p><strong>Form ID :</strong> ${data.formId}</p>
-<p><strong>Revisi :</strong> ${data.revision}</p>
-<p><strong>Status :</strong> ${data.status}</p>
-<p><strong>Total Item :</strong> ${data.totalItems}</p>
+<div class="meta-item">
+<label>Form ID</label>
+${data.formId}
+</div>
 
-<div class="chips">
+<div class="meta-item">
+<label>Revisi</label>
+${data.revision}
+</div>
 
-${(data.variants||["Pickup","Manhaul"]).map(v=>`
-<span class="chip">${v}</span>
+<div class="meta-item">
+<label>Status</label>
+${data.status}
+</div>
+
+<div class="meta-item">
+<label>Total Item</label>
+${data.totalItems}
+</div>
+
+</div>
+
+<div class="variant-wrap">
+
+${(data.variants||[]).map(v=>`
+<span class="variant">${v}</span>
 `).join("")}
 
 </div>
@@ -231,15 +304,15 @@ ${(data.variants||["Pickup","Manhaul"]).map(v=>`
 
 <h2>Informasi Pemeriksaan</h2>
 
-<div class="context">
+<div class="meta">
 
-${data.context.map(c=>`
+${(data.context||[]).map(c=>`
 
-<div class="field">
+<div class="meta-item">
 
 <label>${c.label}</label>
 
-<div>${c.value||"-"}</div>
+${c.value||"-"}
 
 </div>
 
@@ -249,33 +322,44 @@ ${data.context.map(c=>`
 
 </div>
 
-${data.sections.map(sec=>`
+${(data.sections||[]).map(sec=>`
 
 <div class="section">
 
 <h2>${sec.title}</h2>
 
-${sec.items.map(i=>`
+${(sec.items||[]).map(item=>`
 
-<div class="item">
+<div class="item" id="item-${item.no}">
 
-<div class="item-top">
+<div class="item-head">
 
-<div class="badge">${i.no||"-"}</div>
+<div class="badge">${item.no}</div>
 
-<div class="code">${i.hazardCode||"-"}</div>
+<div class="code">${item.hazardCode||"-"}</div>
 
 </div>
 
-<div class="title">${i.text||i.title||"-"}</div>
+<div class="item-title">${item.text}</div>
 
 <div class="actions">
 
-<button class="yes">YA</button>
+<button class="yes"
+onclick="answer(${item.no},true)">
+YA
+</button>
 
-<button class="no">TIDAK</button>
+<button class="no"
+onclick="answer(${item.no},false)">
+TIDAK
+</button>
 
 </div>
+
+<textarea
+class="note"
+id="note-${item.no}"
+placeholder="Tuliskan temuan jika memilih TIDAK..."></textarea>
 
 </div>
 
@@ -286,6 +370,30 @@ ${sec.items.map(i=>`
 `).join("")}
 
 `;
+
+}
+
+function answer(no,yes){
+
+const card=document.getElementById(`item-${no}`);
+
+const note=document.getElementById(`note-${no}`);
+
+card.classList.remove("active-yes","active-no");
+
+if(yes){
+
+card.classList.add("active-yes");
+
+note.style.display="none";
+
+}else{
+
+card.classList.add("active-no");
+
+note.style.display="block";
+
+}
 
 }
 
