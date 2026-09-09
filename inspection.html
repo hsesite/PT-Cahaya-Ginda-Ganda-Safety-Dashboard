@@ -81,72 +81,46 @@ const API="https://script.google.com/macros/s/AKfycbz0DS2wr6spCCt2q6qT4zPjUCahOO
 
 async function loadLauncher(){
 
+  const wrap=document.getElementById("launcher");
+
+  wrap.innerHTML=`
+  <div class="card">
+    Memuat Smart Launcher...
+  </div>`;
+
   try{
 
     const res=await fetch(API);
+
+    if(!res.ok) throw new Error("API tidak bisa diakses.");
+
     const data=await res.json();
 
-    const forms=data.forms||[];
-    const groups={};
+    if(!data.forms||!data.forms.length){
 
-    forms.forEach(f=>{
-      const key=f.category||"Lainnya";
-      if(!groups[key]) groups[key]=[];
-      groups[key].push(f);
-    });
+      wrap.innerHTML=`
+      <div class="card">
+        Belum ada form dipublikasikan.
+      </div>`;
+      return;
 
-    const wrap=document.getElementById("launcher");
-    wrap.innerHTML="";
+    }
 
-    Object.keys(groups).forEach(category=>{
+    renderLauncher(data.forms);
 
-      const list=groups[category];
+  }catch(err){
 
-      const card=document.createElement("div");
-      card.className="card";
+    console.error(err);
 
-      card.innerHTML=`
-        <div class="group-title">📂 ${category}</div>
-        <div class="sub">${list.length} Form</div>
-      `;
+    wrap.innerHTML=`
+    <div class="card">
+      <h3>❌ Gagal memuat Smart Launcher</h3>
+      <p>${err.message}</p>
+    </div>`;
 
-      list.forEach(f=>{
+  }
 
-        const item=document.createElement("div");
-        item.className="form-card";
-
-        item.innerHTML=`
-          <h3>${f.title}</h3>
-
-          <div class="meta">
-            <div><b>Form ID :</b> ${f.formId}</div>
-            <div><b>Revisi :</b> ${f.revision}</div>
-            <div><b>Status :</b> ${f.status}</div>
-            <div><b>Total Item :</b> ${f.totalItems}</div>
-            <div><b>Variant :</b> ${(f.variants||[]).join(", ")||"-"}</div>
-
-            <div>
-              ${(f.variants && f.variants.length
-                 ? f.variants
-                 : ["Semua"])
-              .map(v=>`<span class="chip">${v}</span>`).join("")
-            </div>
-          </div>
-
-          <button class="btn"
-            onclick="location.href='form.html?id='+encodeURIComponent('${f.formId}')">
-            Mulai Inspeksi
-          </button>
-        `;
-
-        card.appendChild(item);
-
-      });
-
-      wrap.appendChild(card);
-
-    });
-
+}
   }catch(err){
 
     console.error(err);
