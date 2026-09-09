@@ -447,41 +447,31 @@ ${(data.sections||[]).map(sec=>`
 
 <h2>${sec.title}</h2>
 
-${(sec.items||[]).map(item=>`
+${sec.items.map(i=>`
 
-<div class="item" id="item-${item.no}">
+<div class="item">
 
-<div class="item-head">
+  <div class="item-top">
 
-<div class="badge">${item.no}</div>
+    <div class="badge">${i.nomor ?? i.no ?? "-"}</div>
 
-<div class="code">${item.hazardCode||"-"}</div>
+    <div class="code">${i.kode ?? i.hazardCode ?? "-"}</div>
 
-</div>
+  </div>
 
-<div class="item-title">${item.text}</div>
+  <div class="title">${i.poin ?? i.text ?? i.title ?? "-"}</div>
 
-<div class="actions">
+  <div class="actions">
 
-<button class="yes" onclick="answer(${item.no},true)">YA</button>
+    <button class="yes">YA</button>
 
-<button class="no" onclick="answer(${item.no},false)">TIDAK</button>
+    <button class="no">TIDAK</button>
 
-</div>
-
-<textarea class="note" id="note-${item.no}" placeholder="Tuliskan temuan jika memilih TIDAK..."></textarea>
+  </div>
 
 </div>
 
 `).join("")}
-
-</div>
-
-`).join("")}
-
-`;
-
-}
 
 function answer(no,yes){
 
