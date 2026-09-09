@@ -3,113 +3,199 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Checklist Inspeksi - CGG</title>
+<title>CGG Safety Hub - Smart Launcher</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif;}
 
 body{
-  background:#020d1f;
-  color:#fff;
-  font-family:Inter,Arial,sans-serif;
-  padding:24px;
+background:#020d1f;
+color:white;
+overflow-x:hidden;
 }
 
-.container{
-  max-width:1400px;
-  margin:auto;
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+width:250px;
+height:100%;
+background:#081529;
+border-right:1px solid rgba(255,255,255,.08);
+padding:20px;
+z-index:1000;
+transition:.3s;
 }
 
-h1{
-  font-size:44px;
-  margin-bottom:8px;
+.logo{
+font-size:22px;
+font-weight:700;
+margin-bottom:30px;
+line-height:1.3;
 }
 
-.sub{
-  color:#b8c3d8;
-  margin-bottom:28px;
+.logo small{
+display:block;
+font-size:13px;
+color:#8ea7c9;
+margin-top:6px;
 }
+
+.nav-item{
+display:flex;
+align-items:center;
+gap:14px;
+padding:14px;
+margin-bottom:8px;
+border-radius:12px;
+cursor:pointer;
+transition:.2s;
+}
+
+.nav-item:hover{
+background:#13233f;
+}
+
+.nav-item.active{
+background:#2453d4;
+}
+
+/* ================= CONTENT ================= */
+
+.main{
+margin-left:250px;
+padding:24px;
+transition:.3s;
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:28px;
+}
+
+.header h1{
+font-size:34px;
+}
+
+.menu-btn{
+display:none;
+background:#2453d4;
+border:none;
+color:white;
+padding:10px 14px;
+border-radius:10px;
+cursor:pointer;
+}
+
+/* ================= CARD ================= */
 
 .card{
-  background:#0b1830;
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:24px;
-  padding:24px;
-  margin-bottom:22px;
+background:#0b1830;
+border:1px solid rgba(255,255,255,.08);
+border-radius:22px;
+padding:24px;
+margin-bottom:22px;
 }
 
 .group-title{
-  font-size:30px;
-  font-weight:700;
-  margin-bottom:8px;
+font-size:30px;
+font-weight:700;
+margin-bottom:8px;
+}
+
+.sub{
+color:#b8c3d8;
+margin-bottom:20px;
 }
 
 .form-card{
-  background:#13233f;
-  border-radius:20px;
-  padding:22px;
-  margin-top:18px;
-  border:1px solid rgba(255,255,255,.05);
+background:#13233f;
+border-radius:18px;
+padding:20px;
+margin-top:18px;
+border:1px solid rgba(255,255,255,.05);
 }
 
 .form-card h3{
-  font-size:22px;
-  margin-bottom:14px;
+font-size:22px;
+margin-bottom:14px;
 }
 
 .meta{
-  color:#c4cfde;
-  line-height:1.8;
+color:#c4cfde;
+line-height:1.8;
 }
 
 .chips{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:18px;
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+margin-top:18px;
 }
 
 .chip{
-  background:#2453d4;
-  padding:8px 16px;
-  border-radius:999px;
-  font-size:14px;
+background:#2453d4;
+padding:8px 16px;
+border-radius:999px;
+font-size:14px;
 }
 
 .btn{
-  display:inline-block;
-  margin-top:22px;
-  background:#1db954;
-  color:#fff;
-  padding:14px 28px;
-  border-radius:14px;
-  text-decoration:none;
-  border:none;
-  cursor:pointer;
-  font-weight:700;
+display:inline-block;
+margin-top:22px;
+background:#1db954;
+color:white;
+padding:14px 28px;
+border:none;
+border-radius:14px;
+font-weight:700;
+cursor:pointer;
 }
 
 .btn:hover{
-  background:#16a34a;
+background:#16a34a;
 }
+
+/* ================= MOBILE ================= */
 
 @media(max-width:768px){
 
-  body{
-    padding:16px;
-  }
+.sidebar{
+transform:translateX(-100%);
+}
 
-  h1{
-    font-size:32px;
-  }
+.sidebar.open{
+transform:translateX(0);
+}
 
-  .group-title{
-    font-size:24px;
-  }
+.main{
+margin-left:0;
+padding:18px;
+}
 
-  .form-card h3{
-    font-size:18px;
-  }
+.menu-btn{
+display:block;
+}
+
+.header h1{
+font-size:26px;
+}
+
+.overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.5);
+display:none;
+z-index:900;
+}
+
+.overlay.show{
+display:block;
+}
 
 }
 </style>
@@ -117,21 +203,73 @@ h1{
 
 <body>
 
-<div class="container">
+<div class="overlay" id="overlay" onclick="toggleMenu(false)"></div>
 
-<h1>Checklist Inspeksi</h1>
-<div class="sub">CGG Command Center HSE</div>
+<aside class="sidebar" id="sidebar">
+
+<div class="logo">
+CGG SAFETY HUB
+<small>PT Cahaya Ginda Ganda</small>
+</div>
+
+<div class="nav-item" onclick="location.href='index.html'">
+<span>🏠</span>
+<span>Dashboard</span>
+</div>
+
+<div class="nav-item active">
+<span>📋</span>
+<span>Inspeksi</span>
+</div>
+
+<div class="nav-item">
+<span>⚠️</span>
+<span>Hazard Report</span>
+</div>
+
+<div class="nav-item">
+<span>🚨</span>
+<span>Incident</span>
+</div>
+
+<div class="nav-item">
+<span>📊</span>
+<span>Analytics</span>
+</div>
+
+<div class="nav-item">
+<span>📁</span>
+<span>Dokumen</span>
+</div>
+
+</aside>
+
+<main class="main">
+
+<div class="header">
+
+<div>
+<h1>Smart Launcher</h1>
+<p>CGG Command Center HSE</p>
+</div>
+
+<button class="menu-btn" onclick="toggleMenu(true)">☰</button>
+
+</div>
 
 <div class="card">
-  <div class="group-title">Smart Launcher</div>
-  <div class="sub">
-    Pilih kategori inspeksi. Semua data diambil otomatis dari Publish Engine.
-  </div>
+
+<div class="group-title">Pilih Form Inspeksi</div>
+
+<div class="sub">
+Semua form diambil otomatis dari Publish Engine.
+</div>
+
 </div>
 
 <div id="launcher"></div>
 
-</div>
+</main>
 
 <script>
 
@@ -139,160 +277,168 @@ const API="https://script.google.com/macros/s/AKfycbz0DS2wr6spCCt2q6qT4zPjUCahOO
 
 async function loadLauncher(){
 
-  const wrap=document.getElementById("launcher");
+const wrap=document.getElementById("launcher");
 
-  wrap.innerHTML=`
-    <div class="card">
-      Memuat Smart Launcher...
-    </div>
-  `;
+wrap.innerHTML=`
+<div class="card">
+Memuat Smart Launcher...
+</div>`;
 
-  try{
+try{
 
-    const res=await fetch(API);
+const res=await fetch(API);
 
-    if(!res.ok) throw new Error("API tidak bisa diakses.");
+if(!res.ok) throw new Error("API tidak dapat diakses.");
 
-    const data=await res.json();
+const data=await res.json();
 
-    if(!data.forms || !data.forms.length){
+if(!data.forms||!data.forms.length){
 
-      wrap.innerHTML=`
-        <div class="card">
-          Belum ada form dipublikasikan.
-        </div>
-      `;
+wrap.innerHTML=`
+<div class="card">
+Belum ada form dipublikasikan.
+</div>`;
 
-      return;
+return;
 
-    }
+}
 
-    renderLauncher(data.forms);
+renderLauncher(data.forms);
 
-  }catch(err){
+}catch(err){
 
-    console.error(err);
+wrap.innerHTML=`
+<div class="card">
+<h2>❌ Gagal memuat Smart Launcher</h2>
+<p>${err.message}</p>
+</div>`;
 
-    wrap.innerHTML=`
-      <div class="card">
-        <h2>❌ Gagal memuat Smart Launcher</h2>
-        <p>${err.message}</p>
-      </div>
-    `;
-
-  }
+}
 
 }
 
 function renderLauncher(forms){
 
-  const wrap=document.getElementById("launcher");
+const wrap=document.getElementById("launcher");
 
-  const groups={};
+const groups={};
 
-  forms.forEach(f=>{
+forms.forEach(f=>{
 
-    const cat=f.category || "Lainnya";
+const cat=f.category||"Lainnya";
 
-    if(!groups[cat]) groups[cat]=[];
+if(!groups[cat]) groups[cat]=[];
 
-    groups[cat].push(f);
+groups[cat].push(f);
 
-  });
+});
 
-  wrap.innerHTML=Object.entries(groups).map(([cat,list])=>`
+wrap.innerHTML=Object.entries(groups).map(([cat,list])=>`
 
-    <div class="card">
+<div class="card">
 
-      <div class="group-title">${icon(cat)} ${cat}</div>
+<div class="group-title">${icon(cat)} ${cat}</div>
 
-      <div class="sub">${list.length} Form</div>
+<div class="sub">${list.length} Form</div>
 
-      ${list.map(f=>`
+${list.map(f=>`
 
-        <div class="form-card">
+<div class="form-card">
 
-          <h3>${f.title}</h3>
+<h3>${f.title}</h3>
 
-          <div class="meta">
-            <div><b>Form ID :</b> ${f.formId}</div>
-            <div><b>Revisi :</b> ${f.revision}</div>
-            <div><b>Status :</b> ${f.status}</div>
-            <div><b>Total Item :</b> ${f.totalItems}</div>
-          </div>
+<div class="meta">
 
-          <div class="chips">
+<div><b>Form ID :</b> ${f.formId}</div>
 
-            ${getLauncherChips(f).map(v=>`
-              <span class="chip">${v}</span>
-            `).join("")}
+<div><b>Revisi :</b> ${f.revision}</div>
 
-          </div>
+<div><b>Status :</b> ${f.status}</div>
 
-          <button class="btn"
-            onclick="location.href='form.html?id=${encodeURIComponent(f.formId)}'">
-            Mulai Inspeksi
-          </button>
+<div><b>Total Item :</b> ${f.totalItems}</div>
 
-        </div>
+</div>
 
-      `).join("")}
+<div class="chips">
 
-    </div>
+${getChips(f).map(v=>`
+<span class="chip">${v}</span>
+`).join("")}
 
-  `).join("");
+</div>
+
+<button class="btn"
+onclick="location.href='form.html?id=${encodeURIComponent(f.formId)}'">
+Mulai Inspeksi
+</button>
+
+</div>
+
+`).join("")}
+
+</div>
+
+`).join("");
 
 }
 
-function getLauncherChips(form){
+function getChips(form){
 
-  switch(form.category){
+switch(form.category){
 
-    case "Unit":
-      return ["LV","Pickup","Manhaul"];
+case "Unit":
+return["LV","Pickup","Manhaul"];
 
-    case "Safety Device":
-      return ["APAR","Wheel Chock"];
+case "Safety Device":
+return["APAR","Wheel Chock"];
 
-    case "Pit":
-      return ["Area Tambang"];
+case "Pit":
+return["Area Tambang"];
 
-    case "Workshop":
-      return ["Workshop"];
+case "Workshop":
+return["Workshop"];
 
-    case "Environment":
-      return ["Environment"];
+case "Environment":
+return["Environment"];
 
-    default:
-      return [form.subCategory || "General"];
+default:
+return[form.subCategory||"General"];
 
-  }
+}
 
 }
 
 function icon(cat){
 
-  switch(cat){
+switch(cat){
 
-    case "Unit":
-      return "🚙";
+case "Unit": return"🚙";
+case "Safety Device": return"🧯";
+case "Pit": return"⛏️";
+case "Workshop": return"🔧";
+case "Environment": return"🌿";
+default:return"📋";
 
-    case "Safety Device":
-      return "🧯";
+}
 
-    case "Pit":
-      return "⛏️";
+}
 
-    case "Workshop":
-      return "🔧";
+function toggleMenu(open){
 
-    case "Environment":
-      return "🌿";
+const sidebar=document.getElementById("sidebar");
+const overlay=document.getElementById("overlay");
 
-    default:
-      return "📋";
+if(open){
 
-  }
+sidebar.classList.add("open");
+overlay.classList.add("show");
+
+}else{
+
+sidebar.classList.remove("open");
+overlay.classList.remove("show");
+
+}
 
 }
 
