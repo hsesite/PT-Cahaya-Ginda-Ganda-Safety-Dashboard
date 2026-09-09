@@ -7,14 +7,29 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+
 body{
   background:#020d1f;
   color:#fff;
   font-family:Inter,Arial,sans-serif;
-  padding:32px;
+  padding:24px;
 }
-h1{font-size:48px;margin-bottom:8px}
-.sub{color:#b8c3d8;margin-bottom:36px}
+
+.container{
+  max-width:1400px;
+  margin:auto;
+}
+
+h1{
+  font-size:48px;
+  margin-bottom:8px;
+}
+
+.sub{
+  color:#b8c3d8;
+  margin-bottom:30px;
+}
+
 .card{
   background:#0b1830;
   border:1px solid rgba(255,255,255,.08);
@@ -22,25 +37,43 @@ h1{font-size:48px;margin-bottom:8px}
   padding:28px;
   margin-bottom:24px;
 }
+
 .group-title{
   font-size:34px;
   font-weight:700;
   margin-bottom:8px;
 }
+
 .form-card{
   background:#13233f;
   border-radius:22px;
-  padding:24px;
+  padding:22px;
   margin-top:18px;
 }
+
 .form-card h3{
   font-size:24px;
   margin-bottom:16px;
 }
+
 .meta{
   color:#c4cfde;
   line-height:1.8;
 }
+
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:18px;
+}
+
+.chip{
+  background:#2453d4;
+  padding:8px 16px;
+  border-radius:999px;
+}
+
 .btn{
   display:inline-block;
   margin-top:22px;
@@ -53,30 +86,49 @@ h1{font-size:48px;margin-bottom:8px}
   cursor:pointer;
   font-weight:700;
 }
-.tag{
-  display:inline-block;
-  background:#204b96;
-  padding:8px 14px;
-  border-radius:999px;
-  margin-right:8px;
-  margin-top:12px;
+
+@media(max-width:768px){
+
+  body{
+    padding:16px;
+  }
+
+  h1{
+    font-size:36px;
+  }
+
+  .group-title{
+    font-size:28px;
+  }
+
+  .form-card h3{
+    font-size:20px;
+  }
+
 }
 </style>
 </head>
 
 <body>
 
+<div class="container">
+
 <h1>Checklist Inspeksi</h1>
 <div class="sub">CGG Command Center HSE</div>
 
 <div class="card">
   <div class="group-title">Smart Launcher</div>
-  <div class="sub">Pilih kategori inspeksi. Semua data diambil otomatis dari Publish Engine.</div>
+  <div class="sub">
+    Pilih kategori inspeksi. Semua data diambil otomatis dari Publish Engine.
+  </div>
 </div>
 
 <div id="launcher"></div>
 
+</div>
+
 <script>
+
 const API="https://script.google.com/macros/s/AKfycbz0DS2wr6spCCt2q6qT4zPjUCahOOFSbnC9BiN0AlNWM3JdnYeVwDq6u2Rrfx9bUou2/exec?action=forms";
 
 async function loadLauncher(){
@@ -84,9 +136,10 @@ async function loadLauncher(){
   const wrap=document.getElementById("launcher");
 
   wrap.innerHTML=`
-  <div class="card">
-    Memuat Smart Launcher...
-  </div>`;
+    <div class="card">
+      Memuat Smart Launcher...
+    </div>
+  `;
 
   try{
 
@@ -96,12 +149,14 @@ async function loadLauncher(){
 
     const data=await res.json();
 
-    if(!data.forms||!data.forms.length){
+    if(!data.forms || !data.forms.length){
 
       wrap.innerHTML=`
-      <div class="card">
-        Belum ada form dipublikasikan.
-      </div>`;
+        <div class="card">
+          Belum ada form dipublikasikan.
+        </div>
+      `;
+
       return;
 
     }
@@ -113,19 +168,6 @@ async function loadLauncher(){
     console.error(err);
 
     wrap.innerHTML=`
-    <div class="card">
-      <h3>❌ Gagal memuat Smart Launcher</h3>
-      <p>${err.message}</p>
-    </div>`;
-
-  }
-
-}
-  }catch(err){
-
-    console.error(err);
-
-    document.getElementById("launcher").innerHTML=`
       <div class="card">
         <h2>❌ Gagal memuat Smart Launcher</h2>
         <p>${err.message}</p>
@@ -136,7 +178,95 @@ async function loadLauncher(){
 
 }
 
+function renderLauncher(forms){
+
+  const wrap=document.getElementById("launcher");
+
+  const groups={};
+
+  forms.forEach(f=>{
+
+    const cat=f.category || "Lainnya";
+
+    if(!groups[cat]) groups[cat]=[];
+
+    groups[cat].push(f);
+
+  });
+
+  wrap.innerHTML=Object.entries(groups).map(([cat,list])=>`
+
+    <div class="card">
+
+      <div class="group-title">${icon(cat)} ${cat}</div>
+
+      <div class="sub">${list.length} Form</div>
+
+      ${list.map(f=>`
+
+        <div class="form-card">
+
+          <h3>${f.title}</h3>
+
+          <div class="meta">
+            <div><b>Form ID :</b> ${f.formId}</div>
+            <div><b>Revisi :</b> ${f.revision}</div>
+            <div><b>Status :</b> ${f.status}</div>
+            <div><b>Total Item :</b> ${f.totalItems}</div>
+          </div>
+
+          <div class="chips">
+
+            ${(f.variants && f.variants.length
+              ? f.variants
+              : [f.subCategory || "General"])
+              .map(v=>`<span class="chip">${v}</span>`).join("")}
+
+          </div>
+
+          <button class="btn"
+            onclick="location.href='form.html?id=${encodeURIComponent(f.formId)}'">
+            Mulai Inspeksi
+          </button>
+
+        </div>
+
+      `).join("")}
+
+    </div>
+
+  `).join("");
+
+}
+
+function icon(cat){
+
+  switch(cat){
+
+    case "Unit":
+      return "🚙";
+
+    case "Safety Device":
+      return "🧯";
+
+    case "Pit":
+      return "⛏️";
+
+    case "Workshop":
+      return "🔧";
+
+    case "Environment":
+      return "🌿";
+
+    default:
+      return "📋";
+
+  }
+
+}
+
 loadLauncher();
+
 </script>
 
 </body>
