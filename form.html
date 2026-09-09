@@ -3,185 +3,294 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Form Inspeksi</title>
+<title>CGG Safety Form</title>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+
 body{
-  background:#020d1f;
-  color:#fff;
-  font-family:Inter,Arial,sans-serif;
-  padding:24px;
+background:#020d1f;
+color:#fff;
+font-family:Inter,Arial,sans-serif;
 }
+
+.container{
+max-width:1400px;
+margin:auto;
+padding:20px;
+}
+
+.back{
+display:inline-block;
+margin-bottom:18px;
+color:#7dd3fc;
+text-decoration:none;
+font-weight:600;
+}
+
 .card{
-  background:#0b1830;
-  border-radius:22px;
-  padding:22px;
-  margin-bottom:22px;
-  border:1px solid rgba(255,255,255,.08);
+background:#0b1830;
+border-radius:22px;
+padding:24px;
+margin-bottom:22px;
+border:1px solid rgba(255,255,255,.08);
 }
+
+.context{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:16px;
+margin-top:18px;
+}
+
+.field{
+background:#13233f;
+padding:16px;
+border-radius:16px;
+}
+
+.field label{
+display:block;
+color:#b7c3d6;
+margin-bottom:8px;
+font-size:14px;
+}
+
 .section{
-  margin-top:30px;
+margin-top:30px;
 }
+
 .section h2{
-  margin-bottom:16px;
+margin-bottom:18px;
+font-size:32px;
 }
+
 .item{
-  background:#13233f;
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:18px;
+background:#13233f;
+border-radius:18px;
+padding:18px;
+margin-bottom:18px;
+border:1px solid rgba(255,255,255,.06);
 }
+
+.item-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:14px;
+}
+
 .badge{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  width:44px;
-  height:44px;
-  border-radius:999px;
-  background:#2453d4;
-  font-weight:700;
-  margin-bottom:14px;
+width:46px;
+height:46px;
+border-radius:999px;
+background:#2453d4;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:700;
 }
+
 .code{
-  float:right;
-  background:#31435f;
-  padding:6px 10px;
-  border-radius:999px;
+background:#31435f;
+padding:6px 12px;
+border-radius:999px;
+font-size:13px;
 }
+
 .title{
-  font-size:22px;
-  font-weight:700;
-  margin-bottom:16px;
+font-size:20px;
+font-weight:700;
+margin-bottom:18px;
 }
+
 .actions{
-  display:flex;
-  gap:14px;
+display:flex;
+gap:14px;
 }
+
 button{
-  flex:1;
-  padding:14px;
-  border:none;
-  border-radius:12px;
-  color:#fff;
-  font-weight:700;
-  cursor:pointer;
+flex:1;
+padding:15px;
+border:none;
+border-radius:12px;
+font-weight:700;
+cursor:pointer;
+color:white;
 }
+
 .yes{background:#16a34a}
 .no{background:#dc2626}
-.context{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:16px;
+
+.chips{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:18px;
 }
-.field{
-  background:#13233f;
-  padding:16px;
-  border-radius:16px;
+
+.chip{
+background:#2453d4;
+padding:10px 16px;
+border-radius:999px;
 }
-.field label{
-  display:block;
-  color:#b7c3d6;
-  margin-bottom:6px;
+
+@media(max-width:768px){
+
+.container{
+padding:14px;
+}
+
+.title{
+font-size:18px;
+}
+
+.actions{
+flex-direction:column;
+}
+
 }
 </style>
-</head>
 
+</head>
 <body>
+
+<div class="container">
+
+<a class="back" href="inspection.html">← Kembali ke Dashboard</a>
 
 <div id="app"></div>
 
+</div>
+
 <script>
-const API="https://script.google.com/macros/s/AKfycbz0DS2wr6spCCt2q6qT4zPjUCahOOFSbnC9BiN0AlNWM3JdnYeVwDq6u2Rrfx9bUou2/exec?action=forms";
+
+const API="https://script.google.com/macros/s/AKfycbz0DS2wr6spCCt2q6qT4zPjUCahOOFSbnC9BiN0AlNWM3JdnYeVwDq6u2Rrfx9bUou2/exec";
 
 async function loadForm(){
 
-  try{
+try{
 
-    const params=new URLSearchParams(location.search);
-    const formId=params.get("id");
+const params=new URLSearchParams(location.search);
 
-    if(!formId) throw new Error("Form ID tidak ditemukan.");
+const id=params.get("id");
 
-    const api=API.replace("action=forms","action=form");
+if(!id) throw new Error("Form ID tidak ditemukan.");
 
-    const res=await fetch(`${api}&id=${encodeURIComponent(formId)}`);
+const res=await fetch(`${API}?action=form&id=${encodeURIComponent(id)}`);
 
-    if(!res.ok) throw new Error("API gagal diakses.");
+if(!res.ok) throw new Error("API gagal.");
 
-    const data=await res.json();
+const data=await res.json();
 
-    if(data.success===false) throw new Error(data.message);
+if(data.success===false) throw new Error(data.message);
 
-    render(data);
+render(data);
 
-  }catch(err){
+}catch(err){
 
-    console.error(err);
+document.getElementById("app").innerHTML=`
+<div class="card">
+<h2>❌ Gagal memuat form</h2>
+<p>${err.message}</p>
+</div>
+`;
 
-    document.getElementById("app").innerHTML=`
-      <div class="card">
-        <h2>❌ Gagal memuat form</h2>
-        <p>${err.message}</p>
-      </div>
-    `;
-
-  }
+}
 
 }
 
 function render(data){
 
-  const app=document.getElementById("app");
+const app=document.getElementById("app");
 
-  app.innerHTML=`
-    <div class="card">
-      <h1>${data.title}</h1>
-      <div>Form ID : ${data.formId}</div>
-      <div>Revisi : ${data.revision}</div>
-      <div>Status : ${data.status}</div>
-    </div>
+app.innerHTML=`
 
-    <div class="card">
-      <h2>Informasi Pemeriksaan</h2>
-      <div class="context">
-        ${data.context.map(c=>`
-          <div class="field">
-            <label>${c.label}</label>
-            <div>${c.value||"-"}</div>
-          </div>
-        `).join("")}
-      </div>
-    </div>
+<div class="card">
 
-    ${data.sections.map(sec=>`
-      <div class="section">
-        <h2>${sec.title}</h2>
+<h1>${data.title}</h1>
 
-        ${sec.items.map(i=>`
-          <div class="item">
+<br>
 
-            <div class="badge">${i.no}</div>
+<p><strong>Form ID :</strong> ${data.formId}</p>
+<p><strong>Revisi :</strong> ${data.revision}</p>
+<p><strong>Status :</strong> ${data.status}</p>
+<p><strong>Total Item :</strong> ${data.totalItems}</p>
 
-            <span class="code">${i.code}</span>
+<div class="chips">
 
-            <div class="title">${i.title}</div>
+${(data.variants||["Pickup","Manhaul"]).map(v=>`
+<span class="chip">${v}</span>
+`).join("")}
 
-            <div class="actions">
-              <button class="yes">YA</button>
-              <button class="no">TIDAK</button>
-            </div>
+</div>
 
-          </div>
-        `).join("")}
+</div>
 
-      </div>
-    `).join("")}
-  `;
+<div class="card">
+
+<h2>Informasi Pemeriksaan</h2>
+
+<div class="context">
+
+${data.context.map(c=>`
+
+<div class="field">
+
+<label>${c.label}</label>
+
+<div>${c.value||"-"}</div>
+
+</div>
+
+`).join("")}
+
+</div>
+
+</div>
+
+${data.sections.map(sec=>`
+
+<div class="section">
+
+<h2>${sec.title}</h2>
+
+${sec.items.map(i=>`
+
+<div class="item">
+
+<div class="item-top">
+
+<div class="badge">${i.no||"-"}</div>
+
+<div class="code">${i.hazardCode||"-"}</div>
+
+</div>
+
+<div class="title">${i.text||i.title||"-"}</div>
+
+<div class="actions">
+
+<button class="yes">YA</button>
+
+<button class="no">TIDAK</button>
+
+</div>
+
+</div>
+
+`).join("")}
+
+</div>
+
+`).join("")}
+
+`;
 
 }
 
 loadForm();
+
 </script>
 
 </body>
