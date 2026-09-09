@@ -6,23 +6,89 @@
 <title>CGG Safety Hub - Form Inspeksi</title>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Inter,Arial,sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
 
 body{
 background:#020d1f;
 color:white;
+overflow-x:hidden;
 }
 
-.container{
-max-width:1400px;
-margin:auto;
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+width:250px;
+height:100%;
+background:#081529;
+border-right:1px solid rgba(255,255,255,.08);
 padding:20px;
+z-index:1000;
+transition:.3s;
+}
+
+.logo{
+font-size:22px;
+font-weight:700;
+margin-bottom:30px;
+line-height:1.3;
+}
+
+.logo small{
+display:block;
+font-size:13px;
+color:#8ea7c9;
+margin-top:6px;
+}
+
+.nav-item{
+display:flex;
+align-items:center;
+gap:14px;
+padding:14px;
+margin-bottom:8px;
+border-radius:12px;
+cursor:pointer;
+transition:.2s;
+}
+
+.nav-item:hover{
+background:#13233f;
+}
+
+.nav-item.active{
+background:#2453d4;
+}
+
+/* ================= CONTENT ================= */
+
+.main{
+margin-left:250px;
+padding:24px;
+transition:.3s;
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:24px;
+}
+
+.header h1{
+font-size:30px;
+}
+
+.menu-btn{
+display:none;
+background:#2453d4;
+border:none;
+color:white;
+padding:10px 14px;
+border-radius:10px;
+cursor:pointer;
 }
 
 .back{
@@ -31,7 +97,7 @@ align-items:center;
 gap:8px;
 color:#7dd3fc;
 text-decoration:none;
-margin-bottom:18px;
+margin-bottom:20px;
 font-weight:600;
 }
 
@@ -43,12 +109,7 @@ padding:22px;
 margin-bottom:22px;
 }
 
-.header-title{
-font-size:34px;
-margin-bottom:10px;
-}
-
-.meta{
+.meta-grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
 gap:12px;
@@ -79,7 +140,6 @@ margin-top:18px;
 background:#2453d4;
 padding:8px 16px;
 border-radius:999px;
-font-size:14px;
 }
 
 .section{
@@ -87,7 +147,7 @@ margin-top:30px;
 }
 
 .section h2{
-font-size:28px;
+font-size:26px;
 margin-bottom:18px;
 }
 
@@ -127,8 +187,8 @@ font-size:13px;
 .item-title{
 font-size:20px;
 font-weight:700;
-margin-bottom:18px;
 line-height:1.5;
+margin-bottom:18px;
 }
 
 .actions{
@@ -146,13 +206,8 @@ cursor:pointer;
 color:white;
 }
 
-.yes{
-background:#16a34a;
-}
-
-.no{
-background:#dc2626;
-}
+.yes{background:#16a34a;}
+.no{background:#dc2626;}
 
 .note{
 display:none;
@@ -174,13 +229,28 @@ border-left:6px solid #16a34a;
 border-left:6px solid #dc2626;
 }
 
+/* ================= MOBILE ================= */
+
 @media(max-width:768px){
 
-.container{
-padding:14px;
+.sidebar{
+transform:translateX(-100%);
 }
 
-.header-title{
+.sidebar.open{
+transform:translateX(0);
+}
+
+.main{
+margin-left:0;
+padding:18px;
+}
+
+.menu-btn{
+display:block;
+}
+
+.header h1{
 font-size:24px;
 }
 
@@ -196,20 +266,83 @@ font-size:17px;
 flex-direction:column;
 }
 
+.overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.5);
+display:none;
+z-index:900;
 }
 
+.overlay.show{
+display:block;
+}
+
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="overlay" id="overlay" onclick="toggleMenu(false)"></div>
+
+<aside class="sidebar" id="sidebar">
+
+<div class="logo">
+CGG SAFETY HUB
+<small>PT Cahaya Ginda Ganda</small>
+</div>
+
+<div class="nav-item" onclick="location.href='index.html'">
+<span>🏠</span>
+<span>Dashboard</span>
+</div>
+
+<div class="nav-item active" onclick="location.href='inspection.html'">
+<span>📋</span>
+<span>Inspeksi</span>
+</div>
+
+<div class="nav-item">
+<span>⚠️</span>
+<span>Hazard Report</span>
+</div>
+
+<div class="nav-item">
+<span>🚨</span>
+<span>Incident</span>
+</div>
+
+<div class="nav-item">
+<span>📊</span>
+<span>Analytics</span>
+</div>
+
+<div class="nav-item">
+<span>📁</span>
+<span>Dokumen</span>
+</div>
+
+</aside>
+
+<main class="main">
+
+<div class="header">
+
+<div>
+<h1>Form Inspeksi</h1>
+<p>CGG Command Center HSE</p>
+</div>
+
+<button class="menu-btn" onclick="toggleMenu(true)">☰</button>
+
+</div>
 
 <a class="back" href="inspection.html">← Kembali ke Smart Launcher</a>
 
 <div id="app"></div>
 
-</div>
+</main>
 
 <script>
 
@@ -223,33 +356,24 @@ const params=new URLSearchParams(location.search);
 
 const formId=params.get("id");
 
-if(!formId)
-throw new Error("Form ID tidak ditemukan.");
+if(!formId) throw new Error("Form ID tidak ditemukan.");
 
-const res=await fetch(
-`${API}?action=form&id=${encodeURIComponent(formId)}`
-);
+const res=await fetch(`${API}?action=form&id=${encodeURIComponent(formId)}`);
 
-if(!res.ok)
-throw new Error("API tidak dapat diakses.");
+if(!res.ok) throw new Error("API tidak dapat diakses.");
 
 const data=await res.json();
 
-if(data.success===false)
-throw new Error(data.message);
+if(data.success===false) throw new Error(data.message);
 
 render(data);
 
 }catch(err){
 
 document.getElementById("app").innerHTML=`
-
 <div class="card">
-
 <h2>❌ Gagal memuat form</h2>
-
 <p>${err.message}</p>
-
 </div>`;
 
 }
@@ -264,9 +388,9 @@ app.innerHTML=`
 
 <div class="card">
 
-<div class="header-title">${data.title}</div>
+<h2>${data.title}</h2>
 
-<div class="meta">
+<div class="meta-grid">
 
 <div class="meta-item">
 <label>Form ID</label>
@@ -304,18 +428,13 @@ ${(data.variants||[]).map(v=>`
 
 <h2>Informasi Pemeriksaan</h2>
 
-<div class="meta">
+<div class="meta-grid">
 
 ${(data.context||[]).map(c=>`
-
 <div class="meta-item">
-
 <label>${c.label}</label>
-
 ${c.value||"-"}
-
 </div>
-
 `).join("")}
 
 </div>
@@ -344,22 +463,13 @@ ${(sec.items||[]).map(item=>`
 
 <div class="actions">
 
-<button class="yes"
-onclick="answer(${item.no},true)">
-YA
-</button>
+<button class="yes" onclick="answer(${item.no},true)">YA</button>
 
-<button class="no"
-onclick="answer(${item.no},false)">
-TIDAK
-</button>
+<button class="no" onclick="answer(${item.no},false)">TIDAK</button>
 
 </div>
 
-<textarea
-class="note"
-id="note-${item.no}"
-placeholder="Tuliskan temuan jika memilih TIDAK..."></textarea>
+<textarea class="note" id="note-${item.no}" placeholder="Tuliskan temuan jika memilih TIDAK..."></textarea>
 
 </div>
 
@@ -376,7 +486,6 @@ placeholder="Tuliskan temuan jika memilih TIDAK..."></textarea>
 function answer(no,yes){
 
 const card=document.getElementById(`item-${no}`);
-
 const note=document.getElementById(`note-${no}`);
 
 card.classList.remove("active-yes","active-no");
@@ -384,14 +493,31 @@ card.classList.remove("active-yes","active-no");
 if(yes){
 
 card.classList.add("active-yes");
-
 note.style.display="none";
 
 }else{
 
 card.classList.add("active-no");
-
 note.style.display="block";
+
+}
+
+}
+
+function toggleMenu(open){
+
+const sidebar=document.getElementById("sidebar");
+const overlay=document.getElementById("overlay");
+
+if(open){
+
+sidebar.classList.add("open");
+overlay.classList.add("show");
+
+}else{
+
+sidebar.classList.remove("open");
+overlay.classList.remove("show");
 
 }
 
