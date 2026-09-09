@@ -126,7 +126,10 @@ async function loadLauncher(){
             <div><b>Variant :</b> ${(f.variants||[]).join(", ")||"-"}</div>
 
             <div>
-              ${(f.keywords||[]).map(k=>`<span class="tag">${k}</span>`).join("")}
+              ${(f.variants && f.variants.length
+                 ? f.variants
+                 : ["Semua"])
+              .map(v=>`<span class="chip">${v}</span>`).join("")
             </div>
           </div>
 
