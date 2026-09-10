@@ -6,10 +6,12 @@
 
 const Dashboard = {
 
-  data:{
+  state:{
+
     inspection:0,
     hazard:0,
     incident:0
+
   },
 
   init(){
@@ -20,7 +22,7 @@ const Dashboard = {
 
     this.animateAll();
 
-    this.bindMenu();
+    this.bindNavigationState();
 
     setInterval(()=>{
 
@@ -33,53 +35,53 @@ const Dashboard = {
   },
 
   /* ======================================================
-     Animasi Angka KPI
+     Animasi KPI
   ====================================================== */
 
-  animateValue(id,target,duration=1200){
+  animateValue(id,target,duration=900){
 
     const el=document.getElementById(id);
 
     if(!el) return;
 
-    const start=0;
+    const start=Number(el.textContent.replace(/\D/g,"")) || 0;
 
     const startTime=performance.now();
 
-    const step=(now)=>{
+    const frame=(now)=>{
 
       const progress=Math.min((now-startTime)/duration,1);
 
-      const value=Math.floor(progress*(target-start)+start);
+      const value=Math.round(start+(target-start)*progress);
 
       el.textContent=value.toLocaleString("id-ID");
 
       if(progress<1){
 
-        requestAnimationFrame(step);
+        requestAnimationFrame(frame);
 
       }
 
     };
 
-    requestAnimationFrame(step);
+    requestAnimationFrame(frame);
 
   },
 
   animateAll(){
 
-    this.animateValue("inspectionCounter",this.data.inspection);
+    this.animateValue("inspectionCounter",this.state.inspection);
 
-    this.animateValue("kpiInspection",this.data.inspection);
+    this.animateValue("kpiInspection",this.state.inspection);
 
-    this.animateValue("kpiHazard",this.data.hazard);
+    this.animateValue("kpiHazard",this.state.hazard);
 
-    this.animateValue("kpiIncident",this.data.incident);
+    this.animateValue("kpiIncident",this.state.incident);
 
   },
 
   /* ======================================================
-     Jam & Tanggal
+     Tanggal & Jam
   ====================================================== */
 
   updateDateTime(){
@@ -95,11 +97,8 @@ const Dashboard = {
       date.textContent=now.toLocaleDateString("id-ID",{
 
         weekday:"short",
-
         day:"2-digit",
-
         month:"short",
-
         year:"numeric"
 
       });
@@ -111,9 +110,7 @@ const Dashboard = {
       clock.textContent=now.toLocaleTimeString("id-ID",{
 
         hour:"2-digit",
-
         minute:"2-digit",
-
         second:"2-digit"
 
       });
@@ -132,27 +129,19 @@ const Dashboard = {
 
     const text=document.getElementById("shiftText");
 
-    const icon=document.querySelector("#executiveHero .hero-circle svg");
+    const icon=document.querySelector("#executiveHero .hero-circle i");
 
     if(hour>=6 && hour<18){
 
       if(text) text.textContent="Day Shift";
 
-      if(icon){
-
-        icon.setAttribute("data-lucide","sun");
-
-      }
+      if(icon) icon.setAttribute("data-lucide","sun");
 
     }else{
 
       if(text) text.textContent="Night Shift";
 
-      if(icon){
-
-        icon.setAttribute("data-lucide","moon");
-
-      }
+      if(icon) icon.setAttribute("data-lucide","moon");
 
     }
 
@@ -165,10 +154,10 @@ const Dashboard = {
   },
 
   /* ======================================================
-     Menu Aktif
+     Sinkron Menu Aktif
   ====================================================== */
 
-  bindMenu(){
+  bindNavigationState(){
 
     const buttons=document.querySelectorAll("[data-module]");
 
@@ -176,11 +165,13 @@ const Dashboard = {
 
       btn.addEventListener("click",()=>{
 
-        document.querySelectorAll(".sidebar-item,.menu-card,.bottom-nav button")
+        const module=btn.dataset.module;
 
-        .forEach(el=>el.classList.remove("active"));
+        document.querySelectorAll("[data-module]").forEach(el=>{
 
-        btn.classList.add("active");
+          el.classList.toggle("active",el.dataset.module===module);
+
+        });
 
       });
 
@@ -189,12 +180,17 @@ const Dashboard = {
   },
 
   /* ======================================================
-     Future Apps Script
+     Siap menerima data Google Sheets
   ====================================================== */
 
-  setData(newData){
+  setData(data={}){
 
-    this.data={...this.data,...newData};
+    this.state={
+
+      ...this.state,
+      ...data
+
+    };
 
     this.animateAll();
 
