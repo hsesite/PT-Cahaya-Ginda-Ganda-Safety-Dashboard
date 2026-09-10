@@ -85,21 +85,26 @@
 
 </header>
 
-<section class="hero glass">
+<section class="hero glass cgg-card cgg-kpi cgg-fade-up" data-cgg="hero-kpi">
 
-<div>
+  <row justify=between align=center>
+    <box gap=0>
+      <caption>Executive Dashboard</caption>
 
-<p>Ringkasan Hari Ini</p>
+      <title size=xl strong>0</title>
 
-<h2 id="inspectionCounter">0</h2>
+      <caption id="inspectionCounter">Inspection Hari Ini</caption>
+    </box>
 
-</div>
+    <box background="rgba(0,200,83,.10)" radius=xl padding=3 border={{size:1,color:"rgba(0,200,83,.25)"}}>
+      <icon name=activity color=success size=md/>
+    </box>
+  </row>
 
-<div class="hero-icon">
-
-<i data-lucide="activity"></i>
-
-</div>
+  <row gap=2 align=center>
+    <box background="rgba(0,200,83,.10)" radius=full padding=2><icon name=shield-check color=success/></box>
+    <caption>Data akan mengikuti Spreadsheet secara otomatis</caption>
+  </row>
 
 </section>
 
@@ -109,25 +114,31 @@
 
 <p>Inspection</p>
 
-<h3>0</h3>
+<section class="quick-grid cgg-grid cgg-grid-3">
 
-</div>
+  <div class="glass stat-card cgg-card" data-cgg="stat-card">
+    <div class="icon-glass">
+      <i data-lucide="clipboard-check"></i>
+    </div>
+    <p>Inspection</p>
+    <h3 id="inspectionToday">0</h3>
+  </div>
 
-<div class="glass stat-card">
+  <div class="glass stat-card cgg-card" data-cgg="stat-card">
+    <div class="icon-glass">
+      <i data-lucide="triangle-alert"></i>
+    </div>
+    <p>Hazard</p>
+    <h3 id="hazardToday">0</h3>
+  </div>
 
-<p>Hazard</p>
-
-<h3>0</h3>
-
-</div>
-
-<div class="glass stat-card">
-
-<p>Incident</p>
-
-<h3>0</h3>
-
-</div>
+  <div class="glass stat-card cgg-card" data-cgg="stat-card">
+    <div class="icon-glass">
+      <i data-lucide="circle-alert"></i>
+    </div>
+    <p>Incident</p>
+    <h3 id="incidentToday">0</h3>
+  </div>
 
 </section>
 
