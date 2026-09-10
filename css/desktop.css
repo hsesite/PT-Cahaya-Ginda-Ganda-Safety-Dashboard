@@ -819,3 +819,41 @@ body{
 }
 
 }
+
+@media (min-width:1200px){
+
+.sidebar-title{
+
+  opacity:0;
+
+  transform:translateX(-8px);
+
+  transition:.25s;
+
+  margin-bottom:18px;
+
+}
+
+.desktop-sidebar.expanded .sidebar-title{
+
+  opacity:1;
+
+  transform:translateX(0);
+
+}
+
+.sidebar-title strong{
+
+  display:block;
+
+  font-size:15px;
+
+}
+
+.sidebar-title small{
+
+  color:#7F8A97;
+
+}
+
+}
