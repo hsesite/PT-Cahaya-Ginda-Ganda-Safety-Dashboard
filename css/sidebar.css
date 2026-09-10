@@ -1,179 +1,366 @@
 /* ==========================================================
    PT. CGG HSE Dashboard
-   sidebar.js v3.0
-   macOS + iPhone Sidebar
+   sidebar.css v3.0
+   Sidebar System (Desktop macOS + Mobile iPhone)
 ========================================================== */
 
-const Sidebar = {
+/* ==========================================================
+   DESKTOP SIDEBAR
+========================================================== */
 
-  desktop:null,
-  mobile:null,
-  overlay:null,
-  isPinned:false,
+.desktop-sidebar{
 
-  init(){
+  position:fixed;
 
-    this.desktop=document.getElementById("desktopSidebar");
-    this.mobile=document.getElementById("mobileSidebar");
-    this.overlay=document.getElementById("mobileOverlay");
+  top:18px;
+  left:18px;
+  bottom:18px;
 
-    this.loadState();
+  width:96px;
 
-    this.bindDesktop();
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
 
-    this.bindMobile();
+  padding:16px;
 
-    this.bindKeyboard();
+  border-radius:30px;
 
-  },
+  background:
+    linear-gradient(180deg,
+      rgba(20,28,38,.86),
+      rgba(12,18,26,.76));
 
-  /* ======================================================
-     Desktop Sidebar
-  ====================================================== */
+  backdrop-filter:blur(30px);
+  -webkit-backdrop-filter:blur(30px);
 
-  bindDesktop(){
+  border:1px solid rgba(255,255,255,.08);
 
-    if(!this.desktop) return;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 20px 60px rgba(0,0,0,.35);
 
-    this.desktop.addEventListener("mouseenter",()=>{
+  z-index:1200;
 
-      if(!this.isPinned){
+  transition:
+    width .35s cubic-bezier(.22,.8,.2,1),
+    transform .25s ease;
 
-        this.desktop.classList.add("expanded");
+}
 
-      }
+/* Hover / Pin */
 
-    });
+.desktop-sidebar.expanded{
 
-    this.desktop.addEventListener("mouseleave",()=>{
+  width:260px;
 
-      if(!this.isPinned){
+}
 
-        this.desktop.classList.remove("expanded");
+/* Logo */
 
-      }
+.sidebar-logo{
 
-    });
+  width:56px;
+  height:56px;
 
-    /* Double Click = Pin */
+  border-radius:18px;
 
-    this.desktop.addEventListener("dblclick",()=>{
+  display:grid;
+  place-items:center;
 
-      this.togglePin();
+  background:rgba(255,255,255,.05);
 
-    });
+  border:1px solid rgba(255,255,255,.05);
 
-  },
+}
 
-  togglePin(){
+.sidebar-logo img{
 
-    this.isPinned=!this.isPinned;
+  width:36px;
+  height:auto;
 
-    this.desktop.classList.toggle("expanded",this.isPinned);
+}
 
-    localStorage.setItem("cgg-sidebar-pin",this.isPinned);
+/* Menu */
 
-  },
+.sidebar-menu{
 
-  loadState(){
+  display:flex;
+  flex-direction:column;
 
-    this.isPinned=localStorage.getItem("cgg-sidebar-pin")==="true";
+  gap:8px;
 
-    if(this.desktop && this.isPinned){
+  margin-top:22px;
 
-      this.desktop.classList.add("expanded");
+}
 
-    }
+.sidebar-item{
 
-  },
+  height:52px;
 
-  /* ======================================================
-     Mobile Sidebar
-  ====================================================== */
+  display:flex;
+  align-items:center;
 
-  bindMobile(){
+  gap:16px;
 
-    const open=document.getElementById("openSidebar");
-    const close=document.getElementById("closeSidebar");
+  border:none;
 
-    if(open){
+  background:transparent;
 
-      open.addEventListener("click",()=>this.openMobile());
+  color:#C8D1DB;
 
-    }
+  border-radius:16px;
 
-    if(close){
+  padding:0 14px;
 
-      close.addEventListener("click",()=>this.closeMobile());
+  cursor:pointer;
 
-    }
+  transition:
+    background .25s,
+    transform .25s,
+    color .25s;
 
-    if(this.overlay){
+}
 
-      this.overlay.addEventListener("click",()=>this.closeMobile());
+.sidebar-item:hover{
 
-    }
+  background:rgba(255,255,255,.05);
 
-  },
+  transform:translateX(3px);
 
-  openMobile(){
+}
 
-    if(!this.mobile) return;
+.sidebar-item.active{
 
-    this.mobile.classList.add("open");
+  background:rgba(0,230,118,.12);
 
-    this.overlay.classList.add("show");
+  color:#00E676;
 
-    document.body.style.overflow="hidden";
+}
 
-  },
+.sidebar-item svg{
 
-  closeMobile(){
+  width:22px;
+  height:22px;
 
-    if(!this.mobile) return;
+  flex-shrink:0;
 
-    this.mobile.classList.remove("open");
+}
 
-    this.overlay.classList.remove("show");
+.sidebar-item span{
 
-    document.body.style.overflow="";
+  opacity:0;
 
-  },
+  transform:translateX(-8px);
 
-  /* ======================================================
-     Keyboard Shortcut
-  ====================================================== */
+  white-space:nowrap;
 
-  bindKeyboard(){
+  transition:.25s;
 
-    document.addEventListener("keydown",(e)=>{
+}
 
-      /* ESC */
+.desktop-sidebar.expanded .sidebar-item span{
 
-      if(e.key==="Escape"){
+  opacity:1;
 
-        this.closeMobile();
+  transform:translateX(0);
 
-      }
+}
 
-      /* Ctrl+B = Toggle Desktop Sidebar */
+/* Footer */
 
-      if((e.ctrlKey || e.metaKey) && e.key.toLowerCase()==="b"){
+.sidebar-footer{
 
-        e.preventDefault();
+  padding-top:18px;
 
-        this.togglePin();
+  border-top:1px solid rgba(255,255,255,.08);
 
-      }
+}
 
-    });
+/* ==========================================================
+   MOBILE SIDEBAR
+========================================================== */
+
+.mobile-sidebar{
+
+  position:fixed;
+
+  top:0;
+  left:-320px;
+
+  width:290px;
+  height:100vh;
+
+  padding:22px;
+
+  display:flex;
+  flex-direction:column;
+
+  background:
+    linear-gradient(180deg,
+      rgba(18,26,36,.94),
+      rgba(10,15,22,.90));
+
+  backdrop-filter:blur(32px);
+  -webkit-backdrop-filter:blur(32px);
+
+  border-right:1px solid rgba(255,255,255,.08);
+
+  box-shadow:20px 0 50px rgba(0,0,0,.35);
+
+  z-index:1300;
+
+  transition:left .35s cubic-bezier(.22,.8,.2,1);
+
+}
+
+.mobile-sidebar.open{
+
+  left:0;
+
+}
+
+/* Header */
+
+.mobile-sidebar-header{
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  margin-bottom:28px;
+
+}
+
+.mobile-sidebar-header button{
+
+  width:40px;
+  height:40px;
+
+  border:none;
+
+  border-radius:12px;
+
+  background:rgba(255,255,255,.05);
+
+  color:white;
+
+  cursor:pointer;
+
+  transition:.25s;
+
+}
+
+.mobile-sidebar-header button:hover{
+
+  background:rgba(255,255,255,.08);
+
+}
+
+/* Menu */
+
+.mobile-sidebar-menu{
+
+  display:flex;
+  flex-direction:column;
+
+  gap:8px;
+
+}
+
+.mobile-sidebar-menu button{
+
+  display:flex;
+  align-items:center;
+
+  gap:14px;
+
+  width:100%;
+
+  padding:15px;
+
+  border:none;
+
+  border-radius:16px;
+
+  background:transparent;
+
+  color:#E6EDF5;
+
+  font-size:15px;
+
+  text-align:left;
+
+  cursor:pointer;
+
+  transition:.25s;
+
+}
+
+.mobile-sidebar-menu button:hover{
+
+  background:rgba(255,255,255,.06);
+
+}
+
+.mobile-sidebar-menu button svg{
+
+  width:22px;
+  height:22px;
+
+}
+
+/* Overlay */
+
+.mobile-sidebar-overlay{
+
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.30);
+
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+
+  opacity:0;
+
+  visibility:hidden;
+
+  transition:.3s;
+
+  z-index:1290;
+
+}
+
+.mobile-sidebar-overlay.show{
+
+  opacity:1;
+
+  visibility:visible;
+
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width:1199px){
+
+  .desktop-sidebar{
+
+    display:none;
 
   }
 
-};
+}
 
-document.addEventListener("DOMContentLoaded",()=>{
+@media (min-width:1200px){
 
-  Sidebar.init();
+  .mobile-sidebar,
+  .mobile-sidebar-overlay{
 
-});
+    display:none;
+
+  }
+
+}
