@@ -397,3 +397,180 @@ body{
 }
 
 }
+
+/* ==========================================================
+   Desktop Scale Fix v3.1 (Override)
+   Tambahkan di PALING BAWAH desktop.css
+========================================================== */
+
+@media (min-width:1200px){
+
+:root{
+  --sidebar-width:120px;
+  --sidebar-expand:300px;
+}
+
+/* Layout utama */
+
+.app{
+  padding:20px 24px 20px calc(var(--sidebar-width) + 24px);
+}
+
+/* Sidebar */
+
+.desktop-sidebar{
+  width:var(--sidebar-width);
+}
+
+.desktop-sidebar.expanded{
+  width:var(--sidebar-expand);
+}
+
+/* Logo */
+
+.sidebar-logo{
+  width:72px;
+  height:72px;
+}
+
+.sidebar-logo img{
+  width:46px;
+}
+
+/* Menu Sidebar */
+
+.sidebar-item{
+  height:60px;
+  padding:0 18px;
+}
+
+.sidebar-item svg{
+  width:28px;
+  height:28px;
+}
+
+.sidebar-item span{
+  font-size:15px;
+  font-weight:500;
+}
+
+/* Header */
+
+.header{
+  padding:18px 22px;
+}
+
+.brand-text h1{
+  font-size:34px;
+}
+
+.brand-text p{
+  font-size:16px;
+}
+
+.status{
+  padding:12px 20px;
+  font-size:15px;
+}
+
+/* Info Card */
+
+.header-info{
+  grid-template-columns:repeat(3,160px);
+}
+
+.info-card{
+  padding:16px;
+}
+
+.info-card svg{
+  width:22px;
+  height:22px;
+}
+
+/* Hero */
+
+.hero{
+  min-height:160px;
+  padding:26px;
+}
+
+.hero h2{
+  font-size:82px;
+}
+
+.hero-circle{
+  width:110px;
+  height:110px;
+}
+
+.hero-circle svg{
+  width:52px;
+  height:52px;
+}
+
+/* KPI */
+
+.quick-grid{
+  grid-template-columns:repeat(3,1fr);
+}
+
+.stat-card{
+  min-height:100px;
+  padding:18px;
+}
+
+.stat-card p{
+  font-size:13px;
+}
+
+.stat-card h3{
+  font-size:42px;
+}
+
+/* Menu Card */
+
+.menu-grid{
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.menu-card{
+  min-height:180px;
+}
+
+.icon-glass{
+  width:76px;
+  height:76px;
+  border-radius:22px;
+}
+
+.icon-glass svg{
+  width:36px;
+  height:36px;
+}
+
+.menu-card span{
+  font-size:15px;
+}
+
+/* Dashboard kanan */
+
+.desktop-dashboard{
+  grid-template-columns:2.2fr 1fr;
+}
+
+.desktop-card{
+  padding:28px;
+}
+
+.placeholder svg{
+  width:60px;
+  height:60px;
+}
+
+.summary-grid strong{
+  font-size:52px;
+}
+
+}
