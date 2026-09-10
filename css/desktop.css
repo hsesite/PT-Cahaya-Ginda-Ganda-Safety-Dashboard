@@ -1,41 +1,68 @@
 /* ==========================================================
    PT Cahaya Ginda Ganda HSE Dashboard
-   desktop.css v5.0 (LOCKED)
-   macOS + VisionOS Desktop Layout
+   desktop.css v6.0 (DESKTOP OWNER)
+   Seluruh layout desktop ada di file ini.
 ========================================================== */
 
-@media (min-width:1200px){
+@media (min-width:901px){
 
 /* =========================================
-   APP LAYOUT
+   MAIN WORKSPACE
 ========================================= */
 
 .app{
 
-width:calc(100vw - 120px);
+max-width:none;
 
-max-width:1800px;
+width:100%;
 
-margin:18px 18px 18px 102px;
-
-padding:0;
+padding:24px 28px 24px 116px;
 
 display:grid;
 
-grid-template-columns:minmax(760px,1fr) 360px;
+grid-template-columns:minmax(560px,1fr) 320px;
 
 grid-template-areas:
 "header header"
-"hero side"
+"hero hero"
 "kpi side"
-"menu side"
-"view side";
+"menu side";
 
-column-gap:22px;
+column-gap:24px;
 
-row-gap:20px;
+row-gap:22px;
 
 align-items:start;
+
+}
+
+/* =========================================
+   GRID AREA
+========================================= */
+
+.header{grid-area:header;}
+
+.hero{grid-area:hero;}
+
+.quick-grid{grid-area:kpi;}
+
+.menu-grid{grid-area:menu;}
+
+.desktop-dashboard{
+
+grid-area:side;
+
+display:grid;
+
+grid-template-columns:2fr 1fr;
+
+grid-template-areas:
+"trend activity"
+"contract contract";
+
+gap:22px;
+
+align-self:start;
 
 }
 
@@ -45,43 +72,27 @@ align-items:start;
 
 .header{
 
-grid-area:header;
+padding:30px;
 
-padding:22px 24px;
-
-}
-
-.brand{
-
-align-items:center;
+min-height:168px;
 
 }
 
 .brand-text h1{
 
-font-size:22px;
+font-size:2.2rem;
 
 }
 
 .brand-text p{
 
-font-size:13px;
+font-size:1rem;
 
 }
 
 .header-info{
 
-display:flex;
-
-gap:12px;
-
-justify-content:flex-end;
-
-}
-
-.info-card{
-
-min-width:110px;
+margin-left:auto;
 
 }
 
@@ -91,33 +102,31 @@ min-width:110px;
 
 .hero{
 
-grid-area:hero;
+min-height:190px;
 
-min-height:220px;
-
-padding:30px;
+padding:32px;
 
 }
 
 .hero h2{
 
-font-size:72px;
+font-size:4.5rem;
 
 }
 
 .hero-circle{
 
-width:110px;
+width:128px;
 
-height:110px;
+height:128px;
 
 }
 
-.hero-circle svg{
+.hero-circle i{
 
-width:48px;
+width:54px;
 
-height:48px;
+height:54px;
 
 }
 
@@ -127,23 +136,19 @@ height:48px;
 
 .quick-grid{
 
-grid-area:kpi;
-
 grid-template-columns:repeat(3,1fr);
-
-gap:18px;
 
 }
 
 .stat-card{
 
-padding:24px;
+padding:26px;
 
 }
 
 .stat-card h3{
 
-font-size:34px;
+font-size:2.3rem;
 
 }
 
@@ -153,35 +158,19 @@ font-size:34px;
 
 .menu-grid{
 
-grid-area:menu;
-
 grid-template-columns:repeat(3,1fr);
-
-gap:18px;
 
 }
 
 .menu-card{
 
-padding:24px;
-
-min-height:150px;
+min-height:128px;
 
 }
 
-.icon-glass{
+.menu-card:hover{
 
-width:74px;
-
-height:74px;
-
-}
-
-.icon-glass svg{
-
-width:32px;
-
-height:32px;
+transform:translateY(-8px);
 
 }
 
@@ -189,263 +178,161 @@ height:32px;
    RIGHT WORKSPACE
 ========================================= */
 
-.desktop-dashboard{
+.desktop-card{
 
-grid-area:side;
-
-display:grid!important;
-
-gap:18px;
-
-align-self:start;
-
-position:sticky;
-
-top:18px;
-
-}
-
-.chart-card{
-
-min-height:250px;
-
-}
-
-.activity-card{
+padding:22px;
 
 min-height:210px;
 
 }
 
+.chart-card{grid-area:trend;}
+
+.activity-card{grid-area:activity;}
+
 .contractor-card{
 
-min-height:180px;
+grid-area:contract;
+
+min-height:170px;
 
 }
 
-.desktop-card{
+.card-head{
 
-padding:22px;
+display:flex;
+
+justify-content:space-between;
+
+align-items:flex-start;
+
+margin-bottom:18px;
+
+}
+
+.card-head h3{
+
+font-size:1.55rem;
+
+font-weight:700;
+
+}
+
+.card-head span{
+
+font-size:.85rem;
+
+color:#93A0AF;
 
 }
 
 .placeholder{
 
-height:170px;
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+height:120px;
+
+gap:16px;
+
+color:#9AA7B7;
+
+}
+
+.placeholder i{
+
+width:42px;
+
+height:42px;
+
+color:#00E676;
+
+}
+
+.summary-grid{
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:18px;
+
+margin-top:18px;
+
+}
+
+.summary-grid div{
+
+padding:18px;
+
+border-radius:18px;
+
+background:rgba(255,255,255,.04);
+
+border:1px solid rgba(255,255,255,.06);
+
+text-align:center;
+
+}
+
+.summary-grid strong{
+
+display:block;
+
+font-size:2rem;
+
+margin-bottom:8px;
+
+}
+
+.summary-grid span{
+
+color:#9FB0C3;
+
+font-size:.9rem;
 
 }
 
 /* =========================================
-   MODULE CONTAINER
+   APP VIEW
 ========================================= */
 
 .app-view{
 
-grid-area:view;
+grid-column:1/-1;
 
-display:none;
-
-min-height:400px;
+}
 
 }
 
 /* =========================================
-   DESKTOP SIDEBAR
+   LARGE DESKTOP
 ========================================= */
 
-.desktop-sidebar{
+@media (min-width:1440px){
 
-display:flex!important;
+.app{
 
-position:fixed;
+grid-template-columns:minmax(640px,1fr) 360px;
 
-left:0;
-
-top:0;
-
-height:100vh;
-
-width:84px;
-
-padding:18px 14px;
-
-flex-direction:column;
-
-justify-content:space-between;
-
-background:rgba(8,12,18,.96);
-
-backdrop-filter:blur(26px);
-
--webkit-backdrop-filter:blur(26px);
-
-border-right:1px solid rgba(255,255,255,.06);
-
-transition:width .28s cubic-bezier(.22,.61,.36,1);
-
-z-index:1000;
+padding-left:122px;
 
 }
 
-.desktop-sidebar:hover{
+.hero{
 
-width:240px;
-
-}
-
-.sidebar-logo{
-
-width:56px;
-
-height:56px;
-
-border-radius:18px;
-
-overflow:hidden;
-
-background:rgba(255,255,255,.05);
-
-display:grid;
-
-place-items:center;
-
-margin-bottom:18px;
+min-height:210px;
 
 }
 
-.sidebar-logo img{
+.hero h2{
 
-width:100%;
-
-height:100%;
-
-object-fit:cover;
-
-}
-
-.sidebar-title{
-
-opacity:0;
-
-transform:translateX(-8px);
-
-transition:.25s;
-
-margin-bottom:18px;
-
-}
-
-.desktop-sidebar:hover .sidebar-title{
-
-opacity:1;
-
-transform:translateX(0);
-
-}
-
-.sidebar-title strong{
-
-display:block;
-
-font-size:15px;
-
-}
-
-.sidebar-title small{
-
-color:var(--text-muted);
-
-font-size:12px;
-
-}
-
-.sidebar-menu{
-
-display:flex;
-
-flex-direction:column;
-
-gap:8px;
-
-}
-
-.sidebar-item{
-
-appearance:none;
-
-border:none;
-
-background:transparent;
-
-color:var(--text-secondary);
-
-display:flex;
-
-align-items:center;
-
-gap:16px;
-
-padding:14px;
-
-border-radius:16px;
-
-cursor:pointer;
-
-transition:all .22s ease;
-
-}
-
-.sidebar-item:hover,
-
-.sidebar-item.active{
-
-background:rgba(0,200,83,.12);
-
-color:var(--success);
-
-}
-
-.sidebar-item svg{
-
-width:22px;
-
-height:22px;
-
-flex-shrink:0;
-
-}
-
-.sidebar-item span{
-
-opacity:0;
-
-transform:translateX(-8px);
-
-transition:.25s;
-
-white-space:nowrap;
-
-}
-
-.desktop-sidebar:hover .sidebar-item span{
-
-opacity:1;
-
-transform:translateX(0);
-
-}
-
-/* =========================================
-   MOBILE OFF
-========================================= */
-
-.mobile-sidebar,
-
-.mobile-sidebar-overlay,
-
-.bottom-nav{
-
-display:none!important;
+font-size:5rem;
 
 }
 
