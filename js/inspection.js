@@ -1,91 +1,163 @@
 /* ==========================================================
-   inspection.js
+   PT Cahaya Ginda Ganda HSE Dashboard
+   inspection.js v5.0 (LOCKED)
+   Inspection Controller
 ========================================================== */
 
-const Inspection={
+const Inspection = {
 
-init(){
+  form:null,
 
-this.fillCompany();
+  init(){
 
-this.fillContractor();
+    const container=document.getElementById("appView");
 
-this.bindContractor();
+    if(!container) return;
 
-},
+    container.innerHTML=InspectionUI.build();
 
-fillCompany(){
+    this.form=document.getElementById("inspectionForm");
 
-const select=document.getElementById("companySelect");
+    if(!this.form) return;
 
-if(!select) return;
+    InspectionUI.bindChecklist();
 
-select.innerHTML="";
+    this.bindEvents();
 
-InspectionData.company.forEach(item=>{
+    InspectionUI.updatePreview(this.form);
 
-select.innerHTML+=`<option>${item}</option>`;
+    lucide.createIcons();
 
-});
+  },
 
-},
+  /* =========================================
+     EVENTS
+  ========================================= */
 
-fillContractor(){
+  bindEvents(){
 
-const select=document.getElementById("contractorSelect");
+    this.form.addEventListener("input",()=>{
 
-if(!select) return;
+      InspectionUI.updatePreview(this.form);
 
-select.innerHTML="";
+    });
 
-InspectionData.contractor.forEach(item=>{
+    this.form.addEventListener("change",()=>{
 
-select.innerHTML+=`<option>${item}</option>`;
+      InspectionUI.updatePreview(this.form);
 
-});
+    });
 
-this.fillSubContractor("VIP");
+    this.form.addEventListener("submit",async e=>{
 
-},
+      e.preventDefault();
 
-fillSubContractor(name){
+      await this.submit();
 
-const select=document.getElementById("subContractorSelect");
+    });
 
-if(!select) return;
+    document
+      .getElementById("resetInspection")
+      ?.addEventListener("click",()=>{
 
-select.innerHTML="";
+        this.reset();
 
-const list=InspectionData.subContractor[name]||[];
+      });
 
-if(list.length===0){
+  },
 
-select.innerHTML="<option>-</option>";
+  /* =========================================
+     SUBMIT
+  ========================================= */
 
-return;
+  async submit(){
 
-}
+    UI.showLoading();
 
-list.forEach(item=>{
+    try{
 
-select.innerHTML+=`<option>${item}</option>`;
+      const payload=Object.fromEntries(new FormData(this.form));
 
-});
+      const result=await API.submitInspection(payload);
 
-},
+      UI.hideLoading();
 
-bindContractor(){
+      if(result.success){
 
-const contractor=document.getElementById("contractorSelect");
+        UI.toast(
 
-if(!contractor) return;
+          result.offline
+            ?"Inspeksi tersimpan (Mode Offline)."
+            :"Inspeksi berhasil dikirim.",
 
-contractor.addEventListener("change",e=>{
+          "success"
 
-this.fillSubContractor(e.target.value);
+        );
 
-});
+        Dashboard.data.inspection++;
 
-}
+        Dashboard.renderKPI();
+
+        this.reset(false);
+
+      }else{
+
+        UI.toast(
+
+          result.message || "Gagal mengirim data.",
+
+          "danger"
+
+        );
+
+      }
+
+    }catch(error){
+
+      console.error(error);
+
+      UI.hideLoading();
+
+      UI.toast("Terjadi kesalahan.","danger");
+
+    }
+
+  },
+
+  /* =========================================
+     RESET
+  ========================================= */
+
+  reset(showToast=true){
+
+    const data=InspectionData.defaultForm();
+
+    this.form.reset();
+
+    Object.entries(data).forEach(([key,val])=>{
+
+      const field=this.form.elements[key];
+
+      if(field){
+
+        field.value=val;
+
+      }
+
+    });
+
+    InspectionUI.bindChecklist();
+
+    InspectionUI.updatePreview(this.form);
+
+    lucide.createIcons();
+
+    if(showToast){
+
+      UI.toast("Form berhasil direset.","info");
+
+    }
+
+  }
 
 };
