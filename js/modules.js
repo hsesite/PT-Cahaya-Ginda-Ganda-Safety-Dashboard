@@ -15,7 +15,7 @@ const Modules={
 
       case "inspection":
 
-        return this.inspection();
+        return InspectionUI.render();
 
       case "hazard":
 
