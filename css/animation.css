@@ -465,3 +465,191 @@ clip-path:circle(150% at 50% 50%);
 }
 
 }
+
+
+/* ==========================================================
+   PT. CGG HSE Dashboard
+   Motion System v1.0.0
+   Tambahkan di bagian paling bawah animation.css
+========================================================== */
+
+/* =========================
+   Page Enter
+========================= */
+
+.page-enter{
+  animation:cggPageEnter var(--cgg-normal) var(--cgg-ease);
+}
+
+@keyframes cggPageEnter{
+
+  from{
+    opacity:0;
+    transform:translateY(18px) scale(.985);
+    filter:blur(6px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+    filter:blur(0);
+  }
+
+}
+
+/* =========================
+   Card Press
+========================= */
+
+.cgg-card.pressed,
+.cgg-button.pressed{
+
+  transform:
+    translateY(2px)
+    scale(.98);
+
+  box-shadow:var(--cgg-shadow-press);
+
+}
+
+/* =========================
+   Glass Shine
+========================= */
+
+.cgg-card.pressed::before,
+.cgg-button.pressed::before{
+
+  animation:cggGlassSweep .45s ease;
+
+}
+
+@keyframes cggGlassSweep{
+
+  0%{
+    transform:translateX(-120%) rotate(-8deg);
+    opacity:.15;
+  }
+
+  50%{
+    opacity:.35;
+  }
+
+  100%{
+    transform:translateX(140%) rotate(-8deg);
+    opacity:0;
+  }
+
+}
+
+/* =========================
+   Emerald Edge Pulse
+========================= */
+
+.cgg-card.pressed::after{
+
+  animation:cggEdgePulse .35s ease;
+
+}
+
+@keyframes cggEdgePulse{
+
+  0%{
+    opacity:.35;
+  }
+
+  50%{
+    opacity:1;
+  }
+
+  100%{
+    opacity:.45;
+  }
+
+}
+
+/* =========================
+   Header Scroll
+========================= */
+
+.cgg-header{
+
+  transition:
+    transform var(--cgg-normal) var(--cgg-ease),
+    filter var(--cgg-normal) var(--cgg-ease);
+
+}
+
+.cgg-header.scrolled{
+
+  transform:scale(.985);
+
+  filter:drop-shadow(0 8px 18px rgba(0,0,0,.28));
+
+}
+
+/* =========================
+   Floating Lift
+========================= */
+
+@media (hover:hover){
+
+.cgg-card:hover{
+
+  animation:cggFloat .35s var(--cgg-ease);
+
+}
+
+}
+
+@keyframes cggFloat{
+
+  from{
+    transform:translateY(0);
+  }
+
+  to{
+    transform:translateY(-4px);
+  }
+
+}
+
+/* =========================
+   Fade Up
+========================= */
+
+.cgg-fade-up{
+
+  animation:cggFadeUp .45s var(--cgg-ease);
+
+}
+
+@keyframes cggFadeUp{
+
+  from{
+    opacity:0;
+    transform:translateY(12px);
+  }
+
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+}
+
+/* =========================
+   Respect Accessibility
+========================= */
+
+@media (prefers-reduced-motion:reduce){
+
+*,
+*::before,
+*::after{
+
+  animation:none !important;
+  transition:none !important;
+
+}
+
+}
