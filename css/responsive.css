@@ -1,612 +1,345 @@
-
 /* ==========================================================
-   PT CGG HSE Dashboard
-   Responsive System v1.0
+   PT Cahaya Ginda Ganda HSE Dashboard
+   responsive.css v6.0 (MOBILE ONLY)
+   File ini TIDAK mengatur layout desktop.
 ========================================================== */
 
-/* ==========================================================
-   HP KECIL (iPhone SE, Android 320-380px)
-========================================================== */
+/* =========================================
+   TABLET
+========================================= */
 
-@media (max-width:380px){
+@media (max-width:900px){
 
-body{
-padding-left:12px;
-padding-right:12px;
+.app{
+
+padding:20px;
+
 }
 
 .header{
-padding:16px;
-gap:14px;
-}
 
-.logo-box{
-width:52px;
-height:52px;
-border-radius:18px;
-}
+flex-direction:column;
 
-.logo-box img{
-width:34px;
-height:34px;
-}
+align-items:stretch;
 
-.brand h1{
-font-size:18px;
-}
-
-.status{
-padding:6px 10px;
-font-size:12px;
 }
 
 .header-info{
-gap:8px;
-}
 
-.info-card{
-padding:10px;
-font-size:11px;
-border-radius:14px;
+justify-content:space-between;
+
 }
 
 .hero{
-padding:18px;
+
+flex-direction:column;
+
+align-items:flex-start;
+
 }
 
-.hero h2{
-font-size:36px;
-}
+.hero-circle{
 
-.hero-icon{
-width:60px;
-height:60px;
-font-size:24px;
+align-self:center;
+
 }
 
 .quick-grid{
-gap:8px;
-}
 
-.stat-card{
-padding:14px;
-}
-
-.stat-card h3{
-font-size:22px;
-}
-
-.menu-grid{
-gap:10px;
-}
-
-.menu-card{
-padding:18px 12px;
-gap:10px;
-border-radius:20px;
-}
-
-.icon-glass{
-width:54px;
-height:54px;
-border-radius:16px;
-font-size:24px;
-}
-
-.menu-card span{
-font-size:13px;
-}
-
-.sync-card{
-padding:16px;
-}
-
-}
-
-/* ==========================================================
-   HP STANDAR (381-480px)
-========================================================== */
-
-@media (min-width:381px) and (max-width:480px){
-
-.hero h2{
-font-size:42px;
-}
-
-.menu-card{
-padding:20px 14px;
-}
-
-}
-
-/* ==========================================================
-   TABLET (481-900px)
-========================================================== */
-
-@media (min-width:481px){
-
-.app{
-max-width:760px;
-}
-
-.header{
-padding:24px;
-}
-
-.hero{
-padding:24px;
-}
-
-.menu-grid{
 grid-template-columns:repeat(3,1fr);
-}
 
-.quick-grid{
-grid-template-columns:repeat(3,1fr);
-}
-
-.sync-card{
-padding:20px;
-}
-
-}
-
-/* ==========================================================
-   DESKTOP (901px+)
-========================================================== */
-
-@media (min-width:901px){
-
-body{
-padding-left:24px;
-padding-right:24px;
-}
-
-.app{
-max-width:1180px;
-}
-
-.header{
-padding:28px;
-}
-
-.brand h1{
-font-size:26px;
-}
-
-.hero{
-padding:28px;
-}
-
-.hero h2{
-font-size:52px;
 }
 
 .menu-grid{
-grid-template-columns:repeat(4,1fr);
-gap:18px;
+
+grid-template-columns:repeat(2,1fr);
+
 }
 
-.menu-card{
-padding:26px 18px;
+.desktop-sidebar{
+
+display:none !important;
+
 }
 
-.icon-glass{
-width:72px;
+.desktop-dashboard{
+
+display:none !important;
+
+}
+
+.bottom-nav{
+
+display:flex;
+
+position:fixed;
+
+left:16px;
+
+right:16px;
+
+bottom:16px;
+
 height:72px;
-font-size:32px;
-}
 
-.quick-grid{
-gap:16px;
-}
+padding:10px;
 
-.stat-card h3{
-font-size:32px;
-}
+justify-content:space-around;
 
-}
+align-items:center;
 
-/* ==========================================================
-   LANDSCAPE HP
-========================================================== */
+background:rgba(10,16,24,.88);
 
-@media (max-height:500px) and (orientation:landscape){
+backdrop-filter:blur(22px);
 
-.app{
-gap:14px;
-}
+-webkit-backdrop-filter:blur(22px);
 
-.header{
-padding:16px;
-}
+border:1px solid rgba(255,255,255,.08);
 
-.hero{
-padding:16px;
-}
+border-radius:24px;
 
-.hero h2{
-font-size:34px;
-}
+z-index:1200;
 
-.menu-grid{
-grid-template-columns:repeat(3,1fr);
-}
+box-shadow:0 12px 40px rgba(0,0,0,.35);
 
 }
 
-/* ==========================================================
-   iPHONE SAFE AREA
-========================================================== */
+.bottom-nav button{
 
-@supports (padding:max(0px)){
+appearance:none;
 
-body{
+border:none;
 
-padding-top:max(16px,env(safe-area-inset-top));
-padding-bottom:max(18px,env(safe-area-inset-bottom));
-padding-left:max(16px,env(safe-area-inset-left));
-padding-right:max(16px,env(safe-area-inset-right));
+background:transparent;
 
-}
+color:#9FB0C3;
 
-}
+display:flex;
 
-/* ==========================================================
-   TOUCH DEVICE
-========================================================== */
+flex-direction:column;
 
-@media (hover:none){
+align-items:center;
 
-.menu-card:hover{
+gap:4px;
 
-transform:none;
-box-shadow:none;
-
-}
-
-.menu-card:active{
-
-transform:scale(.97);
-
-}
-
-}
-
-/* ==========================================================
-   DESKTOP POINTER
-========================================================== */
-
-@media (hover:hover){
-
-.menu-card{
+font-size:.72rem;
 
 cursor:pointer;
 
-}
-
-.menu-card:hover .icon-glass{
-
-transform:translateY(-4px) scale(1.06);
+transition:.25s ease;
 
 }
 
-}
+.bottom-nav button i{
 
+width:22px;
 
-/* ==========================================================
-   CGG Responsive Override v1.0
-   Tempel di PALING BAWAH responsive.css
-========================================================== */
-
-/* ===== Mobile (0–768px) ===== */
-
-@media (max-width:768px){
-
-  .app,
-  .cgg-app{
-    width:100%;
-    max-width:100%;
-    padding:16px;
-    overflow-x:hidden;
-  }
-
-  /* Header */
-
-  .header{
-    padding:18px;
-    border-radius:26px;
-  }
-
-  .brand h1{
-    font-size:22px;
-  }
-
-  .header-info{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    margin-top:16px;
-  }
-
-  /* Hero */
-
-  .hero{
-    padding:24px;
-    border-radius:28px;
-  }
-
-  .hero h2{
-    font-size:54px;
-    margin:8px 0;
-  }
-
-  /* Quick KPI */
-
-  .quick-grid{
-    display:grid !important;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-  }
-
-  .stat-card{
-    min-height:120px;
-    padding:18px 10px;
-    border-radius:22px;
-  }
-
-  .stat-card h3{
-    font-size:34px;
-  }
-
-  /* Menu */
-
-  .menu-grid{
-    display:grid !important;
-    grid-template-columns:repeat(3,1fr);
-    gap:14px;
-  }
-
-  .menu-card{
-    width:100%;
-    min-height:112px;
-    padding:16px 10px;
-    border-radius:24px;
-  }
-
-  .menu-card span{
-    font-size:12px;
-    text-align:center;
-  }
-
-  .icon-glass{
-    width:54px;
-    height:54px;
-    border-radius:18px;
-  }
-
-  /* Sinkron */
-
-  .sync-card{
-    padding:18px;
-    border-radius:24px;
-  }
+height:22px;
 
 }
 
-/* ===== Desktop ===== */
+.bottom-nav button.active{
 
-@media (min-width:769px){
+color:#00E676;
 
-  .app,
-  .cgg-app{
-    max-width:520px;
-    margin:auto;
-    padding:24px;
-  }
-
-  .menu-grid{
-    grid-template-columns:repeat(3,1fr);
-  }
-
-  .quick-grid{
-    grid-template-columns:repeat(3,1fr);
-  }
+transform:translateY(-2px);
 
 }
 
+}
 
-/* ==========================================================
-   Desktop Executive Layout v3.0
-   Tempel paling bawah responsive.css
-========================================================== */
+/* =========================================
+   MOBILE
+========================================= */
 
-@media (min-width:1200px){
+@media (max-width:600px){
 
-  body{
+.app{
 
-    display:flex;
-    justify-content:center;
+padding:16px;
 
-  }
-
-  .app,
-  .cgg-app{
-
-    max-width:1400px;
-
-    width:100%;
-
-    padding:32px;
-
-    display:grid;
-
-    grid-template-columns:420px 1fr;
-
-    gap:28px;
-
-    align-items:start;
-
-  }
-
-  /* Kolom kiri */
-
-  .header,
-  #executiveHero,
-  .quick-grid,
-  .menu-grid,
-  .sync-card{
-
-    grid-column:1;
-
-  }
-
-  /* Kolom kanan */
-
-  .app-view{
-
-    grid-column:2;
-
-    grid-row:1 / span 5;
-
-    position:sticky;
-
-    top:32px;
-
-    min-height:700px;
-
-  }
-
-  /* Hero sedikit lebih besar */
-
-  #executiveHero{
-
-    min-height:165px;
-
-  }
-
-  /* Menu lebih nyaman */
-
-  .menu-grid{
-
-    gap:18px;
-
-  }
-
-  .menu-card{
-
-    min-height:130px;
-
-  }
+padding-bottom:96px;
 
 }
 
+.header{
 
-/* ==========================================================
-   Desktop Cockpit Layout v3.1
-========================================================== */
+padding:22px;
 
-@media (min-width:1200px){
+}
 
-  .app{
-    max-width:1500px;
-    padding:30px;
-    display:grid;
-    grid-template-columns:420px 1fr;
-    gap:30px;
-    align-items:start;
-  }
+.brand{
 
-  .header,
-  #executiveHero,
-  .quick-grid,
-  .menu-grid,
-  .sync-card{
-    grid-column:1;
-  }
+align-items:center;
 
-  .app-view{
-    grid-column:2;
-    grid-row:1 / span 6;
-  }
+}
 
-  .desktop-dashboard{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    grid-template-rows:260px 220px;
-    gap:20px;
-  }
+.logo-box{
 
-  .chart-card{
-    grid-column:1;
-    grid-row:1;
-  }
+width:46px;
 
-  .activity-card{
-    grid-column:2;
-    grid-row:1;
-  }
+height:46px;
 
-  .contractor-card{
-    grid-column:1 / span 2;
-    grid-row:2;
-  }
+}
 
-  .desktop-card{
-    padding:24px;
-    min-height:200px;
-  }
+.brand-text h1{
 
-  .card-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-  }
+font-size:1.35rem;
 
-  .card-header h3{
-    margin:0;
-    font-size:20px;
-  }
+}
 
-  .card-header span{
-    color:#8FA1B3;
-    font-size:13px;
-  }
+.brand-text p{
 
-  .chart-placeholder,
-  .activity-placeholder{
-    height:140px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    gap:10px;
-    color:#8FA1B3;
-  }
+font-size:.82rem;
 
-  .chart-placeholder svg{
-    width:48px;
-    height:48px;
-    color:#00E676;
-  }
+}
 
-  .summary-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:20px;
-    text-align:center;
-    margin-top:30px;
-  }
+.header-info{
 
-  .summary-grid strong{
-    display:block;
-    font-size:36px;
-    color:white;
-  }
+display:grid;
 
-  .summary-grid span{
-    color:#8FA1B3;
-  }
+grid-template-columns:repeat(3,1fr);
+
+gap:10px;
+
+}
+
+.info-card{
+
+width:100%;
+
+height:72px;
+
+}
+
+.hero{
+
+padding:22px;
+
+min-height:auto;
+
+}
+
+.hero h2{
+
+font-size:3rem;
+
+}
+
+.hero-circle{
+
+width:88px;
+
+height:88px;
+
+}
+
+.hero-circle i{
+
+width:36px;
+
+height:36px;
+
+}
+
+.quick-grid{
+
+grid-template-columns:repeat(3,1fr);
+
+gap:10px;
+
+}
+
+.stat-card{
+
+padding:16px;
+
+}
+
+.stat-card h3{
+
+font-size:1.5rem;
+
+}
+
+.menu-grid{
+
+grid-template-columns:repeat(2,1fr);
+
+gap:12px;
+
+}
+
+.menu-card{
+
+padding:18px 12px;
+
+min-height:118px;
+
+}
+
+.icon-glass{
+
+width:54px;
+
+height:54px;
+
+}
+
+.icon-glass i{
+
+width:24px;
+
+height:24px;
+
+}
+
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width:380px){
+
+.brand-text h1{
+
+font-size:1.15rem;
+
+}
+
+.hero h2{
+
+font-size:2.4rem;
+
+}
+
+.quick-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.menu-grid{
+
+grid-template-columns:1fr 1fr;
+
+}
+
+.bottom-nav{
+
+left:10px;
+
+right:10px;
+
+bottom:10px;
+
+}
+
+.bottom-nav button{
+
+font-size:.68rem;
+
+}
 
 }
