@@ -224,3 +224,52 @@ footer{
 }
 
 }
+
+/* ==========================================================
+   DESKTOP LAYOUT LOCK (FINAL)
+========================================================== */
+
+@media (min-width:1200px){
+
+  .app{
+    max-width:none !important;
+    width:calc(100vw - 120px) !important;
+    margin-left:100px !important;
+    margin-right:20px !important;
+    padding:16px !important;
+    display:grid !important;
+    grid-template-columns:minmax(760px,1.7fr) minmax(360px,.9fr);
+    grid-template-areas:
+      "header header"
+      "hero trend"
+      "kpi contractor"
+      "menu contractor";
+    gap:20px;
+    align-items:start;
+  }
+
+  .header{
+    grid-area:header;
+  }
+
+  #executiveHero{
+    grid-area:hero;
+  }
+
+  .quick-grid{
+    grid-area:kpi;
+  }
+
+  .menu-grid{
+    grid-area:menu;
+  }
+
+  #desktopWorkspace{
+    grid-area:trend;
+    display:grid !important;
+    grid-template-columns:1fr;
+    gap:20px;
+    align-self:start;
+  }
+
+}
