@@ -1,366 +1,129 @@
 /* ==========================================================
-   PT. CGG HSE Dashboard
-   sidebar.css v3.0
-   Sidebar System (Desktop macOS + Mobile iPhone)
+   PT Cahaya Ginda Ganda HSE Dashboard
+   sidebar.css v5.0 (LOCKED)
+   Sidebar Interaction
 ========================================================== */
 
-/* ==========================================================
+/* =========================================
    DESKTOP SIDEBAR
-========================================================== */
+========================================= */
 
 .desktop-sidebar{
-
-  position:fixed;
-
-  top:18px;
-  left:18px;
-  bottom:18px;
-
-  width:96px;
-
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-
-  padding:16px;
-
-  border-radius:30px;
-
-  background:
-    linear-gradient(180deg,
-      rgba(20,28,38,.86),
-      rgba(12,18,26,.76));
-
-  backdrop-filter:blur(30px);
-  -webkit-backdrop-filter:blur(30px);
-
-  border:1px solid rgba(255,255,255,.08);
-
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.08),
-    0 20px 60px rgba(0,0,0,.35);
-
-  z-index:1200;
-
-  transition:
-    width .35s cubic-bezier(.22,.8,.2,1),
-    transform .25s ease;
-
+user-select:none;
 }
 
-/* Hover / Pin */
-
-.desktop-sidebar.expanded{
-
-  width:260px;
-
+.desktop-sidebar .sidebar-item{
+position:relative;
+overflow:hidden;
 }
 
-/* Logo */
-
-.sidebar-logo{
-
-  width:56px;
-  height:56px;
-
-  border-radius:18px;
-
-  display:grid;
-  place-items:center;
-
-  background:rgba(255,255,255,.05);
-
-  border:1px solid rgba(255,255,255,.05);
-
+.desktop-sidebar .sidebar-item::before{
+content:"";
+position:absolute;
+left:0;
+top:10px;
+bottom:10px;
+width:3px;
+border-radius:999px;
+background:transparent;
+transition:.25s;
 }
 
-.sidebar-logo img{
-
-  width:36px;
-  height:auto;
-
+.desktop-sidebar .sidebar-item.active::before{
+background:var(--cgg-primary);
 }
 
-/* Menu */
-
-.sidebar-menu{
-
-  display:flex;
-  flex-direction:column;
-
-  gap:8px;
-
-  margin-top:22px;
-
+.desktop-sidebar .sidebar-item:hover svg,
+.desktop-sidebar .sidebar-item.active svg{
+transform:scale(1.08);
 }
 
-.sidebar-item{
-
-  height:52px;
-
-  display:flex;
-  align-items:center;
-
-  gap:16px;
-
-  border:none;
-
-  background:transparent;
-
-  color:#C8D1DB;
-
-  border-radius:16px;
-
-  padding:0 14px;
-
-  cursor:pointer;
-
-  transition:
-    background .25s,
-    transform .25s,
-    color .25s;
-
+.desktop-sidebar .sidebar-item svg{
+transition:transform .25s ease;
 }
-
-.sidebar-item:hover{
-
-  background:rgba(255,255,255,.05);
-
-  transform:translateX(3px);
-
-}
-
-.sidebar-item.active{
-
-  background:rgba(0,230,118,.12);
-
-  color:#00E676;
-
-}
-
-.sidebar-item svg{
-
-  width:22px;
-  height:22px;
-
-  flex-shrink:0;
-
-}
-
-.sidebar-item span{
-
-  opacity:0;
-
-  transform:translateX(-8px);
-
-  white-space:nowrap;
-
-  transition:.25s;
-
-}
-
-.desktop-sidebar.expanded .sidebar-item span{
-
-  opacity:1;
-
-  transform:translateX(0);
-
-}
-
-/* Footer */
 
 .sidebar-footer{
-
-  padding-top:18px;
-
-  border-top:1px solid rgba(255,255,255,.08);
-
+display:flex;
+flex-direction:column;
+gap:8px;
+padding-top:16px;
+border-top:1px solid rgba(255,255,255,.05);
 }
 
-/* ==========================================================
+/* =========================================
    MOBILE SIDEBAR
-========================================================== */
+========================================= */
 
 .mobile-sidebar{
-
-  position:fixed;
-
-  top:0;
-  left:-320px;
-
-  width:290px;
-  height:100vh;
-
-  padding:22px;
-
-  display:flex;
-  flex-direction:column;
-
-  background:
-    linear-gradient(180deg,
-      rgba(18,26,36,.94),
-      rgba(10,15,22,.90));
-
-  backdrop-filter:blur(32px);
-  -webkit-backdrop-filter:blur(32px);
-
-  border-right:1px solid rgba(255,255,255,.08);
-
-  box-shadow:20px 0 50px rgba(0,0,0,.35);
-
-  z-index:1300;
-
-  transition:left .35s cubic-bezier(.22,.8,.2,1);
-
-}
-
-.mobile-sidebar.open{
-
-  left:0;
-
-}
-
-/* Header */
-
-.mobile-sidebar-header{
-
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-
-  margin-bottom:28px;
-
-}
-
-.mobile-sidebar-header button{
-
-  width:40px;
-  height:40px;
-
-  border:none;
-
-  border-radius:12px;
-
-  background:rgba(255,255,255,.05);
-
-  color:white;
-
-  cursor:pointer;
-
-  transition:.25s;
-
-}
-
-.mobile-sidebar-header button:hover{
-
-  background:rgba(255,255,255,.08);
-
-}
-
-/* Menu */
-
-.mobile-sidebar-menu{
-
-  display:flex;
-  flex-direction:column;
-
-  gap:8px;
-
+will-change:transform;
 }
 
 .mobile-sidebar-menu button{
-
-  display:flex;
-  align-items:center;
-
-  gap:14px;
-
-  width:100%;
-
-  padding:15px;
-
-  border:none;
-
-  border-radius:16px;
-
-  background:transparent;
-
-  color:#E6EDF5;
-
-  font-size:15px;
-
-  text-align:left;
-
-  cursor:pointer;
-
-  transition:.25s;
-
+position:relative;
 }
 
-.mobile-sidebar-menu button:hover{
-
-  background:rgba(255,255,255,.06);
-
+.mobile-sidebar-menu button::before{
+content:"";
+position:absolute;
+left:0;
+top:10px;
+bottom:10px;
+width:3px;
+border-radius:999px;
+background:transparent;
+transition:.25s;
 }
 
-.mobile-sidebar-menu button svg{
-
-  width:22px;
-  height:22px;
-
+.mobile-sidebar-menu button.active::before{
+background:var(--cgg-primary);
 }
 
-/* Overlay */
+.mobile-sidebar-menu button:hover svg,
+.mobile-sidebar-menu button.active svg{
+transform:scale(1.08);
+}
+
+.mobile-sidebar-menu svg{
+transition:transform .25s ease;
+}
+
+/* =========================================
+   OVERLAY
+========================================= */
 
 .mobile-sidebar-overlay{
-
-  position:fixed;
-  inset:0;
-
-  background:rgba(0,0,0,.30);
-
-  backdrop-filter:blur(6px);
-  -webkit-backdrop-filter:blur(6px);
-
-  opacity:0;
-
-  visibility:hidden;
-
-  transition:.3s;
-
-  z-index:1290;
-
+backdrop-filter:blur(2px);
+-webkit-backdrop-filter:blur(2px);
 }
 
-.mobile-sidebar-overlay.show{
+/* =========================================
+   ACCESSIBILITY
+========================================= */
 
-  opacity:1;
-
-  visibility:visible;
-
+.sidebar-item:focus-visible,
+.mobile-sidebar-menu button:focus-visible,
+#openSidebar:focus-visible,
+#closeSidebar:focus-visible{
+outline:2px solid var(--cgg-primary);
+outline-offset:3px;
 }
 
-/* ==========================================================
-   RESPONSIVE
-========================================================== */
+/* =========================================
+   REDUCED MOTION
+========================================= */
 
-@media (max-width:1199px){
+@media (prefers-reduced-motion:reduce){
 
-  .desktop-sidebar{
+.desktop-sidebar,
+.mobile-sidebar,
+.mobile-sidebar-overlay,
+.sidebar-item,
+.mobile-sidebar-menu button,
+.sidebar-item svg,
+.mobile-sidebar-menu svg{
 
-    display:none;
-
-  }
+transition:none!important;
 
 }
-
-@media (min-width:1200px){
-
-  .mobile-sidebar,
-  .mobile-sidebar-overlay{
-
-    display:none;
-
-  }
 
 }
