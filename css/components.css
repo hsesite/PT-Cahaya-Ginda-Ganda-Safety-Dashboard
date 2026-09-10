@@ -1,0 +1,206 @@
+
+/* ==========================================================
+   CGG Component Library v1.0
+========================================================== */
+
+/* Glass Card */
+
+.glass-card{
+
+  position:relative;
+
+  background:
+    linear-gradient(145deg,
+      rgba(255,255,255,.06),
+      rgba(255,255,255,.02));
+
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:28px;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 12px 40px rgba(0,0,0,.30);
+
+}
+
+/* Desktop Panel */
+
+.desktop-panel{
+
+  padding:24px;
+
+}
+
+/* Mobile Sheet */
+
+.sheet{
+
+  border-radius:28px 28px 0 0;
+
+}
+
+/* Status Badge */
+
+.status-badge{
+
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+
+  padding:8px 14px;
+
+  border-radius:999px;
+
+  font-size:12px;
+  font-weight:600;
+
+}
+
+.badge-success{
+
+  background:rgba(0,230,118,.12);
+
+  color:#00E676;
+
+}
+
+.badge-warning{
+
+  background:rgba(255,193,7,.12);
+
+  color:#FFC107;
+
+}
+
+.badge-danger{
+
+  background:rgba(255,82,82,.12);
+
+  color:#FF5252;
+
+}
+
+/* Button */
+
+.cgg-btn{
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+
+  height:48px;
+
+  padding:0 20px;
+
+  border:none;
+
+  border-radius:16px;
+
+  cursor:pointer;
+
+  transition:.25s;
+
+}
+
+.cgg-btn-primary{
+
+  background:linear-gradient(135deg,#00E676,#00C853);
+
+  color:#06110B;
+
+  font-weight:700;
+
+}
+
+.cgg-btn-primary:hover{
+
+  transform:translateY(-2px);
+
+  box-shadow:0 10px 24px rgba(0,230,118,.25);
+
+}
+
+.cgg-btn-secondary{
+
+  background:rgba(255,255,255,.05);
+
+  color:white;
+
+}
+
+/* Input */
+
+.cgg-input{
+
+  width:100%;
+
+  height:52px;
+
+  padding:0 18px;
+
+  border-radius:16px;
+
+  border:1px solid rgba(255,255,255,.08);
+
+  background:rgba(255,255,255,.03);
+
+  color:white;
+
+}
+
+.cgg-input:focus{
+
+  outline:none;
+
+  border-color:#00E676;
+
+  box-shadow:0 0 0 4px rgba(0,230,118,.12);
+
+}
+
+/* Textarea */
+
+.cgg-textarea{
+
+  width:100%;
+
+  min-height:120px;
+
+  padding:18px;
+
+  border-radius:18px;
+
+  background:rgba(255,255,255,.03);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  color:white;
+
+  resize:vertical;
+
+}
+
+/* Select */
+
+.cgg-select{
+
+  appearance:none;
+
+  background-image:
+    linear-gradient(45deg,transparent 50%,white 50%),
+    linear-gradient(135deg,white 50%,transparent 50%);
+
+  background-position:
+    calc(100% - 18px) calc(50% - 2px),
+    calc(100% - 12px) calc(50% - 2px);
+
+  background-size:6px 6px;
+
+  background-repeat:no-repeat;
+
+}
