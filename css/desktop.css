@@ -857,3 +857,48 @@ body{
 }
 
 }
+
+/* ==========================================================
+   Desktop Workspace Final
+========================================================== */
+
+@media (min-width:1200px){
+
+  /* Hilangkan komponen HP */
+
+  .menu-grid,
+  .bottom-nav{
+    display:none !important;
+  }
+
+  /* App View hanya dipakai saat modul dibuka */
+
+  #appView{
+    display:none;
+  }
+
+  /* Desktop Workspace */
+
+  #desktopWorkspace{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    grid-template-rows:240px 180px;
+    gap:22px;
+  }
+
+  .chart-card{
+    grid-column:1;
+    grid-row:1;
+  }
+
+  .activity-card{
+    grid-column:2;
+    grid-row:1;
+  }
+
+  .contractor-card{
+    grid-column:1 / span 2;
+    grid-row:2;
+  }
+
+}
