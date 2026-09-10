@@ -1,235 +1,179 @@
-
 /* ==========================================================
-   CGG macOS Sidebar v1.0
+   PT. CGG HSE Dashboard
+   sidebar.js v3.0
+   macOS + iPhone Sidebar
 ========================================================== */
 
-.desktop-sidebar{
+const Sidebar = {
 
-  position:fixed;
+  desktop:null,
+  mobile:null,
+  overlay:null,
+  isPinned:false,
 
-  top:24px;
-  left:24px;
-  bottom:24px;
+  init(){
 
-  width:88px;
+    this.desktop=document.getElementById("desktopSidebar");
+    this.mobile=document.getElementById("mobileSidebar");
+    this.overlay=document.getElementById("mobileOverlay");
 
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
+    this.loadState();
 
-  padding:18px;
+    this.bindDesktop();
 
-  border-radius:30px;
+    this.bindMobile();
 
-  background:
-    linear-gradient(180deg,
-      rgba(20,26,35,.82),
-      rgba(12,17,24,.72));
+    this.bindKeyboard();
 
-  backdrop-filter:blur(30px);
-  -webkit-backdrop-filter:blur(30px);
+  },
 
-  border:1px solid rgba(255,255,255,.08);
+  /* ======================================================
+     Desktop Sidebar
+  ====================================================== */
 
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.08),
-    0 20px 50px rgba(0,0,0,.35);
+  bindDesktop(){
 
-  z-index:999;
+    if(!this.desktop) return;
 
-  transition:.35s cubic-bezier(.22,.8,.2,1);
+    this.desktop.addEventListener("mouseenter",()=>{
 
-}
+      if(!this.isPinned){
 
-/* Hidden di HP */
+        this.desktop.classList.add("expanded");
 
-@media (max-width:1199px){
+      }
 
-.desktop-sidebar{
+    });
 
-display:none;
+    this.desktop.addEventListener("mouseleave",()=>{
 
-}
+      if(!this.isPinned){
 
-}
+        this.desktop.classList.remove("expanded");
 
-/* Expand */
+      }
 
-.desktop-sidebar.expanded{
+    });
 
-width:260px;
+    /* Double Click = Pin */
 
-}
+    this.desktop.addEventListener("dblclick",()=>{
 
-.sidebar-logo{
+      this.togglePin();
 
-width:52px;
-height:52px;
+    });
 
-border-radius:16px;
+  },
 
-display:grid;
-place-items:center;
+  togglePin(){
 
-background:rgba(255,255,255,.05);
+    this.isPinned=!this.isPinned;
 
-}
+    this.desktop.classList.toggle("expanded",this.isPinned);
 
-.sidebar-logo img{
+    localStorage.setItem("cgg-sidebar-pin",this.isPinned);
 
-width:34px;
+  },
 
-}
+  loadState(){
 
-.sidebar-menu{
+    this.isPinned=localStorage.getItem("cgg-sidebar-pin")==="true";
 
-display:flex;
-flex-direction:column;
-gap:8px;
+    if(this.desktop && this.isPinned){
 
-margin-top:24px;
+      this.desktop.classList.add("expanded");
 
-}
+    }
 
-.sidebar-item{
+  },
 
-display:flex;
-align-items:center;
-gap:16px;
+  /* ======================================================
+     Mobile Sidebar
+  ====================================================== */
 
-padding:14px;
+  bindMobile(){
 
-border-radius:16px;
+    const open=document.getElementById("openSidebar");
+    const close=document.getElementById("closeSidebar");
 
-color:#C8D1DB;
+    if(open){
 
-cursor:pointer;
+      open.addEventListener("click",()=>this.openMobile());
 
-transition:.25s;
+    }
 
-}
+    if(close){
 
-.sidebar-item:hover{
+      close.addEventListener("click",()=>this.closeMobile());
 
-background:rgba(255,255,255,.05);
+    }
 
-transform:translateX(4px);
+    if(this.overlay){
 
-}
+      this.overlay.addEventListener("click",()=>this.closeMobile());
 
-.sidebar-item.active{
+    }
 
-background:rgba(0,230,118,.12);
+  },
 
-color:#00E676;
+  openMobile(){
 
-}
+    if(!this.mobile) return;
 
-.sidebar-item svg{
+    this.mobile.classList.add("open");
 
-width:22px;
-height:22px;
+    this.overlay.classList.add("show");
 
-flex-shrink:0;
+    document.body.style.overflow="hidden";
 
-}
+  },
 
-.sidebar-label{
+  closeMobile(){
 
-opacity:0;
+    if(!this.mobile) return;
 
-transition:.25s;
+    this.mobile.classList.remove("open");
 
-white-space:nowrap;
+    this.overlay.classList.remove("show");
 
-}
+    document.body.style.overflow="";
 
-.desktop-sidebar.expanded .sidebar-label{
+  },
 
-opacity:1;
+  /* ======================================================
+     Keyboard Shortcut
+  ====================================================== */
 
-}
+  bindKeyboard(){
 
-.sidebar-footer{
+    document.addEventListener("keydown",(e)=>{
 
-padding-top:18px;
+      /* ESC */
 
-border-top:1px solid rgba(255,255,255,.08);
+      if(e.key==="Escape"){
 
-}
+        this.closeMobile();
 
+      }
 
-<aside class="desktop-sidebar" id="desktopSidebar">
+      /* Ctrl+B = Toggle Desktop Sidebar */
 
-  <div>
+      if((e.ctrlKey || e.metaKey) && e.key.toLowerCase()==="b"){
 
-    <div class="sidebar-logo">
+        e.preventDefault();
 
-      <img src="assets/img/logo-cgg.png" alt="CGG">
+        this.togglePin();
 
-    </div>
+      }
 
-    <nav class="sidebar-menu">
+    });
 
-      <div class="sidebar-item active">
-        <i data-lucide="layout-dashboard"></i>
-        <span class="sidebar-label">Dashboard</span>
-      </div>
+  }
 
-      <div class="sidebar-item">
-        <i data-lucide="clipboard-check"></i>
-        <span class="sidebar-label">Inspection</span>
-      </div>
+};
 
-      <div class="sidebar-item">
-        <i data-lucide="triangle-alert"></i>
-        <span class="sidebar-label">Hazard</span>
-      </div>
+document.addEventListener("DOMContentLoaded",()=>{
 
-      <div class="sidebar-item">
-        <i data-lucide="circle-alert"></i>
-        <span class="sidebar-label">Incident</span>
-      </div>
+  Sidebar.init();
 
-      <div class="sidebar-item">
-        <i data-lucide="leaf"></i>
-        <span class="sidebar-label">Environment</span>
-      </div>
-
-      <div class="sidebar-item">
-        <i data-lucide="heart-pulse"></i>
-        <span class="sidebar-label">Medical</span>
-      </div>
-
-      <div class="sidebar-item">
-        <i data-lucide="book-open"></i>
-        <span class="sidebar-label">SOP</span>
-      </div>
-
-      <div class="sidebar-item">
-        <i data-lucide="file-text"></i>
-        <span class="sidebar-label">Kebijakan</span>
-      </div>
-
-      <div class="sidebar-item">
-        <i data-lucide="map"></i>
-        <span class="sidebar-label">Area</span>
-      </div>
-
-    </nav>
-
-  </div>
-
-  <div class="sidebar-footer">
-
-    <div class="sidebar-item">
-
-      <i data-lucide="circle-user"></i>
-
-      <span class="sidebar-label">Admin</span>
-
-    </div>
-
-  </div>
-
-</aside>
+});
