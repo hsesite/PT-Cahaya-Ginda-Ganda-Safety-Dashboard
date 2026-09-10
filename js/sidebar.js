@@ -1,67 +1,151 @@
-
 /* ==========================================================
-   sidebar.js v2.0
-   Single State Sidebar
+   PT Cahaya Ginda Ganda HSE Dashboard
+   sidebar.js v5.0 (LOCKED)
+   Desktop + Mobile Sidebar Controller
 ========================================================== */
 
 const Sidebar = {
 
-  expanded: false,
+  desktop:null,
+  mobile:null,
+  overlay:null,
+  openButton:null,
+  closeButton:null,
 
-  init() {
+  init(){
 
-    this.el = document.getElementById("desktopSidebar");
-    this.toggle = document.getElementById("sidebarToggle");
+    this.desktop=document.getElementById("desktopSidebar");
+    this.mobile=document.getElementById("mobileSidebar");
+    this.overlay=document.getElementById("mobileOverlay");
+    this.openButton=document.getElementById("openSidebar");
+    this.closeButton=document.getElementById("closeSidebar");
 
-    if (!this.el) return;
+    this.bindDesktop();
 
-    this.bind();
+    this.bindMobile();
 
   },
 
-  bind() {
+  /* =========================================
+     DESKTOP
+  ========================================= */
 
-    this.el.addEventListener("mouseenter", () => {
+  bindDesktop(){
 
-      if (!this.expanded) {
-        this.el.classList.add("expanded");
-      }
+    if(!this.desktop) return;
 
-    });
+    // Hover expand ditangani CSS.
+    // JS hanya menjaga status aktif.
 
-    this.el.addEventListener("mouseleave", () => {
+    this.desktop
+      .querySelectorAll("[data-module]")
+      .forEach(btn=>{
 
-      if (!this.expanded) {
-        this.el.classList.remove("expanded");
-      }
+        btn.addEventListener("click",()=>{
 
-    });
+          this.setActive(btn.dataset.module);
 
-    if (this.toggle) {
-
-      this.toggle.addEventListener("click", () => {
-
-        this.expanded = !this.expanded;
-
-        this.el.classList.toggle("expanded", this.expanded);
+        });
 
       });
 
-    }
+  },
+
+  /* =========================================
+     MOBILE
+  ========================================= */
+
+  bindMobile(){
+
+    if(!this.mobile) return;
+
+    this.openButton?.addEventListener("click",()=>{
+
+      this.open();
+
+    });
+
+    this.closeButton?.addEventListener("click",()=>{
+
+      this.close();
+
+    });
+
+    this.overlay?.addEventListener("click",()=>{
+
+      this.close();
+
+    });
+
+    this.mobile
+      .querySelectorAll("[data-module]")
+      .forEach(btn=>{
+
+        btn.addEventListener("click",()=>{
+
+          this.setActive(btn.dataset.module);
+
+          this.close();
+
+        });
+
+      });
+
+    document.addEventListener("keydown",e=>{
+
+      if(e.key==="Escape"){
+
+        this.close();
+
+      }
+
+    });
 
   },
 
-  setActive(module) {
+  /* =========================================
+     STATE
+  ========================================= */
 
-    document.querySelectorAll(".sidebar-item")
-      .forEach(item => item.classList.remove("active"));
+  open(){
 
-    const active = document.querySelector(`[data-module="${module}"]`);
+    this.mobile?.classList.add("open");
 
-    if (active) active.classList.add("active");
+    this.overlay?.classList.add("show");
+
+    document.body.style.overflow="hidden";
+
+  },
+
+  close(){
+
+    this.mobile?.classList.remove("open");
+
+    this.overlay?.classList.remove("show");
+
+    document.body.style.overflow="";
+
+  },
+
+  setActive(module){
+
+    document
+      .querySelectorAll("[data-module]")
+      .forEach(el=>{
+
+        el.classList.toggle(
+          "active",
+          el.dataset.module===module
+        );
+
+      });
 
   }
 
 };
 
-document.addEventListener("DOMContentLoaded", () => Sidebar.init());
+window.addEventListener("DOMContentLoaded",()=>{
+
+  Sidebar.init();
+
+});
