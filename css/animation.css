@@ -384,3 +384,84 @@ transition:none !important;
 }
 
 }
+
+
+/* ==========================================================
+   APP VIEW ANIMATION
+========================================================== */
+
+.view-placeholder{
+
+animation:viewFade .45s cubic-bezier(.22,1,.36,1);
+
+}
+
+@keyframes viewFade{
+
+from{
+
+opacity:0;
+transform:translateY(18px) scale(.98);
+
+}
+
+to{
+
+opacity:1;
+transform:translateY(0) scale(1);
+
+}
+
+}
+
+/* ==========================================================
+   PLACEHOLDER ICON
+========================================================== */
+
+.placeholder-icon{
+
+animation:iconFloat 4s ease-in-out infinite;
+
+}
+
+@keyframes iconFloat{
+
+0%,100%{
+
+transform:translateY(0);
+
+}
+
+50%{
+
+transform:translateY(-6px);
+
+}
+
+}
+
+/* ==========================================================
+   COCKPIT TRANSITION
+========================================================== */
+
+.page-transition.show{
+
+animation:cockpitSweep .45s ease;
+
+}
+
+@keyframes cockpitSweep{
+
+0%{
+
+clip-path:circle(0% at 50% 50%);
+
+}
+
+100%{
+
+clip-path:circle(150% at 50% 50%);
+
+}
+
+}
