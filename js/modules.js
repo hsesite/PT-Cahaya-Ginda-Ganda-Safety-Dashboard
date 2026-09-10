@@ -1,215 +1,248 @@
 /* ==========================================================
-   PT. CGG HSE Dashboard
-   modules.js v3.0
+   PT Cahaya Ginda Ganda HSE Dashboard
+   modules.js v5.0 (LOCKED)
+   Module Registry
 ========================================================== */
 
-const Modules={
+const Modules = {
 
-  render(name){
+  render(module){
 
-    switch(name){
+    switch(module){
 
-      case "dashboard":
-
-        return "";
-          
       case "inspection":
-
-        return InspectionUI.render();
+        return this.inspection();
 
       case "hazard":
-
         return this.hazard();
 
       case "incident":
-
         return this.incident();
 
       case "environment":
-
         return this.environment();
 
       case "medical":
-
         return this.medical();
 
       case "sop":
-
         return this.sop();
 
       case "kebijakan":
-
         return this.kebijakan();
 
       case "area":
-
         return this.area();
 
       case "contractor":
-
         return this.contractor();
 
       case "admin":
-
         return this.admin();
 
       default:
-
-        return this.dashboard();
+        return this.notFound();
 
     }
 
   },
 
-  card(icon,title,text){
-
-    return `
-      <div class="glass module-card">
-        <div class="module-icon">
-          <i data-lucide="${icon}"></i>
-        </div>
-
-        <div class="module-text">
-
-          <h3>${title}</h3>
-
-          <p>${text}</p>
-
-        </div>
-
-      </div>
-    `;
-
-  },
-
-  dashboard(){
-
-    return `
-      <div class="module-page">
-
-        ${this.card("layout-dashboard","Executive Dashboard","Ringkasan realtime seluruh aktivitas HSE.")}
-
-      </div>
-    `;
-
-  },
+  /* ======================================================
+     INSPEKSI
+  ====================================================== */
 
   inspection(){
 
     return `
-      <div class="module-page">
+    <section class="card module-page">
 
-        ${this.card("clipboard-check","Inspection","Form inspeksi akan ditampilkan di sini.")}
+      <div class="card-head">
+        <div>
+          <h3>Inspeksi</h3>
+          <span>Modul Inspeksi Lapangan</span>
+        </div>
 
+        <span class="badge badge-info">Draft</span>
       </div>
+
+      <div class="empty-state">
+        <i data-lucide="clipboard-check"></i>
+        <p>Workspace Inspeksi akan aktif pada tahap berikutnya.</p>
+      </div>
+
+    </section>
     `;
 
   },
+
+  /* ======================================================
+     HAZARD
+  ====================================================== */
 
   hazard(){
 
-    return `
-      <div class="module-page">
-
-        ${this.card("triangle-alert","Hazard","Pelaporan hazard akan ditampilkan di sini.")}
-
-      </div>
-    `;
+    return this.simplePage(
+      "Hazard",
+      "triangle-alert",
+      "Pelaporan Hazard"
+    );
 
   },
+
+  /* ======================================================
+     INCIDENT
+  ====================================================== */
 
   incident(){
 
-    return `
-      <div class="module-page">
-
-        ${this.card("circle-alert","Incident","Investigasi insiden akan ditampilkan di sini.")}
-
-      </div>
-    `;
+    return this.simplePage(
+      "Incident",
+      "circle-alert",
+      "Pelaporan Incident"
+    );
 
   },
+
+  /* ======================================================
+     ENVIRONMENT
+  ====================================================== */
 
   environment(){
 
-    return `
-      <div class="module-page">
-
-        ${this.card("leaf","Environment","Data lingkungan akan ditampilkan di sini.")}
-
-      </div>
-    `;
+    return this.simplePage(
+      "Environment",
+      "leaf",
+      "Pengelolaan Lingkungan"
+    );
 
   },
+
+  /* ======================================================
+     MEDICAL
+  ====================================================== */
 
   medical(){
 
-    return `
-      <div class="module-page">
-
-        ${this.card("heart-pulse","Medical","Program kesehatan kerja akan ditampilkan di sini.")}
-
-      </div>
-    `;
+    return this.simplePage(
+      "Medical",
+      "heart-pulse",
+      "Kesehatan Kerja"
+    );
 
   },
+
+  /* ======================================================
+     SOP
+  ====================================================== */
 
   sop(){
 
-    return `
-      <div class="module-page">
-
-        ${this.card("book-open","SOP","Daftar SOP perusahaan akan muncul di sini.")}
-
-      </div>
-    `;
+    return this.simplePage(
+      "SOP",
+      "book-open",
+      "Dokumen Prosedur Operasional"
+    );
 
   },
+
+  /* ======================================================
+     KEBIJAKAN
+  ====================================================== */
 
   kebijakan(){
 
-    return `
-      <div class="module-page">
-
-        ${this.card("file-text","Kebijakan","Dokumen kebijakan perusahaan akan muncul di sini.")}
-
-      </div>
-    `;
+    return this.simplePage(
+      "Kebijakan",
+      "file-text",
+      "Dokumen Kebijakan Perusahaan"
+    );
 
   },
+
+  /* ======================================================
+     AREA
+  ====================================================== */
 
   area(){
 
-    return `
-      <div class="module-page">
-
-        ${this.card("map","Area Kerja","PIT, Workshop, Stockpile, Jetty, Office, dll.")}
-
-      </div>
-    `;
+    return this.simplePage(
+      "Area Operasional",
+      "map",
+      "Daftar Area Operasional"
+    );
 
   },
+
+  /* ======================================================
+     CONTRACTOR
+  ====================================================== */
 
   contractor(){
 
+    return this.simplePage(
+      "Kontraktor",
+      "building",
+      "Ringkasan Kontraktor"
+    );
+
+  },
+
+  /* ======================================================
+     ADMIN
+  ====================================================== */
+
+  admin(){
+
+    return this.simplePage(
+      "Admin",
+      "shield-check",
+      "Pusat Pengaturan Sistem"
+    );
+
+  },
+
+  /* ======================================================
+     TEMPLATE
+  ====================================================== */
+
+  simplePage(title,icon,subtitle){
+
     return `
-      <div class="module-page">
+    <section class="card module-page">
 
-        ${this.card("building","Contractor","VIP, SLS, CHN, BCJ, PAR, ARL.")}
-
+      <div class="card-head">
+        <div>
+          <h3>${title}</h3>
+          <span>${subtitle}</span>
+        </div>
       </div>
+
+      <div class="empty-state">
+        <i data-lucide="${icon}"></i>
+        <p>Modul ini sedang dipersiapkan.</p>
+      </div>
+
+    </section>
     `;
 
   },
 
-  admin(){
+  /* ======================================================
+     NOT FOUND
+  ====================================================== */
+
+  notFound(){
 
     return `
-      <div class="module-page">
+    <section class="card module-page">
 
-        ${this.card("shield-check","Admin Center","Login dan pengaturan sistem.")}
-
+      <div class="empty-state">
+        <i data-lucide="search-x"></i>
+        <h3>Halaman tidak ditemukan</h3>
+        <p>Modul yang dipilih belum tersedia.</p>
       </div>
+
+    </section>
     `;
 
   }
