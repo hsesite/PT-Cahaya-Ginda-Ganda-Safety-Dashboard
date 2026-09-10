@@ -157,3 +157,79 @@ padding-top:18px;
 border-top:1px solid rgba(255,255,255,.08);
 
 }
+
+
+<aside class="desktop-sidebar" id="desktopSidebar">
+
+  <div>
+
+    <div class="sidebar-logo">
+
+      <img src="assets/img/logo-cgg.png" alt="CGG">
+
+    </div>
+
+    <nav class="sidebar-menu">
+
+      <div class="sidebar-item active">
+        <i data-lucide="layout-dashboard"></i>
+        <span class="sidebar-label">Dashboard</span>
+      </div>
+
+      <div class="sidebar-item">
+        <i data-lucide="clipboard-check"></i>
+        <span class="sidebar-label">Inspection</span>
+      </div>
+
+      <div class="sidebar-item">
+        <i data-lucide="triangle-alert"></i>
+        <span class="sidebar-label">Hazard</span>
+      </div>
+
+      <div class="sidebar-item">
+        <i data-lucide="circle-alert"></i>
+        <span class="sidebar-label">Incident</span>
+      </div>
+
+      <div class="sidebar-item">
+        <i data-lucide="leaf"></i>
+        <span class="sidebar-label">Environment</span>
+      </div>
+
+      <div class="sidebar-item">
+        <i data-lucide="heart-pulse"></i>
+        <span class="sidebar-label">Medical</span>
+      </div>
+
+      <div class="sidebar-item">
+        <i data-lucide="book-open"></i>
+        <span class="sidebar-label">SOP</span>
+      </div>
+
+      <div class="sidebar-item">
+        <i data-lucide="file-text"></i>
+        <span class="sidebar-label">Kebijakan</span>
+      </div>
+
+      <div class="sidebar-item">
+        <i data-lucide="map"></i>
+        <span class="sidebar-label">Area</span>
+      </div>
+
+    </nav>
+
+  </div>
+
+  <div class="sidebar-footer">
+
+    <div class="sidebar-item">
+
+      <i data-lucide="circle-user"></i>
+
+      <span class="sidebar-label">Admin</span>
+
+    </div>
+
+  </div>
+
+</aside>
