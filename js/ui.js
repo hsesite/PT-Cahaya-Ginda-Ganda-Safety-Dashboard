@@ -1,213 +1,102 @@
+
 /* ==========================================================
    PT Cahaya Ginda Ganda HSE Dashboard
-   ui.js v5.0 (LOCKED)
-   UI Controller
+   ui.js v5.1
+   UI Helper (Fixed Firefox Render Loop)
 ========================================================== */
 
-const UI = {
+const UI={
 
-  toastEl:null,
-  loadingEl:null,
+loading:null,
 
-  init(){
+init(){
 
-    this.createToast();
+this.loading=document.getElementById("loadingOverlay");
 
-    this.createLoading();
+this.refreshIcons();
 
-    this.observeIcons();
+},
 
-  },
+refreshIcons(){
 
-  /* =========================================
-     TOAST
-  ========================================= */
+if(window.lucide){
 
-  createToast(){
+lucide.createIcons();
 
-    const toast=document.createElement("div");
+}
 
-    toast.id="uiToast";
+},
 
-    toast.style.cssText=`
-      position:fixed;
-      top:20px;
-      right:20px;
-      z-index:9999;
-      min-width:260px;
-      max-width:340px;
-      padding:14px 18px;
-      border-radius:18px;
-      background:rgba(8,12,18,.94);
-      color:#fff;
-      border:1px solid rgba(255,255,255,.08);
-      backdrop-filter:blur(18px);
-      transform:translateY(-20px);
-      opacity:0;
-      pointer-events:none;
-      transition:.25s ease;
-      box-shadow:0 12px 40px rgba(0,0,0,.35);
-      font-family:Inter,sans-serif;
-      font-size:14px;
-    `;
+showLoading(){
 
-    document.body.appendChild(toast);
+if(this.loading){
 
-    this.toastEl=toast;
+this.loading.style.display="flex";
 
-  },
+}
 
-  toast(message,type="info"){
+},
 
-    if(!this.toastEl) return;
+hideLoading(){
 
-    const color={
-      success:"#00C853",
-      warning:"#F59E0B",
-      danger:"#EF4444",
-      info:"#3B82F6"
-    }[type] || "#3B82F6";
+if(this.loading){
 
-    this.toastEl.textContent=message;
+this.loading.style.display="none";
 
-    this.toastEl.style.borderColor=color+"55";
+}
 
-    this.toastEl.style.boxShadow=`0 12px 40px ${color}33`;
+},
 
-    this.toastEl.style.opacity="1";
+toast(message,type="info"){
 
-    this.toastEl.style.transform="translateY(0)";
+const toast=document.createElement("div");
 
-    clearTimeout(this.toastTimer);
+toast.className=`toast toast-${type}`;
 
-    this.toastTimer=setTimeout(()=>{
+toast.textContent=message;
 
-      this.toastEl.style.opacity="0";
+document.body.appendChild(toast);
 
-      this.toastEl.style.transform="translateY(-20px)";
+requestAnimationFrame(()=>{
 
-    },3000);
+toast.classList.add("show");
 
-  },
+});
 
-  /* =========================================
-     LOADING
-  ========================================= */
+setTimeout(()=>{
 
-  createLoading(){
+toast.classList.remove("show");
 
-    const loading=document.createElement("div");
+setTimeout(()=>toast.remove(),300);
 
-    loading.id="uiLoading";
+},2500);
 
-    loading.style.cssText=`
-      position:fixed;
-      inset:0;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      background:rgba(0,0,0,.35);
-      backdrop-filter:blur(4px);
-      z-index:9998;
-    `;
+},
 
-    loading.innerHTML=`
-      <div style="
-        width:64px;
-        height:64px;
-        border-radius:50%;
-        border:4px solid rgba(255,255,255,.15);
-        border-top-color:#00C853;
-        animation:uiSpin 1s linear infinite;">
-      </div>
-    `;
+confirm(message){
 
-    document.body.appendChild(loading);
+return window.confirm(message);
 
-    const style=document.createElement("style");
-
-    style.textContent=`
-      @keyframes uiSpin{
-        from{transform:rotate(0deg);}
-        to{transform:rotate(360deg);}
-      }
-    `;
-
-    document.head.appendChild(style);
-
-    this.loadingEl=loading;
-
-  },
-
-  showLoading(){
-
-    if(this.loadingEl){
-
-      this.loadingEl.style.display="flex";
-
-    }
-
-  },
-
-  hideLoading(){
-
-    if(this.loadingEl){
-
-      this.loadingEl.style.display="none";
-
-    }
-
-  },
-
-  /* =========================================
-     DIALOG
-  ========================================= */
-
-  confirm(title,message){
-
-    return new Promise(resolve=>{
-
-      const ok=window.confirm(`${title}\n\n${message}`);
-
-      resolve(ok);
-
-    });
-
-  },
-
-  alert(title,message){
-
-    window.alert(`${title}\n\n${message}`);
-
-  },
-
-  /* =========================================
-     LUCIDE AUTO REFRESH
-  ========================================= */
-
-  observeIcons(){
-
-    const observer=new MutationObserver(()=>{
-
-      if(window.lucide){
-
-        lucide.createIcons();
-
-      }
-
-    });
-
-    observer.observe(document.body,{
-      childList:true,
-      subtree:true
-    });
-
-  }
+}
 
 };
 
+/* =========================================
+   SAFE ICON REFRESH
+========================================= */
+
 window.addEventListener("DOMContentLoaded",()=>{
 
-  UI.init();
+UI.init();
 
 });
+
+/* =========================================
+   GLOBAL REFRESH
+========================================= */
+
+window.refreshUI=()=>{
+
+UI.refreshIcons();
+
+};
