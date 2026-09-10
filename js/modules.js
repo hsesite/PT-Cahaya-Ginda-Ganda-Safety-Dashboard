@@ -11,8 +11,8 @@ const Modules={
 
       case "dashboard":
 
-        return this.dashboard();
-
+        return "";
+          
       case "inspection":
 
         return InspectionUI.render();
