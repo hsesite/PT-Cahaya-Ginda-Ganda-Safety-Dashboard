@@ -1,170 +1,213 @@
-
 /* ==========================================================
-   PT. CGG HSE Dashboard
-   ui.js v1.0.0
-   Premium UI Engine
-   Depends: tokens.css, style.css, animation.css
+   PT Cahaya Ginda Ganda HSE Dashboard
+   ui.js v5.0 (LOCKED)
+   UI Controller
 ========================================================== */
 
-const CGGUI = (()=>{
+const UI = {
 
-let initialized=false;
+  toastEl:null,
+  loadingEl:null,
 
-function init(){
+  init(){
 
-if(initialized) return;
-initialized=true;
+    this.createToast();
 
-bindGlassTouch();
-bindParallax();
-bindHeader();
-bindModuleChange();
-bindMenu();
+    this.createLoading();
 
-}
+    this.observeIcons();
 
-/* =========================
-   Glass Touch
-========================= */
+  },
 
-function bindGlassTouch(){
+  /* =========================================
+     TOAST
+  ========================================= */
 
-document.addEventListener("pointerdown",(e)=>{
+  createToast(){
 
-const card=e.target.closest(".cgg-card,.cgg-button");
+    const toast=document.createElement("div");
 
-if(!card) return;
+    toast.id="uiToast";
 
-card.classList.add("pressed");
+    toast.style.cssText=`
+      position:fixed;
+      top:20px;
+      right:20px;
+      z-index:9999;
+      min-width:260px;
+      max-width:340px;
+      padding:14px 18px;
+      border-radius:18px;
+      background:rgba(8,12,18,.94);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(18px);
+      transform:translateY(-20px);
+      opacity:0;
+      pointer-events:none;
+      transition:.25s ease;
+      box-shadow:0 12px 40px rgba(0,0,0,.35);
+      font-family:Inter,sans-serif;
+      font-size:14px;
+    `;
 
-});
+    document.body.appendChild(toast);
 
-document.addEventListener("pointerup",releasePressed);
-document.addEventListener("pointercancel",releasePressed);
+    this.toastEl=toast;
 
-}
+  },
 
-function releasePressed(){
+  toast(message,type="info"){
 
-document.querySelectorAll(".pressed").forEach(el=>{
-el.classList.remove("pressed");
-});
+    if(!this.toastEl) return;
 
-}
+    const color={
+      success:"#00C853",
+      warning:"#F59E0B",
+      danger:"#EF4444",
+      info:"#3B82F6"
+    }[type] || "#3B82F6";
 
-/* =========================
-   Parallax Tilt
-========================= */
+    this.toastEl.textContent=message;
 
-function bindParallax(){
+    this.toastEl.style.borderColor=color+"55";
 
-const cards=document.querySelectorAll(".cgg-card");
+    this.toastEl.style.boxShadow=`0 12px 40px ${color}33`;
 
-cards.forEach(card=>{
+    this.toastEl.style.opacity="1";
 
-card.addEventListener("pointermove",(e)=>{
+    this.toastEl.style.transform="translateY(0)";
 
-const rect=card.getBoundingClientRect();
+    clearTimeout(this.toastTimer);
 
-const x=(e.clientX-rect.left)/rect.width-.5;
-const y=(e.clientY-rect.top)/rect.height-.5;
+    this.toastTimer=setTimeout(()=>{
 
-card.style.transform=
-`perspective(900px)
- rotateX(${(-y*4).toFixed(2)}deg)
- rotateY(${(x*4).toFixed(2)}deg)
- translateY(-2px)`;
+      this.toastEl.style.opacity="0";
 
-});
+      this.toastEl.style.transform="translateY(-20px)";
 
-card.addEventListener("pointerleave",()=>{
+    },3000);
 
-card.style.transform="";
+  },
 
-});
+  /* =========================================
+     LOADING
+  ========================================= */
 
-});
+  createLoading(){
 
-}
+    const loading=document.createElement("div");
 
-/* =========================
-   Header Scroll
-========================= */
+    loading.id="uiLoading";
 
-function bindHeader(){
+    loading.style.cssText=`
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:rgba(0,0,0,.35);
+      backdrop-filter:blur(4px);
+      z-index:9998;
+    `;
 
-const header=document.querySelector(".cgg-header");
+    loading.innerHTML=`
+      <div style="
+        width:64px;
+        height:64px;
+        border-radius:50%;
+        border:4px solid rgba(255,255,255,.15);
+        border-top-color:#00C853;
+        animation:uiSpin 1s linear infinite;">
+      </div>
+    `;
 
-if(!header) return;
+    document.body.appendChild(loading);
 
-window.addEventListener("scroll",()=>{
+    const style=document.createElement("style");
 
-if(window.scrollY>24){
+    style.textContent=`
+      @keyframes uiSpin{
+        from{transform:rotate(0deg);}
+        to{transform:rotate(360deg);}
+      }
+    `;
 
-header.classList.add("scrolled");
+    document.head.appendChild(style);
 
-}else{
+    this.loadingEl=loading;
 
-header.classList.remove("scrolled");
+  },
 
-}
+  showLoading(){
 
-});
+    if(this.loadingEl){
 
-}
+      this.loadingEl.style.display="flex";
 
-/* =========================
-   Module Animation
-========================= */
+    }
 
-function bindModuleChange(){
+  },
 
-document.addEventListener("moduleChange",()=>{
+  hideLoading(){
 
-const active=document.querySelector("[data-module].active");
+    if(this.loadingEl){
 
-if(!active) return;
+      this.loadingEl.style.display="none";
 
-active.classList.remove("page-enter");
+    }
 
-void active.offsetWidth;
+  },
 
-active.classList.add("page-enter");
+  /* =========================================
+     DIALOG
+  ========================================= */
 
-});
+  confirm(title,message){
 
-}
+    return new Promise(resolve=>{
 
-/* =========================
-   Menu Navigation
-========================= */
+      const ok=window.confirm(`${title}\n\n${message}`);
 
-function bindMenu(){
-
-  document.querySelectorAll("[data-module-button]").forEach(btn=>{
-
-    btn.addEventListener("click",()=>{
-
-      const module=btn.dataset.moduleButton;
-
-      CGGModule.open(module);
+      resolve(ok);
 
     });
 
-  });
+  },
 
-}
+  alert(title,message){
 
-return{
-init
+    window.alert(`${title}\n\n${message}`);
+
+  },
+
+  /* =========================================
+     LUCIDE AUTO REFRESH
+  ========================================= */
+
+  observeIcons(){
+
+    const observer=new MutationObserver(()=>{
+
+      if(window.lucide){
+
+        lucide.createIcons();
+
+      }
+
+    });
+
+    observer.observe(document.body,{
+      childList:true,
+      subtree:true
+    });
+
+  }
+
 };
 
-})();
+window.addEventListener("DOMContentLoaded",()=>{
 
-/* Auto Init */
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-CGGUI.init();
+  UI.init();
 
 });
