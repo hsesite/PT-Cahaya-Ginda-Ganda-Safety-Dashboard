@@ -19,6 +19,7 @@ bindGlassTouch();
 bindParallax();
 bindHeader();
 bindModuleChange();
+bindMenu();
 
 }
 
@@ -131,6 +132,26 @@ void active.offsetWidth;
 active.classList.add("page-enter");
 
 });
+
+}
+
+/* =========================
+   Menu Navigation
+========================= */
+
+function bindMenu(){
+
+  document.querySelectorAll("[data-module-button]").forEach(btn=>{
+
+    btn.addEventListener("click",()=>{
+
+      const module=btn.dataset.moduleButton;
+
+      CGGModule.open(module);
+
+    });
+
+  });
 
 }
 
