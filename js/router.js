@@ -98,24 +98,41 @@ const Router = {
 
   render(module){
 
-    if(!this.container) return;
+  if(!this.container) return;
 
-    const html=Modules.render(module);
+  const desktop=document.getElementById("desktopWorkspace");
 
-    this.container.innerHTML=html;
+  if(module==="dashboard"){
 
-   if(module==="inspection" && window.Inspection){
-   setTimeout(()=>Inspection.init(),20);
+    desktop.style.display="grid";
 
-    if(window.lucide){
+    this.container.style.display="none";
 
-      lucide.createIcons();
+    this.container.innerHTML="";
 
-    }
+    lucide.createIcons();
+
+    return;
 
   }
 
-};
+  desktop.style.display="none";
+
+  this.container.style.display="block";
+
+  const html=Modules.render(module);
+
+  this.container.innerHTML=html;
+
+  if(module==="inspection"&&window.Inspection){
+
+    setTimeout(()=>Inspection.init(),20);
+
+  }
+
+  lucide.createIcons();
+
+}
 
 window.addEventListener("DOMContentLoaded",()=>{
 
