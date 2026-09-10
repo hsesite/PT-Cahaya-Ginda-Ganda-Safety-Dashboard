@@ -604,3 +604,108 @@ footer{
     transform:translateX(120%) rotate(-8deg);
   }
 }
+
+
+/* ==========================================================
+   CGG Real Depth Upgrade v2.2
+   Tempel PALING BAWAH style.css
+========================================================== */
+
+/* Layer Depth */
+
+.menu-card{
+  transform-style:preserve-3d;
+  perspective:900px;
+}
+
+/* Glass thickness */
+
+.menu-card .icon-glass{
+  transform:translateZ(18px);
+}
+
+/* Floating shadow */
+
+.menu-card::after{
+  content:"";
+  position:absolute;
+  left:18%;
+  right:18%;
+  bottom:10px;
+  height:12px;
+  border-radius:50%;
+  background:rgba(0,0,0,.45);
+  filter:blur(12px);
+  z-index:-1;
+}
+
+/* Hover Desktop */
+
+@media (hover:hover){
+
+.menu-card:hover{
+
+  transform:
+    translateY(-8px)
+    rotateX(6deg)
+    rotateY(-2deg);
+
+}
+
+.menu-card:hover .icon-glass{
+
+  transform:
+    translateZ(30px)
+    scale(1.08);
+
+}
+
+}
+
+/* Touch Mobile */
+
+.menu-card:active{
+
+  transform:
+    scale(.95);
+
+}
+
+.menu-card:active .icon-glass{
+
+  transform:
+    translateZ(10px)
+    scale(.92);
+
+}
+
+/* Hero Glass */
+
+.hero{
+
+  position:relative;
+
+}
+
+.hero::before{
+
+  content:"";
+
+  position:absolute;
+
+  top:10px;
+  left:18px;
+
+  width:45%;
+  height:22px;
+
+  border-radius:999px;
+
+  background:
+    linear-gradient(90deg,
+      rgba(255,255,255,.22),
+      rgba(255,255,255,0));
+
+  filter:blur(2px);
+
+}
