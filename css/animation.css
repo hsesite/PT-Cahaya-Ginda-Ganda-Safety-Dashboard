@@ -653,3 +653,28 @@ clip-path:circle(150% at 50% 50%);
 }
 
 }
+
+
+/* ===== Icon Pulse ===== */
+
+.menu-card:active .icon-glass svg{
+
+  animation:cggIconPulse .28s ease;
+
+}
+
+@keyframes cggIconPulse{
+
+  0%{
+    transform:scale(1);
+  }
+
+  50%{
+    transform:scale(1.18);
+  }
+
+  100%{
+    transform:scale(1);
+  }
+
+}
