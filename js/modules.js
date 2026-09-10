@@ -9,14 +9,16 @@ const CGGModule = (() => {
 
   // ===== Daftar Modul =====
   const modules = {
-    dashboard: "Dashboard",
-    inspection: "Inspection",
-    hazard: "Hazard",
-    incident: "Incident",
-    pica: "PICA",
-    sop: "SOP",
-    admin: "Admin"
-  };
+  dashboard:"Dashboard",
+  inspection:"Inspection",
+  hazard:"Hazard",
+  incident:"Incident",
+  environment:"Environment",
+  medical:"Medical",
+  pica:"PICA",
+  sop:"SOP",
+  admin:"Admin"
+};
 
   let currentModule = "dashboard";
 
