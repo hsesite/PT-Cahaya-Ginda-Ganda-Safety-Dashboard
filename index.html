@@ -85,29 +85,33 @@
 
 </header>
 
-<section class="hero glass cgg-card cgg-kpi cgg-fade-up" data-cgg="hero-kpi">
+<section class="hero glass cgg-card cgg-kpi cgg-fade-up" data-cgg="hero-kpi" id="executiveHero">
 
-  <row justify=between align=center>
-    <box gap=0>
-      <caption>Executive Dashboard</caption>
+  <div class="hero-left">
 
-      <title size=xl strong>0</title>
+    <span class="hero-label">Executive Dashboard</span>
 
-      <caption id="inspectionCounter">Inspection Hari Ini</caption>
-    </box>
+    <h2 id="inspectionCounter">0</h2>
 
-    <box background="rgba(0,200,83,.10)" radius=xl padding=3 border={{size:1,color:"rgba(0,200,83,.25)"}}>
-      <icon name=activity color=success size=md/>
-    </box>
-  </row>
+    <p class="hero-title">Inspection Hari Ini</p>
 
-  <row gap=2 align=center>
-    <box background="rgba(0,200,83,.10)" radius=full padding=2><icon name=shield-check color=success/></box>
-    <caption>Data akan mengikuti Spreadsheet secara otomatis</caption>
-  </row>
+    <div class="hero-chip">
+      <i data-lucide="shield-check"></i>
+      <span>Sinkron dengan Spreadsheet</span>
+    </div>
+
+  </div>
+
+  <div class="hero-right">
+
+    <div class="hero-circle">
+      <i data-lucide="activity"></i>
+    </div>
+
+  </div>
 
 </section>
-
+     
 <section class="quick-grid">
 
   <div class="glass stat-card">
