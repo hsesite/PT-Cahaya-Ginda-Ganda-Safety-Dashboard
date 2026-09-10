@@ -245,18 +245,29 @@ lucide.createIcons();
 
 bindMenu(){
 
-const cards=document.querySelectorAll(".menu-card");
+  const cards=document.querySelectorAll(".menu-card");
 
-cards.forEach(card=>{
+  cards.forEach(card=>{
 
-card.addEventListener("click",()=>{
+    card.addEventListener("click",()=>{
 
-const title=card.querySelector("span").textContent;
+      const name=card.querySelector("span").textContent
+        .toLowerCase()
+        .replace(" ","");
 
-this.openModule(title);
+      const map={
+        inspection:"inspection",
+        hazard:"hazard",
+        incident:"incident",
+        environment:"environment",
+        medical:"medical",
+        dashboard:"dashboard"
+      };
 
-});
+      Router.navigate(map[name]);
 
-});
+    });
+
+  });
 
 }
