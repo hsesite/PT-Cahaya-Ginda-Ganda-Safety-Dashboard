@@ -414,3 +414,89 @@ transform:translateY(-4px) scale(1.06);
   }
 
 }
+
+
+/* ==========================================================
+   Desktop Executive Layout v3.0
+   Tempel paling bawah responsive.css
+========================================================== */
+
+@media (min-width:1200px){
+
+  body{
+
+    display:flex;
+    justify-content:center;
+
+  }
+
+  .app,
+  .cgg-app{
+
+    max-width:1400px;
+
+    width:100%;
+
+    padding:32px;
+
+    display:grid;
+
+    grid-template-columns:420px 1fr;
+
+    gap:28px;
+
+    align-items:start;
+
+  }
+
+  /* Kolom kiri */
+
+  .header,
+  #executiveHero,
+  .quick-grid,
+  .menu-grid,
+  .sync-card{
+
+    grid-column:1;
+
+  }
+
+  /* Kolom kanan */
+
+  .app-view{
+
+    grid-column:2;
+
+    grid-row:1 / span 5;
+
+    position:sticky;
+
+    top:32px;
+
+    min-height:700px;
+
+  }
+
+  /* Hero sedikit lebih besar */
+
+  #executiveHero{
+
+    min-height:165px;
+
+  }
+
+  /* Menu lebih nyaman */
+
+  .menu-grid{
+
+    gap:18px;
+
+  }
+
+  .menu-card{
+
+    min-height:130px;
+
+  }
+
+}
