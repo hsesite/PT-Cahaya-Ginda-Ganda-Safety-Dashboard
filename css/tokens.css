@@ -1,0 +1,120 @@
+
+/* ==========================================================
+   PT. CGG HSE Dashboard
+   Design Token System v1.0
+   DNA seluruh tampilan aplikasi
+========================================================== */
+
+:root{
+
+  /* ===== Background ===== */
+  --cgg-bg:#090B10;
+  --cgg-bg-soft:#0F131A;
+  --cgg-surface:#151A22;
+  --cgg-surface-elevated:#1C222C;
+
+  /* ===== Glass ===== */
+  --cgg-glass:rgba(24,30,39,.62);
+  --cgg-glass-strong:rgba(20,26,35,.82);
+  --cgg-glass-border:rgba(255,255,255,.10);
+  --cgg-glass-highlight:rgba(255,255,255,.18);
+
+  /* ===== Emerald Accent ===== */
+  --cgg-emerald:#00C853;
+  --cgg-emerald-soft:#19D66C;
+  --cgg-emerald-glow:rgba(0,200,83,.25);
+
+  /* ===== Status ===== */
+  --cgg-success:#00C853;
+  --cgg-warning:#F59E0B;
+  --cgg-danger:#EF4444;
+  --cgg-info:#3B82F6;
+
+  /* ===== Text ===== */
+  --cgg-text:#F5F7FA;
+  --cgg-text-secondary:#9AA3AE;
+  --cgg-text-muted:#6B7280;
+
+  /* ===== Radius ===== */
+  --cgg-radius-xs:10px;
+  --cgg-radius-sm:16px;
+  --cgg-radius-md:22px;
+  --cgg-radius-lg:28px;
+  --cgg-radius-xl:34px;
+  --cgg-radius-pill:999px;
+
+  /* ===== Blur ===== */
+  --cgg-blur-card:22px;
+  --cgg-blur-header:26px;
+  --cgg-blur-sheet:30px;
+
+  /* ===== Shadow ===== */
+  --cgg-shadow-soft:
+    0 8px 24px rgba(0,0,0,.28);
+
+  --cgg-shadow-medium:
+    0 16px 36px rgba(0,0,0,.34);
+
+  --cgg-shadow-press:
+    0 6px 14px rgba(0,0,0,.22);
+
+  /* ===== Motion ===== */
+  --cgg-fast:140ms;
+  --cgg-normal:220ms;
+  --cgg-slow:320ms;
+
+  /* ===== Spring ===== */
+  --cgg-ease:
+    cubic-bezier(.22,.8,.2,1);
+
+  /* ===== Layout ===== */
+  --cgg-max-width:460px;
+  --cgg-gap:18px;
+
+}
+
+/* ===== Dark Theme Default ===== */
+
+html{
+
+  background:var(--cgg-bg);
+  color:var(--cgg-text);
+
+}
+
+/* ===== Smooth Rendering ===== */
+
+*{
+
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+
+}
+
+body{
+
+  margin:0;
+  min-height:100vh;
+
+  background:
+    radial-gradient(circle at top,
+      rgba(0,200,83,.04),
+      transparent 35%),
+    radial-gradient(circle at bottom,
+      rgba(255,255,255,.03),
+      transparent 45%),
+    var(--cgg-bg);
+
+  color:var(--cgg-text);
+
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    "Segoe UI",
+    sans-serif;
+
+  overflow-x:hidden;
+
+}
