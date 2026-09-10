@@ -1,261 +1,421 @@
-
 /* ==========================================================
-   CGG Component Library v1.0
+   PT Cahaya Ginda Ganda HSE Dashboard
+   components.css v5.0 (LOCKED)
+   Reusable UI Components
 ========================================================== */
 
-/* Glass Card */
+/* =========================================
+   CARD
+========================================= */
 
-.glass-card{
-
-  position:relative;
-
-  background:
-    linear-gradient(145deg,
-      rgba(255,255,255,.06),
-      rgba(255,255,255,.02));
-
-  backdrop-filter:blur(24px);
-  -webkit-backdrop-filter:blur(24px);
-
-  border:1px solid rgba(255,255,255,.08);
-
-  border-radius:28px;
-
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.08),
-    0 12px 40px rgba(0,0,0,.30);
-
+.card,
+.cgg-card{
+background:var(--glass-bg);
+border:1px solid var(--glass-border);
+border-radius:var(--radius-lg);
+backdrop-filter:blur(20px);
+-webkit-backdrop-filter:blur(20px);
+box-shadow:var(--shadow-sm);
+padding:20px;
+transition:
+transform var(--normal) var(--ease),
+box-shadow var(--normal) var(--ease),
+border-color var(--normal) var(--ease);
 }
 
-/* Desktop Panel */
-
-.desktop-panel{
-
-  padding:24px;
-
+.card:hover,
+.cgg-card:hover{
+transform:translateY(-3px);
+box-shadow:var(--shadow-md);
+border-color:rgba(0,200,83,.18);
 }
 
-/* Mobile Sheet */
+/* =========================================
+   CARD HEADER
+========================================= */
 
-.sheet{
-
-  border-radius:28px 28px 0 0;
-
+.card-head{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:12px;
+margin-bottom:18px;
 }
 
-/* Status Badge */
+.card-head h3{
+margin:0;
+font-size:17px;
+font-weight:600;
+}
 
-.status-badge{
+.card-head span{
+font-size:12px;
+color:var(--text-muted);
+}
 
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
+/* =========================================
+   BADGE
+========================================= */
 
-  padding:8px 14px;
-
-  border-radius:999px;
-
-  font-size:12px;
-  font-weight:600;
-
+.badge{
+display:inline-flex;
+align-items:center;
+gap:6px;
+padding:8px 14px;
+border-radius:999px;
+font-size:12px;
+font-weight:600;
 }
 
 .badge-success{
-
-  background:rgba(0,230,118,.12);
-
-  color:#00E676;
-
+background:rgba(0,200,83,.12);
+color:var(--success);
+border:1px solid rgba(0,200,83,.22);
 }
 
 .badge-warning{
-
-  background:rgba(255,193,7,.12);
-
-  color:#FFC107;
-
+background:rgba(245,158,11,.12);
+color:var(--warning);
+border:1px solid rgba(245,158,11,.22);
 }
 
 .badge-danger{
-
-  background:rgba(255,82,82,.12);
-
-  color:#FF5252;
-
+background:rgba(239,68,68,.12);
+color:var(--danger);
+border:1px solid rgba(239,68,68,.22);
 }
 
-/* Button */
-
-.cgg-btn{
-
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-
-  height:48px;
-
-  padding:0 20px;
-
-  border:none;
-
-  border-radius:16px;
-
-  cursor:pointer;
-
-  transition:.25s;
-
+.badge-info{
+background:rgba(59,130,246,.12);
+color:var(--info);
+border:1px solid rgba(59,130,246,.22);
 }
 
-.cgg-btn-primary{
+/* =========================================
+   CHIP
+========================================= */
 
-  background:linear-gradient(135deg,#00E676,#00C853);
-
-  color:#06110B;
-
-  font-weight:700;
-
-}
-
-.cgg-btn-primary:hover{
-
-  transform:translateY(-2px);
-
-  box-shadow:0 10px 24px rgba(0,230,118,.25);
-
-}
-
-.cgg-btn-secondary{
-
-  background:rgba(255,255,255,.05);
-
-  color:white;
-
-}
-
-/* Input */
-
-.cgg-input{
-
-  width:100%;
-
-  height:52px;
-
-  padding:0 18px;
-
-  border-radius:16px;
-
-  border:1px solid rgba(255,255,255,.08);
-
-  background:rgba(255,255,255,.03);
-
-  color:white;
-
-}
-
-.cgg-input:focus{
-
-  outline:none;
-
-  border-color:#00E676;
-
-  box-shadow:0 0 0 4px rgba(0,230,118,.12);
-
-}
-
-/* Textarea */
-
-.cgg-textarea{
-
-  width:100%;
-
-  min-height:120px;
-
-  padding:18px;
-
-  border-radius:18px;
-
-  background:rgba(255,255,255,.03);
-
-  border:1px solid rgba(255,255,255,.08);
-
-  color:white;
-
-  resize:vertical;
-
-}
-
-/* Select */
-
-.cgg-select{
-
-  appearance:none;
-
-  background-image:
-    linear-gradient(45deg,transparent 50%,white 50%),
-    linear-gradient(135deg,white 50%,transparent 50%);
-
-  background-position:
-    calc(100% - 18px) calc(50% - 2px),
-    calc(100% - 12px) calc(50% - 2px);
-
-  background-size:6px 6px;
-
-  background-repeat:no-repeat;
-
-}
-
-/* ==========================================================
-   Inspection Workspace
-========================================================== */
-
-.inspection-page{
-
-display:grid;
-
-gap:22px;
-
-}
-
-.inspection-left,
-.inspection-right{
-
-padding:24px;
-
-}
-
-.inspection-form{
-
-display:grid;
-
-gap:18px;
-
-margin-top:18px;
-
-}
-
-.field{
-
-display:grid;
-
+.chip{
+display:inline-flex;
+align-items:center;
 gap:8px;
-
-}
-
-.field label{
-
+padding:10px 14px;
+border-radius:999px;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.06);
 font-size:13px;
+}
 
-color:#A8B3C0;
+.chip svg{
+width:18px;
+height:18px;
+}
+
+/* =========================================
+   BUTTON
+========================================= */
+
+.btn{
+appearance:none;
+border:none;
+cursor:pointer;
+border-radius:16px;
+padding:14px 18px;
+font-size:14px;
+font-weight:600;
+font-family:inherit;
+transition:all var(--normal) var(--ease);
+display:inline-flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+}
+
+.btn svg{
+width:20px;
+height:20px;
+}
+
+.btn-primary{
+background:var(--cgg-primary);
+color:#fff;
+}
+
+.btn-primary:hover{
+background:var(--cgg-primary-dark);
+transform:translateY(-2px);
+}
+
+.btn-secondary{
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.08);
+color:var(--text);
+}
+
+.btn-secondary:hover{
+background:rgba(255,255,255,.08);
+}
+
+.btn-danger{
+background:var(--danger);
+color:#fff;
+}
+
+.btn-danger:hover{
+filter:brightness(.95);
+}
+
+/* =========================================
+   INPUT
+========================================= */
+
+.input-group{
+display:flex;
+flex-direction:column;
+gap:8px;
+margin-bottom:16px;
+}
+
+.input-group label{
+font-size:13px;
+font-weight:600;
+color:var(--text-secondary);
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea{
+width:100%;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.08);
+border-radius:16px;
+padding:14px 16px;
+color:var(--text);
+font-size:14px;
+font-family:inherit;
+outline:none;
+transition:all var(--normal) var(--ease);
+}
+
+.input-group textarea{
+resize:vertical;
+min-height:120px;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus{
+border-color:rgba(0,200,83,.45);
+box-shadow:0 0 0 4px rgba(0,200,83,.12);
+}
+
+/* =========================================
+   SEARCH
+========================================= */
+
+.search-box{
+display:flex;
+align-items:center;
+gap:12px;
+padding:12px 16px;
+border-radius:18px;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.06);
+}
+
+.search-box svg{
+width:20px;
+height:20px;
+color:var(--text-muted);
+}
+
+.search-box input{
+flex:1;
+background:none;
+border:none;
+outline:none;
+color:var(--text);
+font-size:14px;
+}
+
+/* =========================================
+   TABLE
+========================================= */
+
+.table-wrapper{
+overflow:auto;
+border-radius:20px;
+border:1px solid rgba(255,255,255,.06);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:600px;
+}
+
+thead{
+background:rgba(255,255,255,.05);
+}
+
+th,
+td{
+padding:14px 16px;
+text-align:left;
+font-size:14px;
+}
+
+th{
+color:var(--text-secondary);
+font-weight:600;
+}
+
+tbody tr{
+border-top:1px solid rgba(255,255,255,.05);
+transition:background var(--fast);
+}
+
+tbody tr:hover{
+background:rgba(255,255,255,.03);
+}
+
+/* =========================================
+   LIST ITEM
+========================================= */
+
+.list-item{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:16px;
+padding:14px 0;
+border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+.list-item:last-child{
+border-bottom:none;
+}
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.empty-state{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:14px;
+padding:42px 24px;
+text-align:center;
+color:var(--text-muted);
+}
+
+.empty-state svg{
+width:54px;
+height:54px;
+color:var(--cgg-primary);
+opacity:.85;
+}
+
+/* =========================================
+   SUMMARY GRID
+========================================= */
+
+.summary-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:16px;
+}
+
+.summary-grid div{
+padding:16px;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.05);
+border-radius:18px;
+text-align:center;
+}
+
+.summary-grid strong{
+display:block;
+font-size:28px;
+margin-bottom:6px;
+}
+
+.summary-grid span{
+font-size:12px;
+color:var(--text-muted);
+}
+
+/* =========================================
+   PLACEHOLDER
+========================================= */
+
+.placeholder{
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:12px;
+text-align:center;
+color:var(--text-muted);
+}
+
+.placeholder svg{
+width:42px;
+height:42px;
+color:var(--cgg-primary);
+}
+
+/* =========================================
+   DIVIDER
+========================================= */
+
+.divider{
+height:1px;
+background:rgba(255,255,255,.06);
+margin:18px 0;
+}
+
+/* =========================================
+   LOADING
+========================================= */
+
+.loading-dot{
+width:10px;
+height:10px;
+border-radius:50%;
+background:var(--cgg-primary);
+animation:loadingPulse 1.2s infinite;
+}
+
+@keyframes loadingPulse{
+
+0%,100%{
+transform:scale(.8);
+opacity:.5;
+}
+
+50%{
+transform:scale(1.2);
+opacity:1;
+}
 
 }
 
-@media(min-width:1200px){
+/* =========================================
+   RESPONSIVE
+========================================= */
 
-.inspection-page{
+@media (max-width:600px){
 
-grid-template-columns:280px 1fr;
+.summary-grid{
+grid-template-columns:1fr;
+}
 
+.card,
+.cgg-card{
+padding:18px;
 }
 
 }
