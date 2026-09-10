@@ -1,120 +1,174 @@
-
 /* ==========================================================
-   PT. CGG HSE Dashboard
-   Design Token System v1.0
-   DNA seluruh tampilan aplikasi
+   PT Cahaya Ginda Ganda HSE Dashboard
+   tokens.css v5.0 (LOCKED)
+   Design Token System
 ========================================================== */
 
 :root{
 
-  /* ===== Background ===== */
-  --cgg-bg:#090B10;
-  --cgg-bg-soft:#0F131A;
-  --cgg-surface:#151A22;
-  --cgg-surface-elevated:#1C222C;
+/* =========================================
+   BRAND COLOR
+========================================= */
 
-  /* ===== Glass ===== */
-  --cgg-glass:rgba(24,30,39,.62);
-  --cgg-glass-strong:rgba(20,26,35,.82);
-  --cgg-glass-border:rgba(255,255,255,.10);
-  --cgg-glass-highlight:rgba(255,255,255,.18);
+--cgg-primary:#00C853;
+--cgg-primary-dark:#00A844;
+--cgg-primary-soft:rgba(0,200,83,.12);
 
-  /* ===== Emerald Accent ===== */
-  --cgg-emerald:#00C853;
-  --cgg-emerald-soft:#19D66C;
-  --cgg-emerald-glow:rgba(0,200,83,.25);
+--cgg-blue:#3B82F6;
+--cgg-orange:#F59E0B;
+--cgg-red:#EF4444;
 
-  /* ===== Status ===== */
-  --cgg-success:#00C853;
-  --cgg-warning:#F59E0B;
-  --cgg-danger:#EF4444;
-  --cgg-info:#3B82F6;
+/* =========================================
+   BACKGROUND
+========================================= */
 
-  /* ===== Text ===== */
-  --cgg-text:#F5F7FA;
-  --cgg-text-secondary:#9AA3AE;
-  --cgg-text-muted:#6B7280;
+--bg:#05070A;
+--bg-secondary:#0B1017;
+--bg-card:#111827;
+--bg-card-hover:#162130;
 
-  /* ===== Radius ===== */
-  --cgg-radius-xs:10px;
-  --cgg-radius-sm:16px;
-  --cgg-radius-md:22px;
-  --cgg-radius-lg:28px;
-  --cgg-radius-xl:34px;
-  --cgg-radius-pill:999px;
+/* =========================================
+   GLASS
+========================================= */
 
-  /* ===== Blur ===== */
-  --cgg-blur-card:22px;
-  --cgg-blur-header:26px;
-  --cgg-blur-sheet:30px;
+--glass-bg:rgba(17,24,39,.62);
+--glass-bg-strong:rgba(17,24,39,.82);
+--glass-border:rgba(255,255,255,.08);
+--glass-highlight:rgba(255,255,255,.06);
 
-  /* ===== Shadow ===== */
-  --cgg-shadow-soft:
-    0 8px 24px rgba(0,0,0,.28);
+/* =========================================
+   TEXT
+========================================= */
 
-  --cgg-shadow-medium:
-    0 16px 36px rgba(0,0,0,.34);
+--text:#F8FAFC;
+--text-secondary:#CBD5E1;
+--text-muted:#94A3B8;
 
-  --cgg-shadow-press:
-    0 6px 14px rgba(0,0,0,.22);
+/* =========================================
+   STATUS
+========================================= */
 
-  /* ===== Motion ===== */
-  --cgg-fast:140ms;
-  --cgg-normal:220ms;
-  --cgg-slow:320ms;
+--success:#00C853;
+--warning:#F59E0B;
+--danger:#EF4444;
+--info:#3B82F6;
 
-  /* ===== Spring ===== */
-  --cgg-ease:
-    cubic-bezier(.22,.8,.2,1);
+/* =========================================
+   SHADOW
+========================================= */
 
-  /* ===== Layout ===== */
-  --cgg-max-width:460px;
-  --cgg-gap:18px;
+--shadow-xs:0 2px 8px rgba(0,0,0,.18);
+--shadow-sm:0 8px 24px rgba(0,0,0,.28);
+--shadow-md:0 16px 42px rgba(0,0,0,.34);
+--shadow-lg:0 24px 64px rgba(0,0,0,.42);
+
+/* =========================================
+   RADIUS
+========================================= */
+
+--radius-xs:10px;
+--radius-sm:14px;
+--radius-md:18px;
+--radius-lg:24px;
+--radius-xl:32px;
+--radius-full:999px;
+
+/* =========================================
+   SPACING
+========================================= */
+
+--space-1:4px;
+--space-2:8px;
+--space-3:12px;
+--space-4:16px;
+--space-5:20px;
+--space-6:24px;
+--space-8:32px;
+--space-10:40px;
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+--sidebar-width:84px;
+--sidebar-expanded:240px;
+
+/* =========================================
+   HEADER
+========================================= */
+
+--header-height:74px;
+
+/* =========================================
+   TRANSITION
+========================================= */
+
+--ease:cubic-bezier(.22,.61,.36,1);
+
+--fast:.18s;
+--normal:.28s;
+--slow:.45s;
 
 }
 
-/* ===== Dark Theme Default ===== */
+/* =========================================
+   RESET DASAR
+========================================= */
+
+*,
+*::before,
+*::after{
+box-sizing:border-box;
+}
 
 html{
-
-  background:var(--cgg-bg);
-  color:var(--cgg-text);
-
-}
-
-/* ===== Smooth Rendering ===== */
-
-*{
-
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-
+scroll-behavior:smooth;
 }
 
 body{
+margin:0;
+padding:0;
+background:var(--bg);
+color:var(--text);
+font-family:"Inter",sans-serif;
+-webkit-font-smoothing:antialiased;
+-moz-osx-font-smoothing:grayscale;
+}
 
-  margin:0;
-  min-height:100vh;
+/* =========================================
+   SELECTION
+========================================= */
 
-  background:
-    radial-gradient(circle at top,
-      rgba(0,200,83,.04),
-      transparent 35%),
-    radial-gradient(circle at bottom,
-      rgba(255,255,255,.03),
-      transparent 45%),
-    var(--cgg-bg);
+::selection{
+background:rgba(0,200,83,.28);
+color:#fff;
+}
 
-  color:var(--cgg-text);
+/* =========================================
+   SCROLLBAR
+========================================= */
 
-  font-family:
-    "Inter",
-    -apple-system,
-    BlinkMacSystemFont,
-    "SF Pro Display",
-    "Segoe UI",
-    sans-serif;
+::-webkit-scrollbar{
+width:10px;
+height:10px;
+}
 
-  overflow-x:hidden;
+::-webkit-scrollbar-track{
+background:transparent;
+}
 
+::-webkit-scrollbar-thumb{
+background:#2A3441;
+border-radius:999px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+background:#3A4757;
+}
+
+/* Firefox */
+
+*{
+scrollbar-width:thin;
+scrollbar-color:#2A3441 transparent;
 }
