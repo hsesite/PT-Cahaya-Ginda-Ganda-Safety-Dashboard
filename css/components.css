@@ -204,3 +204,58 @@
   background-repeat:no-repeat;
 
 }
+
+/* ==========================================================
+   Inspection Workspace
+========================================================== */
+
+.inspection-page{
+
+display:grid;
+
+gap:22px;
+
+}
+
+.inspection-left,
+.inspection-right{
+
+padding:24px;
+
+}
+
+.inspection-form{
+
+display:grid;
+
+gap:18px;
+
+margin-top:18px;
+
+}
+
+.field{
+
+display:grid;
+
+gap:8px;
+
+}
+
+.field label{
+
+font-size:13px;
+
+color:#A8B3C0;
+
+}
+
+@media(min-width:1200px){
+
+.inspection-page{
+
+grid-template-columns:280px 1fr;
+
+}
+
+}
