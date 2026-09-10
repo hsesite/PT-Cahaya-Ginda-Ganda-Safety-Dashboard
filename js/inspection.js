@@ -1,168 +1,91 @@
-/**
- * =====================================================
- * CGG Inspection Viewer v2
- * Universal untuk semua Form CGG
- * =====================================================
- */
+/* ==========================================================
+   inspection.js
+========================================================== */
 
-const params = new URLSearchParams(window.location.search);
-const formId = params.get("id");
+const Inspection={
 
-if (!formId) {
-  document.body.innerHTML = "<h2>Form tidak ditemukan.</h2>";
-} else {
-  loadForm(decodeURIComponent(formId));
-}
+init(){
 
-async function loadForm(id) {
+this.fillCompany();
 
-  try {
+this.fillContractor();
 
-    const data = await getForm(id);
+this.bindContractor();
 
-    // ===========================
-    // Header
-    // ===========================
+},
 
-    document.getElementById("judul").textContent = data.title;
-    document.getElementById("formid").textContent = data.formId;
-    document.getElementById("revisi").textContent = "Revisi : " + (data.revision || "-");
-    document.getElementById("total").textContent = "Total Item : " + data.totalItems;
+fillCompany(){
 
-    // ===========================
-    // Informasi Unit
-    // ===========================
+const select=document.getElementById("companySelect");
 
-    renderIdentity(data.identity || {});
+if(!select) return;
 
-    // ===========================
-    // Checklist
-    // ===========================
+select.innerHTML="";
 
-    renderChecklist(data.items || []);
+InspectionData.company.forEach(item=>{
 
-  } catch (err) {
+select.innerHTML+=`<option>${item}</option>`;
 
-    console.error(err);
+});
 
-    document.body.innerHTML = `
-      <div style="padding:30px;font-family:Arial;color:white;background:#0D1117;height:100vh;">
-        <h2>Gagal membuka form</h2>
-        <p>${err.message}</p>
-      </div>
-    `;
+},
 
-  }
+fillContractor(){
 
-}
+const select=document.getElementById("contractorSelect");
 
-/* =====================================
-   INFORMASI UNIT
-===================================== */
+if(!select) return;
 
-function renderIdentity(identity){
+select.innerHTML="";
 
-  const container = document.getElementById("identity");
+InspectionData.contractor.forEach(item=>{
 
-  if(!container) return;
+select.innerHTML+=`<option>${item}</option>`;
 
-  let html = "";
+});
 
-  Object.entries(identity).forEach(([key,value])=>{
+this.fillSubContractor("VIP");
 
-    if(Array.isArray(value)){
+},
 
-      html += `
-      <div class="info-block">
+fillSubContractor(name){
 
-        <div class="info-title">${key}</div>
+const select=document.getElementById("subContractorSelect");
 
-        <div class="chip-wrap">
+if(!select) return;
 
-          ${value.map(v=>`<span class="chip">${v}</span>`).join("")}
+select.innerHTML="";
 
-        </div>
+const list=InspectionData.subContractor[name]||[];
 
-      </div>
-      `;
+if(list.length===0){
 
-    }else{
+select.innerHTML="<option>-</option>";
 
-      html += `
-      <div class="info-row">
-
-        <span>${key}</span>
-
-        <strong>${value || "-"}</strong>
-
-      </div>
-      `;
-
-    }
-
-  });
-
-  container.innerHTML = html;
+return;
 
 }
 
-/* =====================================
-   CHECKLIST
-===================================== */
+list.forEach(item=>{
 
-function renderChecklist(items){
+select.innerHTML+=`<option>${item}</option>`;
 
-  const container = document.getElementById("items");
+});
 
-  container.innerHTML = "";
+},
 
-  items.forEach(item=>{
+bindContractor(){
 
-    const card = document.createElement("div");
+const contractor=document.getElementById("contractorSelect");
 
-    card.className = "item";
+if(!contractor) return;
 
-    card.innerHTML = `
+contractor.addEventListener("change",e=>{
 
-      <div class="item-header">
+this.fillSubContractor(e.target.value);
 
-        <div class="nomor">${item.nomor}</div>
-
-        <div class="kode">${item.kode || "-"}</div>
-
-      </div>
-
-      <h3>${item.poin}</h3>
-
-      <div class="actions">
-
-        <button class="btn-ya">YA</button>
-
-        <button class="btn-tidak">TIDAK</button>
-
-      </div>
-
-    `;
-
-    const yes = card.querySelector(".btn-ya");
-    const no = card.querySelector(".btn-tidak");
-
-    yes.addEventListener("click",()=>{
-
-      yes.classList.add("btn-selected");
-      no.classList.remove("btn-selected");
-
-    });
-
-    no.addEventListener("click",()=>{
-
-      no.classList.add("btn-selected");
-      yes.classList.remove("btn-selected");
-
-    });
-
-    container.appendChild(card);
-
-  });
+});
 
 }
+
+};
