@@ -1,0 +1,619 @@
+
+/* ==========================================================
+   PT CGG HSE Dashboard
+   Industrial Glass Design Language v1.0
+========================================================== */
+
+:root{
+
+--bg:#0B0E13;
+--surface:#11151C;
+--surface2:#171C24;
+
+--text:#E8EAED;
+--text2:#9AA3AE;
+
+--accent:#22C55E;
+--warning:#F59E0B;
+--danger:#EF4444;
+--info:#60A5FA;
+
+--glass:rgba(255,255,255,.05);
+--glass2:rgba(255,255,255,.03);
+
+--border:rgba(255,255,255,.08);
+
+--radius:24px;
+
+--blur:18px;
+
+--transition:220ms cubic-bezier(.22,1,.36,1);
+
+}
+
+/* Light Mode */
+
+@media (prefers-color-scheme: light){
+
+:root{
+
+--bg:#F6F8FB;
+--surface:#FFFFFF;
+--surface2:#EEF2F7;
+
+--text:#111827;
+--text2:#64748B;
+
+--glass:rgba(255,255,255,.75);
+--glass2:rgba(255,255,255,.55);
+
+--border:rgba(17,24,39,.08);
+
+}
+
+}
+
+*{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+
+}
+
+html{
+
+scroll-behavior:smooth;
+
+}
+
+body{
+
+font-family:
+Inter,
+-apple-system,
+BlinkMacSystemFont,
+"SF Pro Display",
+sans-serif;
+
+background:var(--bg);
+
+color:var(--text);
+
+min-height:100vh;
+
+padding:
+max(16px,env(safe-area-inset-top))
+16px
+max(20px,env(safe-area-inset-bottom));
+
+overflow-x:hidden;
+
+}
+
+/* ==========================================================
+   BACKGROUND
+========================================================== */
+
+.background-glow{
+
+position:fixed;
+
+inset:0;
+
+pointer-events:none;
+
+background:
+radial-gradient(circle at top right,
+rgba(34,197,94,.10),
+transparent 35%),
+radial-gradient(circle at bottom left,
+rgba(96,165,250,.05),
+transparent 30%);
+
+z-index:-1;
+
+}
+
+/* ==========================================================
+   APP
+========================================================== */
+
+.app{
+
+max-width:560px;
+
+margin:auto;
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+}
+
+/* ==========================================================
+   GLASS
+========================================================== */
+
+.glass{
+
+position:relative;
+
+background:linear-gradient(
+180deg,
+var(--glass),
+var(--glass2)
+);
+
+backdrop-filter:blur(var(--blur));
+
+-webkit-backdrop-filter:blur(var(--blur));
+
+border:1px solid var(--border);
+
+border-radius:var(--radius);
+
+overflow:hidden;
+
+transition:var(--transition);
+
+}
+
+/* Pantulan kaca */
+
+.glass::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:-120%;
+
+width:70%;
+
+height:100%;
+
+background:linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.10),
+transparent
+);
+
+transform:skewX(-25deg);
+
+pointer-events:none;
+
+}
+
+.glass:hover::before{
+
+left:160%;
+
+transition:700ms ease;
+
+}
+
+/* ==========================================================
+   HEADER
+========================================================== */
+
+.header{
+
+padding:20px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+}
+
+.brand{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+}
+
+.brand>div:first-child{
+
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+}
+
+.logo-box{
+
+width:62px;
+height:62px;
+
+display:grid;
+place-items:center;
+
+border-radius:22px;
+
+background:
+linear-gradient(
+145deg,
+rgba(255,255,255,.12),
+rgba(255,255,255,.03)
+);
+
+border:1px solid var(--border);
+
+box-shadow:
+0 0 20px rgba(34,197,94,.08);
+
+}
+
+.logo-box img{
+
+width:40px;
+
+height:40px;
+
+object-fit:contain;
+
+}
+
+.brand h1{
+
+font-size:22px;
+
+font-weight:700;
+
+letter-spacing:-.4px;
+
+}
+
+.status{
+
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
+padding:8px 14px;
+
+border-radius:999px;
+
+font-size:13px;
+
+font-weight:600;
+
+border:1px solid;
+
+}
+
+.status.online{
+
+border-color:rgba(34,197,94,.25);
+
+background:rgba(34,197,94,.08);
+
+color:#7EF3A5;
+
+}
+
+.status.offline{
+
+border-color:rgba(245,158,11,.30);
+
+background:rgba(245,158,11,.10);
+
+color:#FACC15;
+
+}
+
+.header-info{
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:10px;
+
+}
+
+.info-card{
+
+background:rgba(255,255,255,.03);
+
+border:1px solid rgba(255,255,255,.05);
+
+border-radius:16px;
+
+padding:12px;
+
+text-align:center;
+
+display:flex;
+
+flex-direction:column;
+
+gap:6px;
+
+align-items:center;
+
+font-size:13px;
+
+color:var(--text2);
+
+}
+
+/* ==========================================================
+   HERO
+========================================================== */
+
+.hero{
+
+padding:20px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+}
+
+.hero p{
+
+color:var(--text2);
+
+font-size:14px;
+
+margin-bottom:8px;
+
+}
+
+.hero h2{
+
+font-size:44px;
+
+font-weight:700;
+
+letter-spacing:-1px;
+
+}
+
+.hero-icon{
+
+width:72px;
+height:72px;
+
+display:grid;
+place-items:center;
+
+border-radius:22px;
+
+background:
+linear-gradient(
+145deg,
+rgba(34,197,94,.18),
+rgba(34,197,94,.05)
+);
+
+color:var(--accent);
+
+font-size:30px;
+
+}
+
+/* ==========================================================
+   QUICK STATS
+========================================================== */
+
+.quick-grid{
+
+display:grid;
+
+grid-template-columns:repeat(3,1fr);
+
+gap:12px;
+
+}
+
+.stat-card{
+
+padding:18px;
+
+text-align:center;
+
+}
+
+.stat-card p{
+
+font-size:12px;
+
+color:var(--text2);
+
+margin-bottom:8px;
+
+}
+
+.stat-card h3{
+
+font-size:28px;
+
+}
+
+/* ==========================================================
+   MENU
+========================================================== */
+
+.menu-grid{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:14px;
+
+}
+
+.menu-card{
+
+cursor:pointer;
+
+border:none;
+
+padding:22px 16px;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+gap:14px;
+
+color:var(--text);
+
+font:inherit;
+
+}
+
+.menu-card:hover{
+
+transform:translateY(-4px);
+
+box-shadow:
+0 12px 30px rgba(0,0,0,.22);
+
+}
+
+.menu-card:active{
+
+transform:scale(.97);
+
+}
+
+.icon-glass{
+
+width:64px;
+height:64px;
+
+display:grid;
+place-items:center;
+
+border-radius:20px;
+
+background:
+linear-gradient(
+145deg,
+rgba(255,255,255,.12),
+rgba(255,255,255,.03)
+);
+
+border:1px solid var(--border);
+
+font-size:30px;
+
+color:var(--accent);
+
+box-shadow:
+0 0 22px rgba(34,197,94,.08);
+
+}
+
+/* ==========================================================
+   SYNC
+========================================================== */
+
+.sync-card{
+
+padding:18px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+}
+
+.sync-left{
+
+display:flex;
+
+gap:12px;
+
+align-items:center;
+
+}
+
+.sync-left h4{
+
+font-size:15px;
+
+margin-bottom:4px;
+
+}
+
+.sync-left p{
+
+font-size:13px;
+
+color:var(--text2);
+
+}
+
+.badge{
+
+padding:8px 14px;
+
+border-radius:999px;
+
+background:rgba(34,197,94,.12);
+
+color:var(--accent);
+
+font-size:12px;
+
+font-weight:700;
+
+}
+
+/* ==========================================================
+   FOOTER
+========================================================== */
+
+footer{
+
+text-align:center;
+
+font-size:12px;
+
+color:var(--text2);
+
+padding:12px 0;
+
+}
+
+/* ==========================================================
+   ICON
+========================================================== */
+
+[data-lucide]{
+
+width:22px;
+
+height:22px;
+
+stroke-width:2;
+
+}
