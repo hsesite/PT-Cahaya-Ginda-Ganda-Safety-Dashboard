@@ -1,204 +1,166 @@
 /* ==========================================================
-   PT. CGG HSE Dashboard
-   dashboard.js v3.0
-   Executive Dashboard Engine
+   PT Cahaya Ginda Ganda HSE Dashboard
+   dashboard.js v5.0 (LOCKED)
+   Dashboard Controller
 ========================================================== */
 
 const Dashboard = {
 
-  state:{
-
+  data:{
     inspection:0,
     hazard:0,
-    incident:0
-
+    incident:0,
+    vip:0,
+    sls:0,
+    subkon:0
   },
 
   init(){
 
-    this.updateDateTime();
-
+    this.updateDate();
+    this.updateClock();
     this.updateShift();
-
-    this.animateAll();
-
-    this.bindNavigationState();
+    this.renderKPI();
 
     setInterval(()=>{
-
-      this.updateDateTime();
-
+      this.updateClock();
       this.updateShift();
-
     },1000);
+
+    // Sinkronisasi data jika API tersedia
+    if(window.API && typeof API.getDashboard==="function"){
+      this.loadData();
+    }
 
   },
 
-  /* ======================================================
-     Animasi KPI
-  ====================================================== */
+  /* =========================================
+     LOAD DATA
+  ========================================= */
 
-  animateValue(id,target,duration=900){
+  async loadData(){
 
-    const el=document.getElementById(id);
+    try{
 
-    if(!el) return;
+      const result=await API.getDashboard();
 
-    const start=Number(el.textContent.replace(/\D/g,"")) || 0;
+      if(result){
 
-    const startTime=performance.now();
+        this.data={
+          ...this.data,
+          ...result
+        };
 
-    const frame=(now)=>{
-
-      const progress=Math.min((now-startTime)/duration,1);
-
-      const value=Math.round(start+(target-start)*progress);
-
-      el.textContent=value.toLocaleString("id-ID");
-
-      if(progress<1){
-
-        requestAnimationFrame(frame);
+        this.renderKPI();
 
       }
 
-    };
+    }catch(err){
 
-    requestAnimationFrame(frame);
+      console.warn("Dashboard memakai data lokal.",err);
 
-  },
-
-  animateAll(){
-
-    this.animateValue("inspectionCounter",this.state.inspection);
-
-    this.animateValue("kpiInspection",this.state.inspection);
-
-    this.animateValue("kpiHazard",this.state.hazard);
-
-    this.animateValue("kpiIncident",this.state.incident);
+    }
 
   },
 
-  /* ======================================================
-     Tanggal & Jam
-  ====================================================== */
+  /* =========================================
+     DATE
+  ========================================= */
 
-  updateDateTime(){
+  updateDate(){
+
+    const el=document.getElementById("todayDate");
+
+    if(!el) return;
 
     const now=new Date();
 
-    const date=document.getElementById("todayDate");
-
-    const clock=document.getElementById("liveClock");
-
-    if(date){
-
-      date.textContent=now.toLocaleDateString("id-ID",{
-
-        weekday:"short",
-        day:"2-digit",
-        month:"short",
-        year:"numeric"
-
-      });
-
-    }
-
-    if(clock){
-
-      clock.textContent=now.toLocaleTimeString("id-ID",{
-
-        hour:"2-digit",
-        minute:"2-digit",
-        second:"2-digit"
-
-      });
-
-    }
+    el.textContent=new Intl.DateTimeFormat("id-ID",{
+      weekday:"short",
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    }).format(now);
 
   },
 
-  /* ======================================================
-     Shift Otomatis
-  ====================================================== */
+  /* =========================================
+     CLOCK
+  ========================================= */
 
-  updateShift(){
+  updateClock(){
 
-    const hour=new Date().getHours();
+    const el=document.getElementById("liveClock");
 
-    const text=document.getElementById("shiftText");
+    if(!el) return;
 
-    const icon=document.querySelector("#executiveHero .hero-circle i");
+    const now=new Date();
 
-    if(hour>=6 && hour<18){
-
-      if(text) text.textContent="Day Shift";
-
-      if(icon) icon.setAttribute("data-lucide","sun");
-
-    }else{
-
-      if(text) text.textContent="Night Shift";
-
-      if(icon) icon.setAttribute("data-lucide","moon");
-
-    }
-
-    if(window.lucide){
-
-      lucide.createIcons();
-
-    }
-
-  },
-
-  /* ======================================================
-     Sinkron Menu Aktif
-  ====================================================== */
-
-  bindNavigationState(){
-
-    const buttons=document.querySelectorAll("[data-module]");
-
-    buttons.forEach(btn=>{
-
-      btn.addEventListener("click",()=>{
-
-        const module=btn.dataset.module;
-
-        document.querySelectorAll("[data-module]").forEach(el=>{
-
-          el.classList.toggle("active",el.dataset.module===module);
-
-        });
-
-      });
-
+    el.textContent=now.toLocaleTimeString("id-ID",{
+      hour:"2-digit",
+      minute:"2-digit",
+      second:"2-digit"
     });
 
   },
 
-  /* ======================================================
-     Siap menerima data Google Sheets
-  ====================================================== */
+  /* =========================================
+     SHIFT
+  ========================================= */
 
-  setData(data={}){
+  updateShift(){
 
-    this.state={
+    const el=document.getElementById("shiftText");
 
-      ...this.state,
-      ...data
+    if(!el) return;
 
-    };
+    const hour=new Date().getHours();
 
-    this.animateAll();
+    let shift="Day Shift";
+
+    if(hour>=18 || hour<6){
+      shift="Night Shift";
+    }
+
+    el.textContent=shift;
+
+  },
+
+  /* =========================================
+     KPI
+  ========================================= */
+
+  renderKPI(){
+
+    this.set("inspectionCounter",this.data.inspection);
+
+    this.set("kpiInspection",this.data.inspection);
+
+    this.set("kpiHazard",this.data.hazard);
+
+    this.set("kpiIncident",this.data.incident);
+
+    this.set("vipCount",this.data.vip);
+
+    this.set("slsCount",this.data.sls);
+
+    this.set("subkonCount",this.data.subkon);
+
+  },
+
+  set(id,value){
+
+    const el=document.getElementById(id);
+
+    if(el){
+      el.textContent=value;
+    }
 
   }
 
 };
 
-document.addEventListener("DOMContentLoaded",()=>{
+window.addEventListener("DOMContentLoaded",()=>{
 
   Dashboard.init();
 
