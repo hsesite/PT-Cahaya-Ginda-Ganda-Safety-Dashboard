@@ -1,5 +1,442 @@
 
 /* ==========================================================
+   PT. CGG HSE Dashboard
+   style.css v1.0.0
+   Premium Industrial Glass UI
+========================================================== */
+
+/* ===== Layout ===== */
+
+.cgg-app{
+  max-width:var(--cgg-max-width);
+  margin:auto;
+  min-height:100vh;
+  padding:20px 16px 110px;
+}
+
+.cgg-section{
+  margin-top:24px;
+}
+
+.cgg-title{
+  font-size:28px;
+  font-weight:700;
+  letter-spacing:-0.5px;
+}
+
+.cgg-subtitle{
+  color:var(--cgg-text-secondary);
+  font-size:14px;
+  margin-top:4px;
+}
+
+/* ===== Premium Glass Card ===== */
+
+.cgg-card{
+
+  position:relative;
+  overflow:hidden;
+
+  background:var(--cgg-glass);
+
+  backdrop-filter:blur(var(--cgg-blur-card));
+  -webkit-backdrop-filter:blur(var(--cgg-blur-card));
+
+  border:1px solid var(--cgg-glass-border);
+
+  border-radius:var(--cgg-radius-lg);
+
+  box-shadow:var(--cgg-shadow-soft);
+
+  transition:
+    transform var(--cgg-normal) var(--cgg-ease),
+    box-shadow var(--cgg-normal) var(--cgg-ease),
+    border-color var(--cgg-normal) var(--cgg-ease);
+
+}
+
+/* Refleksi kaca */
+
+.cgg-card::before{
+
+  content:"";
+
+  position:absolute;
+
+  top:-35%;
+  left:-20%;
+
+  width:120%;
+  height:60%;
+
+  background:
+    linear-gradient(
+      120deg,
+      rgba(255,255,255,.18),
+      rgba(255,255,255,.05),
+      transparent
+    );
+
+  transform:rotate(-8deg);
+
+  pointer-events:none;
+
+}
+
+/* Emerald Edge */
+
+.cgg-card::after{
+
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  border-radius:inherit;
+
+  padding:1px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.16),
+      rgba(0,200,83,.20),
+      rgba(255,255,255,.05)
+    );
+
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+
+  -webkit-mask-composite:xor;
+
+  mask-composite:exclude;
+
+  pointer-events:none;
+
+}
+
+/* Hover Desktop */
+
+@media (hover:hover){
+
+.cgg-card:hover{
+
+  transform:translateY(-4px);
+
+  box-shadow:var(--cgg-shadow-medium);
+
+}
+
+}
+
+/* ===== Header Capsule ===== */
+
+.cgg-header{
+
+  position:sticky;
+  top:10px;
+  z-index:100;
+
+  margin-bottom:22px;
+
+}
+
+.cgg-header-inner{
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:14px 18px;
+
+  background:var(--cgg-glass);
+
+  backdrop-filter:blur(var(--cgg-blur-header));
+
+  border:1px solid var(--cgg-glass-border);
+
+  border-radius:999px;
+
+  box-shadow:var(--cgg-shadow-soft);
+
+}
+
+/* ===== Logo ===== */
+
+.cgg-logo{
+
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+}
+
+.cgg-logo img{
+
+  width:42px;
+  height:42px;
+  object-fit:contain;
+
+}
+
+.cgg-logo-text{
+
+  display:flex;
+  flex-direction:column;
+
+}
+
+.cgg-logo-text strong{
+
+  font-size:16px;
+
+}
+
+.cgg-logo-text span{
+
+  color:var(--cgg-text-secondary);
+  font-size:12px;
+
+}
+
+/* ===== Status Online ===== */
+
+.cgg-status{
+
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  color:var(--cgg-text-secondary);
+
+  font-size:13px;
+
+}
+
+.cgg-status-dot{
+
+  width:10px;
+  height:10px;
+
+  border-radius:50%;
+
+  background:var(--cgg-success);
+
+  box-shadow:
+    0 0 12px rgba(0,200,83,.45);
+
+}
+
+/* ===== KPI Card ===== */
+
+.cgg-kpi{
+
+  padding:20px;
+
+}
+
+.cgg-kpi-label{
+
+  color:var(--cgg-text-secondary);
+
+  font-size:13px;
+
+}
+
+.cgg-kpi-value{
+
+  margin-top:10px;
+
+  font-size:38px;
+  font-weight:700;
+
+  letter-spacing:-1px;
+
+}
+
+.cgg-kpi-trend{
+
+  margin-top:12px;
+
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+
+  padding:6px 12px;
+
+  border-radius:999px;
+
+  background:rgba(0,200,83,.10);
+
+  color:var(--cgg-success);
+
+  font-size:12px;
+
+}
+
+/* ===== Grid ===== */
+
+.cgg-grid{
+
+  display:grid;
+  gap:16px;
+
+}
+
+.cgg-grid-2{
+
+  grid-template-columns:repeat(2,1fr);
+
+}
+
+/* ===== Button ===== */
+
+.cgg-button{
+
+  position:relative;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+
+  width:100%;
+
+  padding:15px 18px;
+
+  border:none;
+
+  border-radius:var(--cgg-radius-md);
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--cgg-emerald-soft),
+      var(--cgg-emerald)
+    );
+
+  color:white;
+
+  font-size:15px;
+  font-weight:600;
+
+  cursor:pointer;
+
+  overflow:hidden;
+
+  box-shadow:
+    0 8px 22px rgba(0,200,83,.22);
+
+  transition:
+    transform var(--cgg-fast) var(--cgg-ease),
+    box-shadow var(--cgg-fast) var(--cgg-ease);
+
+}
+
+.cgg-button::before{
+
+  content:"";
+
+  position:absolute;
+
+  left:-120%;
+  top:0;
+
+  width:80%;
+  height:100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.35),
+      transparent
+    );
+
+}
+
+.cgg-button:hover::before{
+
+  left:120%;
+
+  transition:left .8s ease;
+
+}
+
+/* ===== Secondary Button ===== */
+
+.cgg-button-secondary{
+
+  background:var(--cgg-glass);
+
+  border:1px solid var(--cgg-glass-border);
+
+  color:var(--cgg-text);
+
+  box-shadow:var(--cgg-shadow-soft);
+
+}
+
+/* ===== Icon Capsule ===== */
+
+.cgg-icon{
+
+  width:46px;
+  height:46px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:16px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.10),
+      rgba(255,255,255,.03)
+    );
+
+  border:1px solid rgba(255,255,255,.08);
+
+}
+
+/* ===== Badge ===== */
+
+.cgg-badge{
+
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+
+  padding:7px 12px;
+
+  border-radius:999px;
+
+  background:rgba(255,255,255,.06);
+
+  color:var(--cgg-text-secondary);
+
+  font-size:12px;
+
+}
+
+/* ===== Hidden Module ===== */
+
+[data-module]{
+
+  display:none;
+
+}
+
+[data-module].active{
+
+  display:block;
+
+}
+
+/* ==========================================================
    PT CGG HSE Dashboard
    Industrial Glass Design Language v1.0
 ========================================================== */
