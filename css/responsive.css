@@ -1,0 +1,294 @@
+
+/* ==========================================================
+   PT CGG HSE Dashboard
+   Responsive System v1.0
+========================================================== */
+
+/* ==========================================================
+   HP KECIL (iPhone SE, Android 320-380px)
+========================================================== */
+
+@media (max-width:380px){
+
+body{
+padding-left:12px;
+padding-right:12px;
+}
+
+.header{
+padding:16px;
+gap:14px;
+}
+
+.logo-box{
+width:52px;
+height:52px;
+border-radius:18px;
+}
+
+.logo-box img{
+width:34px;
+height:34px;
+}
+
+.brand h1{
+font-size:18px;
+}
+
+.status{
+padding:6px 10px;
+font-size:12px;
+}
+
+.header-info{
+gap:8px;
+}
+
+.info-card{
+padding:10px;
+font-size:11px;
+border-radius:14px;
+}
+
+.hero{
+padding:18px;
+}
+
+.hero h2{
+font-size:36px;
+}
+
+.hero-icon{
+width:60px;
+height:60px;
+font-size:24px;
+}
+
+.quick-grid{
+gap:8px;
+}
+
+.stat-card{
+padding:14px;
+}
+
+.stat-card h3{
+font-size:22px;
+}
+
+.menu-grid{
+gap:10px;
+}
+
+.menu-card{
+padding:18px 12px;
+gap:10px;
+border-radius:20px;
+}
+
+.icon-glass{
+width:54px;
+height:54px;
+border-radius:16px;
+font-size:24px;
+}
+
+.menu-card span{
+font-size:13px;
+}
+
+.sync-card{
+padding:16px;
+}
+
+}
+
+/* ==========================================================
+   HP STANDAR (381-480px)
+========================================================== */
+
+@media (min-width:381px) and (max-width:480px){
+
+.hero h2{
+font-size:42px;
+}
+
+.menu-card{
+padding:20px 14px;
+}
+
+}
+
+/* ==========================================================
+   TABLET (481-900px)
+========================================================== */
+
+@media (min-width:481px){
+
+.app{
+max-width:760px;
+}
+
+.header{
+padding:24px;
+}
+
+.hero{
+padding:24px;
+}
+
+.menu-grid{
+grid-template-columns:repeat(3,1fr);
+}
+
+.quick-grid{
+grid-template-columns:repeat(3,1fr);
+}
+
+.sync-card{
+padding:20px;
+}
+
+}
+
+/* ==========================================================
+   DESKTOP (901px+)
+========================================================== */
+
+@media (min-width:901px){
+
+body{
+padding-left:24px;
+padding-right:24px;
+}
+
+.app{
+max-width:1180px;
+}
+
+.header{
+padding:28px;
+}
+
+.brand h1{
+font-size:26px;
+}
+
+.hero{
+padding:28px;
+}
+
+.hero h2{
+font-size:52px;
+}
+
+.menu-grid{
+grid-template-columns:repeat(4,1fr);
+gap:18px;
+}
+
+.menu-card{
+padding:26px 18px;
+}
+
+.icon-glass{
+width:72px;
+height:72px;
+font-size:32px;
+}
+
+.quick-grid{
+gap:16px;
+}
+
+.stat-card h3{
+font-size:32px;
+}
+
+}
+
+/* ==========================================================
+   LANDSCAPE HP
+========================================================== */
+
+@media (max-height:500px) and (orientation:landscape){
+
+.app{
+gap:14px;
+}
+
+.header{
+padding:16px;
+}
+
+.hero{
+padding:16px;
+}
+
+.hero h2{
+font-size:34px;
+}
+
+.menu-grid{
+grid-template-columns:repeat(3,1fr);
+}
+
+}
+
+/* ==========================================================
+   iPHONE SAFE AREA
+========================================================== */
+
+@supports (padding:max(0px)){
+
+body{
+
+padding-top:max(16px,env(safe-area-inset-top));
+padding-bottom:max(18px,env(safe-area-inset-bottom));
+padding-left:max(16px,env(safe-area-inset-left));
+padding-right:max(16px,env(safe-area-inset-right));
+
+}
+
+}
+
+/* ==========================================================
+   TOUCH DEVICE
+========================================================== */
+
+@media (hover:none){
+
+.menu-card:hover{
+
+transform:none;
+box-shadow:none;
+
+}
+
+.menu-card:active{
+
+transform:scale(.97);
+
+}
+
+}
+
+/* ==========================================================
+   DESKTOP POINTER
+========================================================== */
+
+@media (hover:hover){
+
+.menu-card{
+
+cursor:pointer;
+
+}
+
+.menu-card:hover .icon-glass{
+
+transform:translateY(-4px) scale(1.06);
+
+}
+
+}
