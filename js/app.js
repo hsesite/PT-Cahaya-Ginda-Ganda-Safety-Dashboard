@@ -14,6 +14,8 @@ this.watchNetwork();
 this.counterAnimation();
 this.initGlassReflection();
 
+this.bindMenu();
+
 setInterval(()=>{
 this.updateDateTime();
 this.updateShift();
@@ -182,3 +184,79 @@ window.addEventListener("DOMContentLoaded",()=>{
 App.init();
 
 });
+
+
+/* =========================================
+   PAGE TRANSITION
+========================================= */
+
+pageTransition(){
+
+const overlay=document.getElementById("pageTransition");
+
+overlay.classList.add("show");
+
+setTimeout(()=>{
+
+overlay.classList.remove("show");
+
+},450);
+
+},
+
+/* =========================================
+   APP VIEW
+========================================= */
+
+openModule(title){
+
+this.pageTransition();
+
+const view=document.getElementById("appView");
+
+setTimeout(()=>{
+
+view.innerHTML=`
+
+<div class="view-placeholder">
+
+<div class="placeholder-icon">
+<i data-lucide="sparkles"></i>
+</div>
+
+<h3>${title}</h3>
+
+<p>Modul sedang disiapkan.</p>
+
+</div>
+
+`;
+
+lucide.createIcons();
+
+},180);
+
+},
+
+
+/* =========================================
+   MENU ROUTER
+========================================= */
+
+bindMenu(){
+
+const cards=document.querySelectorAll(".menu-card");
+
+cards.forEach(card=>{
+
+card.addEventListener("click",()=>{
+
+const title=card.querySelector("span").textContent;
+
+this.openModule(title);
+
+});
+
+});
+
+}
