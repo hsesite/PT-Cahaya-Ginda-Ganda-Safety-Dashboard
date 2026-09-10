@@ -274,4 +274,15 @@ footer{
     gap:20px;
 }
 
+   .chart-card{
+    grid-area:trend;
+}
+
+.activity-card{
+    grid-area:activity;
+}
+
+.contractor-card{
+    grid-area:contractor;
+}
 }
