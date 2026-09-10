@@ -1,36 +1,52 @@
+
 /* ==========================================================
-   PT. CGG HSE Dashboard
-   router.js v3.0
-   SPA Router
+   PT Cahaya Ginda Ganda HSE Dashboard
+   router.js v5.0 (LOCKED)
+   Single Page Application Router
 ========================================================== */
 
 const Router = {
 
-  current:"dashboard",
+  current: "dashboard",
+  container: null,
+  desktopWorkspace: null,
 
-  container:null,
+  init() {
 
-  init(){
-
-    this.container=document.getElementById("appView");
+    this.container = document.getElementById("appView");
+    this.desktopWorkspace = document.getElementById("desktopWorkspace");
 
     this.bindLinks();
 
-    this.navigate("dashboard",false);
+    const hash = window.location.hash.replace("#", "");
+
+    if (hash) {
+      this.navigate(hash, false);
+    } else {
+      this.navigate("dashboard", false);
+    }
+
+    window.addEventListener("popstate", () => {
+
+      const module = window.location.hash.replace("#", "") || "dashboard";
+
+      this.navigate(module, false);
+
+    });
 
   },
 
-  bindLinks(){
+  bindLinks() {
 
-    document.querySelectorAll("[data-module]").forEach(el=>{
+    document.querySelectorAll("[data-module]").forEach(button => {
 
-      el.addEventListener("click",(e)=>{
+      button.addEventListener("click", e => {
 
         e.preventDefault();
 
-        const module=el.dataset.module;
+        const module = button.dataset.module;
 
-        this.navigate(module,true);
+        this.navigate(module, true);
 
       });
 
@@ -38,13 +54,13 @@ const Router = {
 
   },
 
-  navigate(module,push=true){
+  navigate(module, push = true) {
 
-    this.current=module;
+    this.current = module;
 
     this.setActive(module);
 
-    this.transitionOut(()=>{
+    this.transitionOut(() => {
 
       this.render(module);
 
@@ -52,27 +68,25 @@ const Router = {
 
     });
 
-    if(push){
-
-      history.replaceState({module},"",`#${module}`);
-
+    if (push) {
+      history.pushState({ module }, "", "#" + module);
     }
 
   },
 
-  setActive(module){
+  setActive(module) {
 
-    document.querySelectorAll("[data-module]").forEach(el=>{
+    document.querySelectorAll("[data-module]").forEach(el => {
 
-      el.classList.toggle("active",el.dataset.module===module);
+      el.classList.toggle("active", el.dataset.module === module);
 
     });
 
   },
 
-  transitionOut(callback){
+  transitionOut(callback) {
 
-    if(!this.container){
+    if (!this.container) {
 
       callback();
 
@@ -80,61 +94,66 @@ const Router = {
 
     }
 
-    this.container.style.opacity="0";
+    this.container.style.opacity = "0";
+    this.container.style.transform = "translateY(12px)";
 
-    this.container.style.transform="translateY(12px)";
-
-    setTimeout(callback,180);
-
-  },
-
-  transitionIn(){
-
-    this.container.style.opacity="1";
-
-    this.container.style.transform="translateY(0)";
+    setTimeout(callback, 160);
 
   },
 
-  render(module){
+  transitionIn() {
 
-  if(!this.container) return;
+    this.container.style.opacity = "1";
+    this.container.style.transform = "translateY(0)";
 
-  const desktop=document.getElementById("desktopWorkspace");
+  },
 
-  if(module==="dashboard"){
+  render(module) {
 
-    desktop.style.display="grid";
+    if (!this.container) return;
 
-    this.container.style.display="none";
+    if (module === "dashboard") {
 
-    this.container.innerHTML="";
+      if (this.desktopWorkspace) {
+        this.desktopWorkspace.style.display = "";
+      }
+
+      this.container.style.display = "none";
+      this.container.innerHTML = "";
+
+      lucide.createIcons();
+
+      return;
+
+    }
+
+    if (this.desktopWorkspace) {
+      this.desktopWorkspace.style.display = "none";
+    }
+
+    this.container.style.display = "block";
+
+    const html = Modules.render(module);
+
+    this.container.innerHTML = html;
+
+    if (module === "inspection" && window.Inspection) {
+
+      setTimeout(() => {
+
+        Inspection.init();
+
+      }, 50);
+
+    }
 
     lucide.createIcons();
 
-    return;
-
   }
 
-  desktop.style.display="none";
+};
 
-  this.container.style.display="block";
-
-  const html=Modules.render(module);
-
-  this.container.innerHTML=html;
-
-  if(module==="inspection"&&window.Inspection){
-
-    setTimeout(()=>Inspection.init(),20);
-
-  }
-
-  lucide.createIcons();
-
-}
-
-window.addEventListener("DOMContentLoaded",()=>{
+window.addEventListener("DOMContentLoaded", () => {
 
   Router.init();
 
