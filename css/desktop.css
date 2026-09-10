@@ -574,3 +574,248 @@ body{
 }
 
 }
+
+/* ==========================================================
+   Desktop Redesign v3.2 (MacBook Style Override)
+========================================================== */
+
+@media (min-width:1200px){
+
+/* ===== Sidebar ===== */
+
+.desktop-sidebar{
+
+  width:88px;
+
+  padding:18px 14px;
+
+}
+
+.desktop-sidebar.expanded{
+
+  width:270px;
+
+}
+
+/* Traffic Light */
+
+.desktop-sidebar::before{
+
+  content:"";
+
+  position:absolute;
+
+  top:16px;
+  left:22px;
+
+  width:12px;
+  height:12px;
+
+  border-radius:50%;
+
+  background:#FF5F57;
+
+  box-shadow:
+    20px 0 #FEBC2E,
+    40px 0 #28C840;
+
+}
+
+/* Logo */
+
+.sidebar-logo{
+
+  margin-top:24px;
+
+  width:52px;
+  height:52px;
+
+  background:transparent;
+
+  border:none;
+
+  box-shadow:none;
+
+}
+
+.sidebar-logo img{
+
+  width:34px;
+
+}
+
+/* Menu */
+
+.sidebar-menu{
+
+  margin-top:36px;
+
+  gap:6px;
+
+}
+
+.sidebar-item{
+
+  height:48px;
+
+  border-radius:14px;
+
+  justify-content:flex-start;
+
+}
+
+.sidebar-item svg{
+
+  width:24px;
+  height:24px;
+
+}
+
+.sidebar-item span{
+
+  font-size:14px;
+
+}
+
+.sidebar-item.active{
+
+  background:linear-gradient(90deg,
+      rgba(0,230,118,.22),
+      rgba(0,230,118,.08));
+
+}
+
+/* ===== Header ===== */
+
+.header{
+
+  min-height:140px;
+
+}
+
+.brand-text h1{
+
+  font-size:22px;
+
+}
+
+.brand-text p{
+
+  font-size:13px;
+
+}
+
+/* ===== Hero ===== */
+
+.hero{
+
+  min-height:150px;
+
+}
+
+.hero h2{
+
+  font-size:74px;
+
+}
+
+.hero-circle{
+
+  width:92px;
+  height:92px;
+
+}
+
+.hero-circle svg{
+
+  width:42px;
+  height:42px;
+
+}
+
+/* ===== KPI ===== */
+
+.quick-grid{
+
+  gap:16px;
+
+}
+
+.stat-card{
+
+  min-height:96px;
+
+  padding:16px;
+
+}
+
+.stat-card h3{
+
+  font-size:34px;
+
+}
+
+/* ===== Desktop Menu Panel ===== */
+
+.menu-grid{
+
+  grid-template-columns:repeat(3,1fr);
+
+  gap:20px;
+
+}
+
+.menu-card{
+
+  min-height:150px;
+
+  align-items:flex-start;
+
+  justify-content:flex-end;
+
+  padding:22px;
+
+}
+
+.menu-card::before{
+
+  opacity:.18;
+
+}
+
+.icon-glass{
+
+  width:54px;
+  height:54px;
+
+  border-radius:16px;
+
+  background:rgba(255,255,255,.04);
+
+}
+
+.icon-glass svg{
+
+  width:30px;
+  height:30px;
+
+}
+
+.menu-card span{
+
+  font-size:15px;
+
+  font-weight:600;
+
+}
+
+/* Hilangkan nuansa HP */
+
+.icon-glass::before,
+.icon-glass::after{
+
+  display:none;
+
+}
+
+}
