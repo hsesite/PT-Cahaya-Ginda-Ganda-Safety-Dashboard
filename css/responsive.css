@@ -500,3 +500,113 @@ transform:translateY(-4px) scale(1.06);
   }
 
 }
+
+
+/* ==========================================================
+   Desktop Cockpit Layout v3.1
+========================================================== */
+
+@media (min-width:1200px){
+
+  .app{
+    max-width:1500px;
+    padding:30px;
+    display:grid;
+    grid-template-columns:420px 1fr;
+    gap:30px;
+    align-items:start;
+  }
+
+  .header,
+  #executiveHero,
+  .quick-grid,
+  .menu-grid,
+  .sync-card{
+    grid-column:1;
+  }
+
+  .app-view{
+    grid-column:2;
+    grid-row:1 / span 6;
+  }
+
+  .desktop-dashboard{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    grid-template-rows:260px 220px;
+    gap:20px;
+  }
+
+  .chart-card{
+    grid-column:1;
+    grid-row:1;
+  }
+
+  .activity-card{
+    grid-column:2;
+    grid-row:1;
+  }
+
+  .contractor-card{
+    grid-column:1 / span 2;
+    grid-row:2;
+  }
+
+  .desktop-card{
+    padding:24px;
+    min-height:200px;
+  }
+
+  .card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+  }
+
+  .card-header h3{
+    margin:0;
+    font-size:20px;
+  }
+
+  .card-header span{
+    color:#8FA1B3;
+    font-size:13px;
+  }
+
+  .chart-placeholder,
+  .activity-placeholder{
+    height:140px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    color:#8FA1B3;
+  }
+
+  .chart-placeholder svg{
+    width:48px;
+    height:48px;
+    color:#00E676;
+  }
+
+  .summary-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    text-align:center;
+    margin-top:30px;
+  }
+
+  .summary-grid strong{
+    display:block;
+    font-size:36px;
+    color:white;
+  }
+
+  .summary-grid span{
+    color:#8FA1B3;
+  }
+
+}
