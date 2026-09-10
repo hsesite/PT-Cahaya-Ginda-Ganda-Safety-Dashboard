@@ -104,6 +104,9 @@ const Router = {
 
     this.container.innerHTML=html;
 
+   if(module==="inspection" && window.Inspection){
+   setTimeout(()=>Inspection.init(),20);
+
     if(window.lucide){
 
       lucide.createIcons();
