@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 
-<title>PT. CGG HSE Dashboard</title>
+<title>PT. Cahaya Ginda Ganda HSE Dashboard</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,126 +27,135 @@
 
 <body>
 
-<!-- ================= DESKTOP SIDEBAR ================= -->
+<!-- =========================================
+     DESKTOP SIDEBAR
+========================================= -->
 
 <aside class="desktop-sidebar" id="desktopSidebar">
 
-  <div>
+<div>
 
-    <div class="sidebar-logo">
+<div class="sidebar-logo">
+<img src="assets/img/logo-cgg.png" alt="CGG">
+</div>
 
-      <img src="assets/img/logo-cgg.png" alt="Logo CGG">
+<div class="sidebar-title">
+<strong>CGG HSE</strong>
+<small>v5.0</small>
+</div>
 
-    </div>
+<nav class="sidebar-menu">
 
-    <nav class="sidebar-menu">
+<button class="sidebar-item active" data-module="dashboard">
+<i data-lucide="layout-dashboard"></i>
+<span>Dashboard</span>
+</button>
 
-      <button class="sidebar-item active" data-module="dashboard">
-        <i data-lucide="layout-dashboard"></i>
-        <span>Dashboard</span>
-      </button>
+<button class="sidebar-item" data-module="inspection">
+<i data-lucide="clipboard-check"></i>
+<span>Inspeksi</span>
+</button>
 
-      <button class="sidebar-item" data-module="inspection">
-        <i data-lucide="clipboard-check"></i>
-        <span>Inspection</span>
-      </button>
+<button class="sidebar-item" data-module="hazard">
+<i data-lucide="triangle-alert"></i>
+<span>Hazard</span>
+</button>
 
-      <button class="sidebar-item" data-module="hazard">
-        <i data-lucide="triangle-alert"></i>
-        <span>Hazard</span>
-      </button>
+<button class="sidebar-item" data-module="incident">
+<i data-lucide="circle-alert"></i>
+<span>Incident</span>
+</button>
 
-      <button class="sidebar-item" data-module="incident">
-        <i data-lucide="circle-alert"></i>
-        <span>Incident</span>
-      </button>
+<button class="sidebar-item" data-module="environment">
+<i data-lucide="leaf"></i>
+<span>Environment</span>
+</button>
 
-      <button class="sidebar-item" data-module="environment">
-        <i data-lucide="leaf"></i>
-        <span>Environment</span>
-      </button>
+<button class="sidebar-item" data-module="medical">
+<i data-lucide="heart-pulse"></i>
+<span>Medical</span>
+</button>
 
-      <button class="sidebar-item" data-module="medical">
-        <i data-lucide="heart-pulse"></i>
-        <span>Medical</span>
-      </button>
+<button class="sidebar-item" data-module="sop">
+<i data-lucide="book-open"></i>
+<span>SOP</span>
+</button>
 
-      <button class="sidebar-item" data-module="sop">
-        <i data-lucide="book-open"></i>
-        <span>SOP</span>
-      </button>
+<button class="sidebar-item" data-module="kebijakan">
+<i data-lucide="file-text"></i>
+<span>Kebijakan</span>
+</button>
 
-      <button class="sidebar-item" data-module="kebijakan">
-        <i data-lucide="file-text"></i>
-        <span>Kebijakan</span>
-      </button>
+<button class="sidebar-item" data-module="area">
+<i data-lucide="map"></i>
+<span>Area</span>
+</button>
 
-      <button class="sidebar-item" data-module="area">
-        <i data-lucide="map"></i>
-        <span>Area</span>
-      </button>
+<button class="sidebar-item" data-module="contractor">
+<i data-lucide="building"></i>
+<span>Kontraktor</span>
+</button>
 
-      <button class="sidebar-item" data-module="contractor">
-        <i data-lucide="building"></i>
-        <span>Contractor</span>
-      </button>
+</nav>
 
-    </nav>
+</div>
 
-  </div>
+<div class="sidebar-footer">
 
-  <div class="sidebar-footer">
+<button class="sidebar-item" data-module="admin">
+<i data-lucide="shield-check"></i>
+<span>Admin</span>
+</button>
 
-    <button class="sidebar-item" data-module="admin">
-      <i data-lucide="shield-check"></i>
-      <span>Admin</span>
-    </button>
-
-  </div>
+</div>
 
 </aside>
 
-<!-- ================= MOBILE SIDEBAR ================= -->
+<!-- =========================================
+     MOBILE SIDEBAR
+========================================= -->
 
 <div class="mobile-sidebar-overlay" id="mobileOverlay"></div>
 
 <aside class="mobile-sidebar" id="mobileSidebar">
 
-  <div class="mobile-sidebar-header">
+<div class="mobile-sidebar-header">
 
-    <div class="sidebar-logo">
-      <img src="assets/img/logo-cgg.png" alt="Logo CGG">
-    </div>
+<div class="sidebar-logo">
+<img src="assets/img/logo-cgg.png" alt="CGG">
+</div>
 
-    <div class="sidebar-title">
-      <strong>CGG HSE</strong>
-      <small>v5.0</small>
-    </div>
+<div class="sidebar-title">
+<strong>CGG HSE</strong>
+<small>v5.0</small>
+</div>
 
-    <button id="closeSidebar">
-      <i data-lucide="x"></i>
-    </button>
+<button id="closeSidebar">
+<i data-lucide="x"></i>
+</button>
 
-  </div>
+</div>
 
-  <nav class="mobile-sidebar-menu">
+<nav class="mobile-sidebar-menu">
 
-    <button data-module="dashboard"><i data-lucide="layout-dashboard"></i>Dashboard</button>
-    <button data-module="inspection"><i data-lucide="clipboard-check"></i>Inspection</button>
-    <button data-module="hazard"><i data-lucide="triangle-alert"></i>Hazard</button>
-    <button data-module="incident"><i data-lucide="circle-alert"></i>Incident</button>
-    <button data-module="environment"><i data-lucide="leaf"></i>Environment</button>
-    <button data-module="medical"><i data-lucide="heart-pulse"></i>Medical</button>
-    <button data-module="sop"><i data-lucide="book-open"></i>SOP</button>
-    <button data-module="area"><i data-lucide="map"></i>Area</button>
-    <button data-module="contractor"><i data-lucide="building"></i>Contractor</button>
-    <button data-module="admin"><i data-lucide="shield-check"></i>Admin</button>
+<button data-module="dashboard"><i data-lucide="layout-dashboard"></i>Dashboard</button>
+<button data-module="inspection"><i data-lucide="clipboard-check"></i>Inspeksi</button>
+<button data-module="hazard"><i data-lucide="triangle-alert"></i>Hazard</button>
+<button data-module="incident"><i data-lucide="circle-alert"></i>Incident</button>
+<button data-module="environment"><i data-lucide="leaf"></i>Environment</button>
+<button data-module="medical"><i data-lucide="heart-pulse"></i>Medical</button>
+<button data-module="sop"><i data-lucide="book-open"></i>SOP</button>
+<button data-module="area"><i data-lucide="map"></i>Area</button>
+<button data-module="contractor"><i data-lucide="building"></i>Kontraktor</button>
+<button data-module="admin"><i data-lucide="shield-check"></i>Admin</button>
 
-  </nav>
+</nav>
 
 </aside>
 
-<!-- ================= APP ================= -->
+<!-- =========================================
+     APP
+========================================= -->
 
 <main class="app">
 
@@ -155,25 +164,17 @@
 <div class="brand">
 
 <div class="logo-box">
-
-<img src="assets/img/logo-cgg.png" alt="Logo CGG">
-
+<img src="assets/img/logo-cgg.png" alt="CGG">
 </div>
 
 <div class="brand-text">
-
-<h1>PT. CGG HSE Dashboard</h1>
-
-<p>Executive Cockpit</p>
-
+<h1>PT. Cahaya Ginda Ganda</h1>
+<p>HSE Executive Dashboard</p>
 </div>
 
 <div class="status online">
-
 <i data-lucide="wifi"></i>
-
 <span>Online</span>
-
 </div>
 
 </div>
@@ -181,302 +182,215 @@
 <div class="header-info">
 
 <div class="info-card">
-
 <i data-lucide="calendar-days"></i>
-
 <span id="todayDate">-</span>
-
 </div>
 
 <div class="info-card">
-
 <i data-lucide="clock-3"></i>
-
 <span id="liveClock">-</span>
-
 </div>
 
 <div class="info-card">
-
 <i data-lucide="sun"></i>
-
-<span id="shiftText">Day</span>
-
+<span id="shiftText">Day Shift</span>
 </div>
 
 </div>
 
 </header>
 
-<!-- ================= HERO ================= -->
+<!-- HERO -->
 
 <section class="hero glass" id="executiveHero">
 
 <div class="hero-left">
 
 <span class="hero-label">
-
 Executive Dashboard
-
 </span>
 
-<h2 id="inspectionCounter">
+<h2 id="inspectionCounter">0</h2>
 
-0
-
-</h2>
-
-<p>
-
-Inspection Hari Ini
-
-</p>
+<p>Inspeksi Hari Ini</p>
 
 <div class="hero-chip">
-
 <i data-lucide="shield-check"></i>
-
 <span>Sinkron dengan Spreadsheet</span>
-
 </div>
 
 </div>
 
 <div class="hero-circle">
-
 <i data-lucide="activity"></i>
-
 </div>
 
 </section>
 
-<!-- ================= KPI ================= -->
+<!-- KPI -->
 
 <section class="quick-grid">
 
 <div class="glass stat-card">
-
-<p>Inspection</p>
-
+<p>Inspeksi</p>
 <h3 id="kpiInspection">0</h3>
-
 </div>
 
 <div class="glass stat-card">
-
 <p>Hazard</p>
-
 <h3 id="kpiHazard">0</h3>
-
 </div>
 
 <div class="glass stat-card">
-
 <p>Incident</p>
-
 <h3 id="kpiIncident">0</h3>
-
 </div>
 
 </section>
 
-<!-- ================= MENU ================= -->
+<!-- MENU -->
 
 <section class="menu-grid">
 
 <button class="glass menu-card" data-module="inspection">
-
-<div class="icon-glass">
-
-<i data-lucide="clipboard-check"></i>
-
-</div>
-
-<span>Inspection</span>
-
+<div class="icon-glass"><i data-lucide="clipboard-check"></i></div>
+<span>Inspeksi</span>
 </button>
 
 <button class="glass menu-card" data-module="hazard">
-
-<div class="icon-glass">
-
-<i data-lucide="triangle-alert"></i>
-
-</div>
-
+<div class="icon-glass"><i data-lucide="triangle-alert"></i></div>
 <span>Hazard</span>
-
 </button>
 
 <button class="glass menu-card" data-module="incident">
-
-<div class="icon-glass">
-
-<i data-lucide="circle-alert"></i>
-
-</div>
-
+<div class="icon-glass"><i data-lucide="circle-alert"></i></div>
 <span>Incident</span>
-
 </button>
 
 <button class="glass menu-card" data-module="environment">
-
-<div class="icon-glass">
-
-<i data-lucide="leaf"></i>
-
-</div>
-
+<div class="icon-glass"><i data-lucide="leaf"></i></div>
 <span>Environment</span>
-
 </button>
 
 <button class="glass menu-card" data-module="medical">
-
-<div class="icon-glass">
-
-<i data-lucide="heart-pulse"></i>
-
-</div>
-
+<div class="icon-glass"><i data-lucide="heart-pulse"></i></div>
 <span>Medical</span>
-
 </button>
 
 <button class="glass menu-card" data-module="dashboard">
-
-<div class="icon-glass">
-
-<i data-lucide="bar-chart-3"></i>
-
-</div>
-
+<div class="icon-glass"><i data-lucide="bar-chart-3"></i></div>
 <span>Dashboard</span>
-
 </button>
 
 </section>
 
-<!-- ========================================
-     DESKTOP WORKSPACE
-======================================== -->
+<!-- DASHBOARD DESKTOP -->
 
 <section id="desktopWorkspace" class="desktop-dashboard">
 
-  <article class="glass desktop-card chart-card">
-    <div class="card-head">
-      <h3>Inspection Trend</h3>
-      <span>30 Hari</span>
-    </div>
+<article class="glass desktop-card chart-card">
 
-    <div class="placeholder">
-      <i data-lucide="chart-line"></i>
-      <p>Grafik otomatis dari Google Sheets</p>
-    </div>
-  </article>
+<div class="card-head">
+<h3>Tren Inspeksi</h3>
+<span>30 Hari</span>
+</div>
 
-  <article class="glass desktop-card activity-card">
-    <div class="card-head">
-      <h3>Activity Feed</h3>
-      <span>Realtime</span>
-    </div>
+<div class="placeholder">
+<i data-lucide="chart-line"></i>
+<p>Grafik otomatis dari Google Sheets</p>
+</div>
 
-    <div class="placeholder">
-      <i data-lucide="history"></i>
-      <p>Belum ada aktivitas.</p>
-    </div>
-  </article>
+</article>
 
-  <article class="glass desktop-card contractor-card">
-    <div class="card-head">
-      <h3>Contractor Summary</h3>
-      <span>VIP • SLS • Subkon</span>
-    </div>
+<article class="glass desktop-card activity-card">
 
-    <div class="summary-grid">
+<div class="card-head">
+<h3>Activity Feed</h3>
+<span>Realtime</span>
+</div>
 
-      <div>
-        <strong id="vipCount">0</strong>
-        <span>VIP</span>
-      </div>
+<div class="placeholder">
+<i data-lucide="history"></i>
+<p>Belum ada aktivitas.</p>
+</div>
 
-      <div>
-        <strong id="slsCount">0</strong>
-        <span>SLS</span>
-      </div>
+</article>
 
-      <div>
-        <strong id="subkonCount">0</strong>
-        <span>Subkon</span>
-      </div>
+<article class="glass desktop-card contractor-card">
 
-    </div>
-  </article>
+<div class="card-head">
+<h3>Ringkasan Kontraktor</h3>
+<span>VIP • SLS • Subkon</span>
+</div>
+
+<div class="summary-grid">
+
+<div>
+<strong id="vipCount">0</strong>
+<span>VIP</span>
+</div>
+
+<div>
+<strong id="slsCount">0</strong>
+<span>SLS</span>
+</div>
+
+<div>
+<strong id="subkonCount">0</strong>
+<span>Subkon</span>
+</div>
+
+</div>
+
+</article>
 
 </section>
-<!-- ================= MODULE CONTAINER ================= -->
+
+<!-- MODULE -->
 
 <section id="appView" class="app-view"></section>
 
-<!-- ================= BOTTOM NAV ================= -->
+<!-- MOBILE NAV -->
 
 <nav class="bottom-nav">
 
 <button class="active" data-module="dashboard">
-
 <i data-lucide="layout-dashboard"></i>
-
 <span>Home</span>
-
 </button>
 
 <button data-module="inspection">
-
 <i data-lucide="clipboard-check"></i>
-
-<span>Inspection</span>
-
+<span>Inspeksi</span>
 </button>
 
 <button data-module="hazard">
-
 <i data-lucide="triangle-alert"></i>
-
 <span>Hazard</span>
-
 </button>
 
 <button id="openSidebar">
-
 <i data-lucide="menu"></i>
-
 <span>Menu</span>
-
 </button>
 
 </nav>
 
 </main>
 
+<!-- SCRIPT -->
+
 <script src="js/api.js"></script>
 <script src="js/modules.js"></script>
 <script src="js/router.js"></script>
 <script src="js/sidebar.js"></script>
-<script src="js/eventBus.js"></script>
 <script src="js/dashboard.js"></script>
-<script src="js/inspectionData.js"></script>
-<script src="js/inspectionUI.js"></script>
-<script src="js/inspection.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/app.js"></script>
-  
+
 <script>
-
 lucide.createIcons();
-
 </script>
 
 </body>
-
 </html>
