@@ -238,7 +238,7 @@ footer{
     margin-right:20px !important;
     padding:16px !important;
     display:grid !important;
-    grid-template-columns:minmax(760px,1.7fr) minmax(360px,.9fr);
+    grid-template-columns:minmax(520px,1.15fr) minmax(700px,1.55fr);
     grid-template-areas:
       "header header"
       "hero trend"
@@ -264,12 +264,14 @@ footer{
     grid-area:menu;
   }
 
-  #desktopWorkspace{
+ #desktopWorkspace{
     grid-area:trend;
-    display:grid !important;
-    grid-template-columns:1fr;
+    display:grid!important;
+    grid-template-columns:2fr 1fr;
+    grid-template-areas:
+      "trend activity"
+      "contractor contractor";
     gap:20px;
-    align-self:start;
-  }
+}
 
 }
